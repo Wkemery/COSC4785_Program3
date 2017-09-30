@@ -1,0 +1,402 @@
+%{
+  /*
+   * program3.lpp
+   * Author: Wyatt Emery
+   * Date: SEP 27, 2017
+   *
+   * COSC 4785, Homework3
+   *
+   */
+  
+  /* A note: 
+   *  I used states for comments because I could not figure out how to do a 
+   *  regex that didnt match completed multiline comments as incomplete 
+   *  multiline comments. It added two extra states and a few extra rules, but
+   *  I don't think it's too messy
+   * 
+   * 
+   */
+    #include"Lexeme.h" 
+#include"program3_bison.h"
+    using namespace std;
+    Lexeme token;
+    int column = 1;
+%}
+%option outfile="program3_lex.cpp"
+%option noyywrap
+%option yylineno
+
+WHITESPACE ([\t \n])
+WORD (([a-zA-Z]|_)([a-zA-Z]|[0-9]|_)*)
+UNARYOPS [\+\-!] 
+RELATIONOPS (==)|(!=)|(<=)|(>=)|(<)|(>) 
+SUMOPS (\+)|(-)|(\|\|)
+PRODUCTOPS (\*)|(\/)|(\%)|(&&)
+PUNCTUATION [.,;()\[\]{}]
+
+INVALIDCHARS [^!=<>+\-*\/;.,{}()% \t\n\[\]&]
+
+VALIDNONWORD [!=<>+\-*\/;.,{}()% \t\n\[\]&]|(&&)|(\|\|)
+
+INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
+
+%x ERROR
+%x COMMENTS
+%x ENDCOMMENTS
+%x ERROR2
+%%
+
+{UNARYOPS} {
+  //Unary Operator
+  setToken(yytext, yylineno, column);
+  column++;
+  
+  return UNARYOP; 
+}
+
+{RELATIONOPS} {
+  //Relation Operator
+  setToken(yytext, yylineno, column);
+  column++;
+  
+  return RELATIONOP; 
+}
+
+{SUMOPS} {
+  //Sum Operator
+  setToken(yytext, yylineno, column);
+  column++;
+  
+  return SUMOP; 
+}
+
+{PRODUCTOPS} {
+  //Product Operator
+  setToken(yytext, yylineno, column);
+  column++;
+  
+  return PRODUCTOP; 
+}
+
+(=) {
+  //Assignment Operator
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return ASSIGNOP; 
+}
+
+"." {
+  //Dot  Operator
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return DOTOP; 
+}
+
+(,) {
+  //comma
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return COMMA; 
+}
+
+(;) {
+  //Semi colon
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return SEMICO; 
+}
+
+"(" {
+  //Left Paren
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return LPAREN; 
+}
+
+")" {
+  //Right Paren
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return RPAREN; 
+}
+
+"\[" {
+  //Left Bracket
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return LBRACK; 
+}
+
+"\]" {
+  //Rigth bracket
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return RBRACK; 
+}
+
+"{" {
+  // Left Brace
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return LBRACE; 
+}
+
+"}" {
+  //Right Brace
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return RBRACE; 
+}
+
+(class) {
+  //class Keyword
+  setToken(NULL, yylineno, column);
+  column+=yyleng;
+  
+  return CLASS; 
+}
+
+(this) {
+  //this Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return THIS; 
+}
+(if) {
+  //if Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  return IF; 
+}
+(else) {
+  //else Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return ELSE; 
+}
+(while) {
+  //while Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return WHILE; 
+}
+(return) {
+  //return Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return RETURN; 
+}
+
+(print) {
+  //print Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return PRINT; 
+}
+
+(read) {
+  //read Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return READ; 
+}
+
+(void) {
+  //void Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return VOID; 
+}
+:
+(new) {
+  //new Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return NEW; 
+}
+
+(null) {
+  //null Keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+  
+  return NULLKEYWORD; 
+}
+
+(int) {
+  //int keyword
+  setToken(NULL, yylineno, column);
+  column+= yyleng;
+}
+
+\/\/.*\n {
+  // single line comment
+  setToken(yytext, yylineno, column);
+  column+= strlen(yytext);
+}
+
+[0-9]+ {
+  //Number
+  setToken(yytext, yylineno, column);
+  column+= token.value.length();
+  
+  return NUM; 
+}
+
+{WORD} {
+  //identifier
+  setToken(yytext, yylineno, column);
+  column+= token.value.length();
+  
+  return IDENTIFIER; 
+}
+
+[ ]+ {
+    
+    setToken(yytext, yylineno, column);
+    column+= token.value.length();
+    
+    return SPACE; 
+}
+
+(\t)+ {
+    
+    setToken(yytext, yylineno, column);
+    column+= token.value.length()*8;
+    return SPACE;
+}
+
+\n {
+  
+  setToken(yytext, yylineno, column);    
+  column = 1;
+  
+  return SPACE; 
+}
+
+(\/\*) {
+  column+= strlen(yytext);
+  BEGIN(COMMENTS);
+  return IGNORE; 
+}
+
+. {
+  //found an error char, enter error state, ignore captured input
+  //cout << "yytext:" << yytext << "end" <<endl; 
+  yyless(0);
+  BEGIN(ERROR); 
+  
+  return IGNORE; 
+}
+
+<ERROR>{INVALIDNONWORD}+ {
+  //cout << "yytext:" << yytext << endl;
+  yymore();
+  BEGIN(ERROR2);
+  return IGNORE;
+}
+
+
+<ERROR>&|\| {
+  //cout << "in err3 &" << endl;
+  yymore();
+  return IGNORE;
+}
+
+<ERROR>.|\n {
+  //cout << "HERE" << endl;
+  yyless(strlen(yytext) - 1);
+  BEGIN(INITIAL);
+  setToken(yytext, yylineno, column);
+  column+= token.value.length();
+  return ERR;
+
+}
+ 
+<ERROR2>(&&)|(\|\|) {
+  //cout << "yytext4:" << yytext << endl;
+  yyless(strlen(yytext) - 2);
+  BEGIN(INITIAL);
+  setToken(yytext, yylineno, column);
+  column+= token.value.length();
+  return ERR;
+}
+
+<ERROR2>&|\| {
+  //cout << "in & one" << endl;
+  yymore();
+  BEGIN(ERROR);
+  return IGNORE;
+}
+
+
+<ERROR2>.|\n {
+  //cout << "yytextother:" << yytext << endl;
+  yyless(strlen(yytext) - 1);
+  BEGIN(INITIAL);
+  setToken(yytext, yylineno, column);
+  column+= token.value.length();
+  return ERR;
+}
+
+
+<COMMENTS>([^\*\n])* {
+  column+= strlen(yytext);
+  BEGIN(ENDCOMMENTS);
+  return IGNORE; 
+}
+
+<COMMENTS>\* {
+  yyless(0);
+  BEGIN(ENDCOMMENTS);
+  return IGNORE;
+}
+
+<COMMENTS>\n {
+  column = 1;
+  return IGNORE; 
+}
+
+<COMMENTS>(\/\*) {
+  column+= strlen(yytext);
+  return IGNORE; 
+}
+
+<ENDCOMMENTS>\n {
+  column = 1;
+  BEGIN(COMMENTS);
+  return IGNORE; 
+}
+
+<ENDCOMMENTS>\*\/ {
+  column+= strlen(yytext);
+  BEGIN(INITIAL);
+  return IGNORE;
+}
+
+<ENDCOMMENTS>\* {
+  column+= strlen(yytext);
+  BEGIN(COMMENTS);
+  return IGNORE;
+}
+
+%%
+

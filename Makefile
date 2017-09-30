@@ -1,0 +1,40 @@
+##############################
+# Makefile
+# Author: Wyatt Emery
+# Date: SEP 27, 2017
+#
+# COSC 4785, Homework 2
+# 
+# this will compile and generate an executable from program2.cpp program2.lpp
+# Lexeme.cpp and the Bison file
+##############################
+
+CXX=g++
+CXXFLAGS=-ggdb -Wall
+FLEX=flex++
+FLEXFLAGS=--warn
+BISON=bison
+BISONFLAGS=-d
+
+.PHONY: clean tar
+
+program3: program3.cpp program3_lex.cpp program3_bison.cpp Lexeme.cpp \
+	Lexeme.h
+	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.cpp \
+	-o program3
+
+program3_lex.cpp: program3.lpp
+	${FLEX} ${FLEXFLAGS} program3.lpp
+
+program3_bison.cpp: bison.ypp
+	${BISON} ${BISONFLAGS} -o program3_bison.cpp bison.ypp
+
+
+tar: program3.cpp program3.lpp Lexeme.cpp Lexeme.h Makefile
+	tar -cf wemery_HW3.tar program3.cpp program3.lpp Lexeme.cpp Lexeme.h \
+	Makefile
+
+clean: 
+	/bin/rm -f *.o core.* program3 program3_lex.cpp wemery_HW3.tar program3_bison.cpp \
+	program3_bison.h
+

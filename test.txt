@@ -1,0 +1,51 @@
+>= <= != == < > + - ! % || && % /
+class myclassname
+if (statement)
+{
+	do some code
+}
+else {
+ do something else}
+
+while(boolean statement)
+{
+more code
+}
+
+return 0;
+
+print("somestuff")
+void methodname(int parameter1, myType parameter2) //comment behind other stuff
+
+myType = new myType();
+
+return null;
+
+myarray[] = 10;
+{}
+()
+// Here is a singal line comment
+/**************
+//test
+8 here is a multiline comment *************/ A_4THeCoun@t+Not
+word@#partoferror-varname
+###
+^^^^^^^^^^
+
+@
+&&&
+&error;
+|Error,
+||notError
+&&NotError
+'error45error
+=id
+@error|errcontinued
+@err||errnotcontinued
+@err&errcountinued
+@err&&errnotcontinued
+@err&errcont&errcont
+@err/*comment*/
+@this+
+@err|&errcont&|errc&&&newerr||errdone
+#include&
