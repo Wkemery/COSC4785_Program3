@@ -16,11 +16,11 @@
    * 
    * 
    */
-    #include"Lexeme.h" 
-#include"program3_bison.hpp"
-    using namespace std;
-    Lexeme token;
-    int column = 1;
+  #include"Lexeme.h" 
+  #include"program3_bison.hpp"
+  using namespace std;
+  Lexeme token;
+  int column = 1;
 %}
 %option outfile="program3_lex.cpp"
 %option noyywrap

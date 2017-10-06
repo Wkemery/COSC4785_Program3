@@ -1,0 +1,15 @@
+gonna use inheritance
+
+have a tree of Nodes
+
+each of the types of grammar will inherit from Node
+big list
+
+program
+classdec
+classbody
+vardec, etc...
+
+id
+
+i think i will have a vector of subnodes in the top level Node class which will be inherited by all other nodes. It makes more sense to me to reference by 0 1 2 than resultype id paramlist block. should also help, because i don't need to know exactly what I'm referencing, just that it is there.
