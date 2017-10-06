@@ -13,21 +13,21 @@ CXX=g++
 CXXFLAGS=-ggdb -Wall
 FLEX=flex++
 FLEXFLAGS=--warn
-BISON=bison
-BISONFLAGS=-d
+YACC=bison
+YACCFLAGS=--report=state -W -d
 
 .PHONY: clean tar
 
-program3: program3.cpp program3_lex.cpp program3_bison.cpp Lexeme.cpp \
+program3: program3.cpp program3_lex.cpp program3_bison.c Lexeme.cpp \
 	Lexeme.h
-	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.cpp \
+	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.c \
 	-o program3
 
 program3_lex.cpp: program3.lpp
 	${FLEX} ${FLEXFLAGS} program3.lpp
 
-program3_bison.cpp: bison.ypp
-	${BISON} ${BISONFLAGS} -o program3_bison.cpp bison.ypp
+program3_bison.c: program3.y
+	${YACC} ${YACCFLAGS} -o program3_bison.c program3.y
 
 
 tar: program3.cpp program3.lpp Lexeme.cpp Lexeme.h Makefile
@@ -35,6 +35,6 @@ tar: program3.cpp program3.lpp Lexeme.cpp Lexeme.h Makefile
 	Makefile
 
 clean: 
-	/bin/rm -f *.o core.* program3 program3_lex.cpp wemery_HW3.tar program3_bison.cpp \
-	program3_bison.h
+	/bin/rm -f *.o core.* *.output program3 program3_lex.cpp wemery_HW3.tar \
+    program3_bison.c program3_bison.h
 
