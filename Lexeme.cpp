@@ -9,12 +9,12 @@
 
 
 #include"Lexeme.h"
-
-extern void setToken(char* yytext, int lineno, int column)
+#include"program3_bison.h"
+void setToken(char* yytext, int lineno, int column)
 {
   
-  if(yytext != NULL) token.value = yytext;
-  else token.value = "";
-  token.line = lineno;
-  token.column = column;
+  if(yytext != NULL) yylval.token->value = yytext;
+  else yylval.token->value = "";
+  yylval.token->line = lineno;
+  yylval.token->column = column;
 }

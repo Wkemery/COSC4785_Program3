@@ -1,19 +1,19 @@
-  /*
-   * program3.y
-   * Author: Wyatt Emery
-   * Date: OCT 6, 2017
-   *
-   * COSC 4785, Homework3
-   *
-   */
+/*
+ * program3.y
+ * Author: Wyatt Emery
+ * Date: OCT 6, 2017
+ * 
+ * COSC 4785, Homework3
+ *
+ */
 
- 
 %{
 
 
 #include <iostream>
 #include <FlexLexer.h>
-#include "node.hpp"wo
+#include "Node.h"
+#include "Lexeme.h"
 
 //using namespace std;
 using std::cerr;
@@ -25,7 +25,7 @@ using std::endl;
  * the two portions of the program.
  */
 
-extern Node *tree;
+extern Node* tree;
 extern yyFlexLexer scanner;
 
 /* 
@@ -44,7 +44,8 @@ void yyerror(const char *);
 %}
 
 %union {
-  Node *ttype;
+  Node* ttype;
+  Lexeme* token;
 }
 
 /* 
@@ -60,13 +61,39 @@ void yyerror(const char *);
  * The "exp" is only used here in this file but must be given a type if 
  *(in this case) it is ever assigned a value. See the rules.
  */
+
+%token UNARYOP 
+%token RELATIONOP
+%token SUMOP 
+%token PRODUCTOP
+%token CLASS 
+%token THIS 
+%token IF 
+%token ELSE 
+%token WHILE 
+%token RETURN
+%token PRINT
+%token READ
+%token VOID
+%token NEW
+%token NULLKEYWORD
+%token INT 
+
+%token ASSIGNOP 
+%token DOTOP 
+%token COMMA 
+%token SEMICO
+%token LPAREN
+%token RPAREN
+%token LBRACK
+%token RBRACK
+%token LBRACE
+%token RBRACE
+
+%token<token>IDENTIFIER
+
 %type<ttype> exp
-%token<ttype> NUM 
-%token RPAREN LPAREN
-%left PLUS MINUS    /* shift-reduce errors are solved by this */
-%left TIMES DIV     /* shift-reduce errors are solved by this */
-%precedence NEG     /* exponentiation */
-%right EXP          /* negation--unary minus, not using right now*/
+%token<ttype> NUM
 
 %% /* The grammar follows.  */
 input:  exp	        {
@@ -79,47 +106,9 @@ input:  exp	        {
                         }
 ;
 
-exp:   NUM 		{ 
-                        //cout << "NUM : " << $1->getint() << endl;        
-                        $$=new nodeNum($1->getint()); delete $1; 
-                        }
-       | exp PLUS exp   { 
-                        //cout << "e + e : ";
-                        //cout << $1->getint() << " + " << $3->getint() << endl; 
-                        $$=new Node($1,$3);
-                        $$->setval(" + ");
-                        }
-       | exp MINUS exp  { 
-                        //cout << "e - e : ";
-                        //cout << $1->getint() << " - " << $3->getint() << endl; 
-                        $$=new Node($1,$3);
-                        $$->setval(" - ");
-                        }
-       | exp TIMES exp  { 
-                        //cout << "e * e : ";
-                        //cout << $1->getint() << " * " << $3->getint() << endl; 
-                        $$=new Node($1,$3);
-                        $$->setval(" * ");
-                        }
-       | exp DIV exp    { 
-                        //cout << "e / e : ";
-                        //cout << $1->getint() << " / " << $3->getint() << endl; 
-                        $$=new Node($1,$3);
-                        $$->setval(" / ");
-                        }
-       | exp EXP exp    { 
-                        //cout << "e ^ e : " ;
-                        //cout << $1->getint() << " ^ " << $3->getint() << endl; 
-                        $$=new Node($1,$3); 
-                        }
-       | MINUS exp  %prec NEG { 
-                        //cout << "- e : " << $2->getint() << endl;       
-                        $$=new nodeMinus($2);
-                        }
-       | LPAREN exp RPAREN    { 
-                        //cout << "(e) :" << $2->getint() << endl;        
-                        $$=new nodeParExp($2);
-                        }
+exp:   IDENTIFIER     {
+                        $$ = new Identifier($1); 
+} 
 ;
 
 %%
