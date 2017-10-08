@@ -78,11 +78,12 @@ void yyerror(const char *);
 %token NEW
 %token NULLKEYWORD
 %token INT 
+%token NUM
 
 %token ASSIGNOP 
 %token DOTOP 
 %token COMMA 
-%token SEMICO
+
 %token LPAREN
 %token RPAREN
 %token LBRACK
@@ -90,25 +91,49 @@ void yyerror(const char *);
 %token LBRACE
 %token RBRACE
 
+
+
 %token<token>IDENTIFIER
+%token SEMICO
+
+
+
+%type<ttype> type
+%type<ttype> simpletype
 
 %type<ttype> exp
-%token<ttype> NUM
 
 %% /* The grammar follows.  */
-input:  exp	        {
-                        /* 
-                         * We have reached the end of the input and
-                         * now we are passing the results to the main function.
-                         */
-                        tree=$1;
-                        //cout << "DONE: " << $1->getint() << endl;
-                        }
+input:  %empty
+        | exp {
+              /* 
+              * We have reached the end of the input and
+              * now we are passing the results to the main function.
+              */
+              tree=$1;
+/*               cerr << "tree:" << tree << endl; */
+            }
 ;
 
-exp:   IDENTIFIER     {
-                        $$ = new Identifier($1); 
-} 
+exp:  type IDENTIFIER SEMICO  {
+                    $$ = new VarDec($1, $2->value);
+/*                     cerr << "vardec" << endl; */
+                  }
 ;
 
+type: simpletype  {
+                    $$ = new Type($1, false); 
+                  }
+      | type LBRACK RBRACK  {
+                    $$ = new Type($1, true);
+                  }
+;
+
+simpletype: INT {
+                  $$ = new SimpleType("int");
+                }
+            | IDENTIFIER  {
+                  $$ = new SimpleType($1->value);
+                }
+;
 %%

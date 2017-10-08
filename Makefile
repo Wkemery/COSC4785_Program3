@@ -21,7 +21,7 @@ YACCFLAGS=--report=state -W -d
 program3: program3.cpp program3_lex.cpp program3_bison.c Lexeme.cpp \
 	Lexeme.h
 	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.c \
-	-o program3
+	Node.cpp -o program3
 
 program3_lex.cpp: program3.lpp
 	${FLEX} ${FLEXFLAGS} program3.lpp

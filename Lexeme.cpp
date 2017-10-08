@@ -9,6 +9,7 @@
 
 
 #include"Lexeme.h"
+#include"Node.h"
 #include"program3_bison.h"
 void setToken(char* yytext, int lineno, int column)
 {

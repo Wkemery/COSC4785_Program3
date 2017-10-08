@@ -17,55 +17,19 @@
 #include"program3_bison.h"
 using namespace std;
 
+yyFlexLexer scanner;
+Node* tree;
 
 int main()
 {
-  //for printing stuff out for now
-//   map<int, string> pTable;
-//   pTable.insert(std::pair<int, string>(UNARYOP, "UNARYOP"));
-//   pTable.insert(std::pair<int, string>(RELATIONOP, "RELATOP"));
-//   pTable.insert(std::pair<int, string>(SUMOP, "SUMOP"));
-//   pTable.insert(std::pair<int, string>(PRODUCTOP, "PRODOP"));
-//   pTable.insert(std::pair<int, string>(ASSIGNOP, "ASSIGOP"));
-//   
-//   pTable.insert(std::pair<int, string>(CLASS, "CLASS"));
-//   pTable.insert(std::pair<int, string>(THIS, "THIS"));
-//   pTable.insert(std::pair<int, string>(IF, "IF"));
-//   pTable.insert(std::pair<int, string>(ELSE, "ELSE"));
-//   pTable.insert(std::pair<int, string>(WHILE, "WHILE"));
-//   pTable.insert(std::pair<int, string>(RETURN, "RETURN"));
-//   pTable.insert(std::pair<int, string>(PRINT, "PRINT"));
-//   pTable.insert(std::pair<int, string>(PRINT, "READ"));
-//   pTable.insert(std::pair<int, string>(VOID, "VOID"));
-//   pTable.insert(std::pair<int, string>(NEW, "NEW"));
-//   pTable.insert(std::pair<int, string>(NULLKEYWORD, "NULL"));
-//   pTable.insert(std::pair<int, string>(INT, "INT"));
-//     
-//   pTable.insert(std::pair<int, string>(DOTOP, "DOTOP"));
-//   pTable.insert(std::pair<int, string>(COMMA, "COMMA"));
-//   pTable.insert(std::pair<int, string>(SEMICO, "SEMICO"));
-//   pTable.insert(std::pair<int, string>(LPAREN, "LPAREN"));
-//   pTable.insert(std::pair<int, string>(RPAREN, "RPAREN"));  
-//   pTable.insert(std::pair<int, string>(LBRACK, "LBRACK"));
-//   pTable.insert(std::pair<int, string>(RBRACK, "RBRACK"));
-//   pTable.insert(std::pair<int, string>(LBRACE, "LBRACE"));
-//   pTable.insert(std::pair<int, string>(RBRACE, "RBRACE"));
-//           
-//   pTable.insert(std::pair<int, string>(IDENTIFIER, "ID"));
-//   pTable.insert(std::pair<int, string>(ERR, "ERR"));
-//   pTable.insert(std::pair<int, string>(NUM, "NUM"));
-  /****************************************************************************/
+  tree=0;
   
-    yyFlexLexer myScanner;
-    Node* tree;
-    
   
-    
-    yyparse();
-    cout << "PRINTING TREE\n" << endl;
-    tree->print(&cout);
-    cout << endl;
-    
+  yyparse();
+  cout << "PRINTING TREE\n" << endl;
+  tree->print(&cout);
+  cout << endl;
+  
 //     int rtn = 0;
 //     int errCount = 0;
 //     bool firstScan = true;
@@ -106,6 +70,6 @@ int main()
 //         
 //     }
   
-    return 0;
+  return 0;
   
 }

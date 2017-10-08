@@ -18,8 +18,6 @@
 #define IGNORE 987
 
 
-
-
 #ifndef LEXEME_H
 #define LEXEME_H
 

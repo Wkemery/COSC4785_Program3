@@ -15,10 +15,11 @@ using namespace std;
 
 class Node
 {
-private:
+protected:
   vector<Node*> _subNodes;
 public:
-  virtual void print(ostream *out = 0);
+  virtual void print(ostream *out) = 0;
+  virtual Node* getChild(unsigned int index) const;
 };
 
 class Identifier: public Node
@@ -26,8 +27,37 @@ class Identifier: public Node
 private:
   string _value;
 public:
-  string getVal(void);
   Identifier(string value);
+  void print(ostream* out);
+  string getVal(void);
+};
+
+class VarDec: public Node
+{
+private:
+  string _id;
+public:
+  VarDec(Node* type, string id);
+  void print(ostream* out);
+};
+
+class Type: public Node
+{
+private:
+  bool _array;
+public:
+  Type(Node* SimpleType, bool array);
+  void print(ostream* out);
+};
+
+class SimpleType: public Node
+{
+private:
+  string _value;
+public:
+  SimpleType(string val);
+  void print(ostream* out);
+  Node* getChild(unsigned int index) const;
 };
 
 #endif

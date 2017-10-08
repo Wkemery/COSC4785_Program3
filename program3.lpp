@@ -16,10 +16,17 @@
    */
   
   #include"Lexeme.h" 
+  #include"Node.h"
   #include"program3_bison.h"
   using namespace std;
   Lexeme token;
   int column = 1;
+  
+  void yyerror(const char *string)
+  {
+    cerr << string << endl;
+    return;
+  }
 %}
 %option outfile="program3_lex.cpp"
 %option noyywrap
@@ -223,7 +230,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   return VOID; 
 }
-:
+
 (new) {
   //new Keyword
   setToken(NULL, yylineno, column);
@@ -242,8 +249,10 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (int) {
   //int keyword
+  yylval.token =new Lexeme;
   setToken(NULL, yylineno, column);
   column+= yyleng;
+  return INT;
 }
 
 \/\/.*\n {
@@ -262,6 +271,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 {WORD} {
   //identifier
+  yylval.token =new Lexeme;
   setToken(yytext, yylineno, column);
   column+= token.value.length();
   
@@ -273,14 +283,12 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
     setToken(yytext, yylineno, column);
     column+= token.value.length();
     
-    return SPACE; 
 }
 
 (\t)+ {
     
     setToken(yytext, yylineno, column);
     column+= token.value.length()*8;
-    return SPACE;
 }
 
 \n {
@@ -288,7 +296,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   setToken(yytext, yylineno, column);    
   column = 1;
   
-  return SPACE; 
 }
 
 (\/\*) {
