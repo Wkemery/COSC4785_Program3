@@ -110,6 +110,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (;) {
   //Semi colon
+  yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
   
@@ -249,7 +250,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (int) {
   //int keyword
-  yylval.token =new Lexeme;
+  yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+= yyleng;
   return INT;
@@ -271,7 +272,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 {WORD} {
   //identifier
-  yylval.token =new Lexeme;
+  yylval.token = new Lexeme;
+/*   cerr << "yytext: "  << yytext << endl; */
   setToken(yytext, yylineno, column);
   column+= token.value.length();
   
@@ -280,20 +282,20 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 [ ]+ {
     
-    setToken(yytext, yylineno, column);
+/*     setToken(yytext, yylineno, column); */
     column+= token.value.length();
     
 }
 
 (\t)+ {
     
-    setToken(yytext, yylineno, column);
+/*     setToken(yytext, yylineno, column); */
     column+= token.value.length()*8;
 }
 
 \n {
   
-  setToken(yytext, yylineno, column);    
+/*   setToken(yytext, yylineno, column);     */
   column = 1;
   
 }

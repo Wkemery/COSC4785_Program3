@@ -46,6 +46,7 @@ void yyerror(const char *);
 %union {
   Node* ttype;
   Lexeme* token;
+
 }
 
 /* 
@@ -117,7 +118,9 @@ input:  %empty
 
 exp:  type IDENTIFIER SEMICO  {
                     $$ = new VarDec($1, $2->value);
-/*                     cerr << "vardec" << endl; */
+                    //delete $1;
+                    delete $2;
+/*                     cerr << "value: " << $2->value << endl; */
                   }
 ;
 

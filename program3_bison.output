@@ -1,0 +1,183 @@
+Terminals unused in grammar
+
+   UNARYOP
+   RELATIONOP
+   SUMOP
+   PRODUCTOP
+   CLASS
+   THIS
+   IF
+   ELSE
+   WHILE
+   RETURN
+   PRINT
+   READ
+   VOID
+   NEW
+   NULLKEYWORD
+   NUM
+   ASSIGNOP
+   DOTOP
+   COMMA
+   LPAREN
+   RPAREN
+   LBRACE
+   RBRACE
+
+
+Grammar
+
+    0 $accept: input $end
+
+    1 input: %empty
+    2      | exp
+
+    3 exp: type IDENTIFIER SEMICO
+
+    4 type: simpletype
+    5     | type LBRACK RBRACK
+
+    6 simpletype: INT
+    7           | IDENTIFIER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+UNARYOP (258)
+RELATIONOP (259)
+SUMOP (260)
+PRODUCTOP (261)
+CLASS (262)
+THIS (263)
+IF (264)
+ELSE (265)
+WHILE (266)
+RETURN (267)
+PRINT (268)
+READ (269)
+VOID (270)
+NEW (271)
+NULLKEYWORD (272)
+INT (273) 6
+NUM (274)
+ASSIGNOP (275)
+DOTOP (276)
+COMMA (277)
+LPAREN (278)
+RPAREN (279)
+LBRACK (280) 5
+RBRACK (281) 5
+LBRACE (282)
+RBRACE (283)
+IDENTIFIER (284) 3 7
+SEMICO (285) 3
+
+
+Nonterminals, with rules where they appear
+
+$accept (31)
+    on left: 0
+input (32)
+    on left: 1 2, on right: 0
+exp (33)
+    on left: 3, on right: 2
+type (34)
+    on left: 4 5, on right: 3 5
+simpletype (35)
+    on left: 6 7, on right: 4
+
+
+State 0
+
+    0 $accept: . input $end
+
+    INT         shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+
+    $default  reduce using rule 1 (input)
+
+    input       go to state 3
+    exp         go to state 4
+    type        go to state 5
+    simpletype  go to state 6
+
+
+State 1
+
+    6 simpletype: INT .
+
+    $default  reduce using rule 6 (simpletype)
+
+
+State 2
+
+    7 simpletype: IDENTIFIER .
+
+    $default  reduce using rule 7 (simpletype)
+
+
+State 3
+
+    0 $accept: input . $end
+
+    $end  shift, and go to state 7
+
+
+State 4
+
+    2 input: exp .
+
+    $default  reduce using rule 2 (input)
+
+
+State 5
+
+    3 exp: type . IDENTIFIER SEMICO
+    5 type: type . LBRACK RBRACK
+
+    LBRACK      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 9
+
+
+State 6
+
+    4 type: simpletype .
+
+    $default  reduce using rule 4 (type)
+
+
+State 7
+
+    0 $accept: input $end .
+
+    $default  accept
+
+
+State 8
+
+    5 type: type LBRACK . RBRACK
+
+    RBRACK  shift, and go to state 10
+
+
+State 9
+
+    3 exp: type IDENTIFIER . SEMICO
+
+    SEMICO  shift, and go to state 11
+
+
+State 10
+
+    5 type: type LBRACK RBRACK .
+
+    $default  reduce using rule 5 (type)
+
+
+State 11
+
+    3 exp: type IDENTIFIER SEMICO .
+
+    $default  reduce using rule 3 (exp)
