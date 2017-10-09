@@ -18,17 +18,20 @@
 using namespace std;
 
 yyFlexLexer scanner;
-Node* tree;
+vector<Node*> forest;
 
 int main()
 {
-  tree=0;
   
   
   yyparse();
-  cout << "PRINTING TREE\n" << endl;
-  tree->print(&cout);
-  cout << endl;
+  if(forest.size() > 0) cout << "PRINTING TREE\n" << endl;
+
+  for(int i = 0; i < forest.size(); i++)
+  {
+    forest[i]->print(&cout);
+    cout << endl;
+  }
   
   
   return 0;

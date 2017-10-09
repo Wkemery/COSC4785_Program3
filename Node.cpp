@@ -37,18 +37,18 @@ void Identifier::print(ostream *out)
 
 VarDec::VarDec(Node* type, string id)
 {
-  Type* temp = new Type((Type*)type);
-  _subNodes.push_back(temp);
-//   cerr << "id in vardec" << id << endl;
+//   Type* temp = new Type((Type*)type);
+//   _subNodes.push_back(temp);
+  _subNodes.push_back(type);
   _id = id;
 }
 
-VarDec::VarDec(Node* vardec)
-{
-  Type* temp = new Type((vardec->getChild(0)));
-  _subNodes.push_back(temp);
-  _id = ((VarDec*) vardec)->getID();
-}
+// VarDec::VarDec(Node* vardec)
+// {
+//   Type* temp = new Type((vardec->getChild(0)));
+//   _subNodes.push_back(temp);
+//   _id = ((VarDec*) vardec)->getID();
+// }
 
 string VarDec::getID(void) const
 {
@@ -67,16 +67,19 @@ void VarDec::print(ostream* out)
 Type::Type(Node* simpletype, bool array)
 {
   if(array) _array = true;
-  SimpleType* temp = new SimpleType(simpletype);
-  _subNodes.push_back(temp);
+  _subNodes.push_back(simpletype);
+//   SimpleType* temp = new SimpleType(simpletype);
+//   _subNodes.push_back(temp);
 }
 
-Type::Type(Node* type)
-{
-  _array = ((Type*)type)->getArray();
-  SimpleType* temp = new SimpleType(type->getChild(0));
-  _subNodes.push_back(temp);
-}
+// Type::Type(Node* type)
+// {
+//   _array = ((Type*)type)->getArray();
+//   Node* temp;
+//   if(_array) temp = new Type(type->getChild(0));
+//   else temp = new SimpleType(type->getChild(0));
+//   _subNodes.push_back(temp);
+// }
 
 bool Type::getArray()
 {
@@ -86,8 +89,8 @@ bool Type::getArray()
 void Type::print(ostream* out)
 {
   *out << "<Type> --> ";
-  if(_array) *out << "type[]";
-  else *out << "SimpleType";
+  if(_array) *out << "<Type>[]";
+  else *out << "<SimpleType>";
   *out << endl;
   _subNodes[0]->print(out);
 }
@@ -99,10 +102,10 @@ void Type::print(ostream* out)
 SimpleType::SimpleType(string val): _value(val) {}
 
 
-SimpleType::SimpleType(Node* simpletype)
-{
-  _value = ((SimpleType*)simpletype)->getVal();
-}
+// SimpleType::SimpleType(Node* simpletype)
+// {
+//   _value = ((SimpleType*)simpletype)->getVal();
+// }
 
 string SimpleType::getVal(void) const
 {

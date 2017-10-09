@@ -25,7 +25,7 @@ using std::endl;
  * the two portions of the program.
  */
 
-extern Node* tree;
+extern vector<Node*> forest;
 extern yyFlexLexer scanner;
 
 /* 
@@ -107,13 +107,15 @@ void yyerror(const char *);
 %% /* The grammar follows.  */
 input:  %empty
         | exp {
-              /* 
-              * We have reached the end of the input and
-              * now we are passing the results to the main function.
-              */
-              tree=$1;
-/*               cerr << "tree:" << tree << endl; */
-            }
+                /* 
+                * We have reached the end of the input and
+                * now we are passing the results to the main function.
+                */
+                forest.push_back($1);
+              }
+        | input exp {
+                      forest.push_back($2);
+                    }
 ;
 
 exp:  type IDENTIFIER SEMICO  {

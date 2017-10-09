@@ -38,7 +38,7 @@ private:
   string _id;
 public:
   VarDec(Node* type, string id);
-  VarDec(Node* vardec);
+//   VarDec(Node* vardec);
   string getID(void) const;
   void print(ostream* out);
 };
@@ -49,7 +49,7 @@ private:
   bool _array;
 public:
   Type(Node* simpletype, bool array);
-  Type(Node* type);
+//   Type(Node* type);
   bool getArray();
   void print(ostream* out);
 };
@@ -60,7 +60,7 @@ private:
   string _value;
 public:
   SimpleType(string val);
-  SimpleType(Node* simpletype);
+//   SimpleType(Node* simpletype);
   string getVal(void) const;
   void print(ostream* out);
   Node* getChild(unsigned int index) const;
