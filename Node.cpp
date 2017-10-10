@@ -11,6 +11,13 @@
 using namespace std;
 #include"Node.h"
 
+
+Node::Node(int nodeType, string value):_nodeType(nodeType), _value(value);
+{}
+
+int Node::getType(void) const
+{ return _nodeType;}
+
 Node* Node::getChild(unsigned int index) const
 {
   if((index < (_subNodes.size())) && (index >= 0)) return _subNodes[index];
@@ -18,15 +25,45 @@ Node* Node::getChild(unsigned int index) const
   return 0;
 }
 
+string Node::getVal(void) const {return _value;}
 /******************************************************************************/
 
-Identifier::Identifier(string value = ""): _value(value)
+Name::Name(string value):Node(NAMENODE, value)
 {}
 
-string Identifier::getVal(void)
+Name::Name(Node* name, string value):Node(NAMENODE, value)
 {
-  return _value;
+  _subNodes.push_back(name);
 }
+
+Name::Name(Node* name, Node* expression):Node(NAMENODE, "")
+{
+  _subNodes.push_back(name);
+  _subNodes.push_back(expression);
+}
+
+void Name::print(ostream* out)
+{
+  return;
+}
+/******************************************************************************/
+
+Expression::Expression(Node* name):Node(EXPRESSIONNODE, "")
+{
+  _subNodes.push_back(name);
+}
+
+Expression::Expression(string value):Node(EXPRESSIONNODE, value)
+{}
+
+void Expression::print(ostream* out)
+{
+  return;
+}
+/******************************************************************************/
+
+Identifier::Identifier(string value = ""): Node(IDNODE, value)
+{}
 
 void Identifier::print(ostream *out)
 {
@@ -35,25 +72,19 @@ void Identifier::print(ostream *out)
 
 /******************************************************************************/
 
-VarDec::VarDec(Node* type, string id)
+VarDec::VarDec(Node* type, string id):Node(VARDECNODE, id)
 {
 //   Type* temp = new Type((Type*)type);
 //   _subNodes.push_back(temp);
   _subNodes.push_back(type);
-  _id = id;
 }
 
 // VarDec::VarDec(Node* vardec)
 // {
 //   Type* temp = new Type((vardec->getChild(0)));
 //   _subNodes.push_back(temp);
-//   _id = ((VarDec*) vardec)->getID();
+//   _id = ((VarDec*) vardec)->getVal();
 // }
-
-string VarDec::getID(void) const
-{
-  return _id;
-}
 
 void VarDec::print(ostream* out)
 {
@@ -64,10 +95,11 @@ void VarDec::print(ostream* out)
 /******************************************************************************/
 
 
-Type::Type(Node* simpletype, bool array)
+Type::Type(Node* simpletype, bool array):Node(TYPENODE, "")
 {
   if(array) _array = true;
   _subNodes.push_back(simpletype);
+  
 //   SimpleType* temp = new SimpleType(simpletype);
 //   _subNodes.push_back(temp);
 }
@@ -86,6 +118,7 @@ bool Type::getArray()
   return _array;
 }
 
+string Type::getVal
 void Type::print(ostream* out)
 {
   *out << "<Type> --> ";
@@ -99,18 +132,14 @@ void Type::print(ostream* out)
 /******************************************************************************/
 
 
-SimpleType::SimpleType(string val): _value(val) {}
+SimpleType::SimpleType(string val):Node(SIMPLETYPENODE, value)
+{}
 
 
 // SimpleType::SimpleType(Node* simpletype)
 // {
 //   _value = ((SimpleType*)simpletype)->getVal();
 // }
-
-string SimpleType::getVal(void) const
-{
-  return _value;
-}
 
 void SimpleType::print(ostream* out)
 {
@@ -124,12 +153,3 @@ Node* SimpleType::getChild(unsigned int index) const
 }
 
 /******************************************************************************/
-
-/******************************************************************************/
-
-/******************************************************************************/
-
-/******************************************************************************/
-
-/******************************************************************************/
-

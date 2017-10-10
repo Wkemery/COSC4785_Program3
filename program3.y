@@ -79,7 +79,6 @@ void yyerror(const char *);
 %token NEW
 %token NULLKEYWORD
 %token INT 
-%token NUM
 
 %token ASSIGNOP 
 %token DOTOP 
@@ -96,9 +95,10 @@ void yyerror(const char *);
 
 %token<token>IDENTIFIER
 %token SEMICO
+%token<token>NUM
 
-
-
+%type<ttype> expression
+%type<ttype> name
 %type<ttype> type
 %type<ttype> simpletype
 
@@ -113,25 +113,31 @@ input:  %empty
                 */
                 forest.push_back($1);
               }
-        | input exp {
-                      forest.push_back($2);
-                    }
+        | input exp { forest.push_back($2); }
 ;
 
 exp:  type IDENTIFIER SEMICO  {
                     $$ = new VarDec($1, $2->value);
                     //delete $1;
                     delete $2;
-/*                     cerr << "value: " << $2->value << endl; */
                   }
+      | name  { $$ = $1; }
+            
 ;
 
-type: simpletype  {
-                    $$ = new Type($1, false); 
-                  }
-      | type LBRACK RBRACK  {
-                    $$ = new Type($1, true);
-                  }
+name: THIS  { $$ = new Name("this"); }
+      | IDENTIFIER  { $$ = new Name($1->value); }
+      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
+      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
+;
+
+expression: name { $$ = new Expression($1); }
+            | NUM { $$ = new Expression($1->value); }
+            | NULLKEYWORD { $$ = new Expression("null"); }
+            | READ LPAREN RPAREN { $$ = new Expression("read"); }
+;
+type: simpletype  { $$ = new Type($1, false); }
+      | type LBRACK RBRACK  {$$ = new Type($1, true); }
 ;
 
 simpletype: INT {
