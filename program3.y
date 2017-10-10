@@ -99,36 +99,26 @@ void yyerror(const char *);
 
 %type<ttype> expression
 %type<ttype> name
+%type<ttype> varDec
 %type<ttype> type
 %type<ttype> simpletype
 
 %type<ttype> exp
-
+%right "simpletype" "name"
 %% /* The grammar follows.  */
 input:  %empty
-        | exp {
-                /* 
-                * We have reached the end of the input and
-                * now we are passing the results to the main function.
-                */
-                forest.push_back($1);
-              }
         | input exp { forest.push_back($2); }
 ;
 
-exp:  type IDENTIFIER SEMICO  {
+exp:  varDec %prec {$$ = $1;} 
+       | name %prec { $$ = $1; }
+;
+       
+varDec: type IDENTIFIER SEMICO {
                     $$ = new VarDec($1, $2->value);
                     //delete $1;
                     delete $2;
                   }
-      | name  { $$ = $1; }
-            
-;
-
-name: THIS  { $$ = new Name("this"); }
-      | IDENTIFIER  { $$ = new Name($1->value); }
-      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
-      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
 ;
 
 expression: name { $$ = new Expression($1); }
@@ -143,8 +133,15 @@ type: simpletype  { $$ = new Type($1, false); }
 simpletype: INT {
                   $$ = new SimpleType("int");
                 }
-            | IDENTIFIER  {
+            | IDENTIFIER {
                   $$ = new SimpleType($1->value);
                 }
+;
+name: THIS  { $$ = new Name("this"); }
+      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
+      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
+      | IDENTIFIER %prec { $$ = new Expression($1->value);}
+
+
 ;
 %%

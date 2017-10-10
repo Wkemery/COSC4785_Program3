@@ -12,7 +12,7 @@ using namespace std;
 #include"Node.h"
 
 
-Node::Node(int nodeType, string value):_nodeType(nodeType), _value(value);
+Node::Node(int nodeType, string value):_nodeType(nodeType), _value(value)
 {}
 
 int Node::getType(void) const
@@ -88,7 +88,7 @@ VarDec::VarDec(Node* type, string id):Node(VARDECNODE, id)
 
 void VarDec::print(ostream* out)
 {
-  *out << "<Variable Declaration> --> <type> " << _id << ";" << endl;
+  *out << "<Variable Declaration> --> <type> " << _value << ";" << endl;
   _subNodes[0]->print(out);
 }
 
@@ -113,12 +113,17 @@ Type::Type(Node* simpletype, bool array):Node(TYPENODE, "")
 //   _subNodes.push_back(temp);
 // }
 
+string Type::getVal(void) const
+{
+  cerr << "no _value on Type" << endl;
+  return ""; 
+}
+
 bool Type::getArray()
 {
   return _array;
 }
 
-string Type::getVal
 void Type::print(ostream* out)
 {
   *out << "<Type> --> ";
@@ -132,7 +137,7 @@ void Type::print(ostream* out)
 /******************************************************************************/
 
 
-SimpleType::SimpleType(string val):Node(SIMPLETYPENODE, value)
+SimpleType::SimpleType(string value):Node(SIMPLETYPENODE, value)
 {}
 
 

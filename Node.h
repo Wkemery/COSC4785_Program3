@@ -85,9 +85,8 @@ public:
 class SimpleType: public Node
 {
 public:
-  SimpleType(string val);
+  SimpleType(string value);
 //   SimpleType(Node* simpletype);
-  string getVal(void) const;
   void print(ostream* out);
   Node* getChild(unsigned int index) const;
 };
