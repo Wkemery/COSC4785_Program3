@@ -1,0 +1,154 @@
+PRINTING TREE
+
+<Variable Declaration> --> <type> myvar1;
+<Type> --> <SimpleType>
+<SimpleType> --> int
+
+<Variable Declaration> --> <type> myvar2;
+<Type> --> <Type>[]
+<Type> --> <SimpleType>
+<SimpleType> --> int
+
+<Variable Declaration> --> <type> myvar3;
+<Type> --> <SimpleType>
+<SimpleType> --> mytype
+
+<Variable Declaration> --> <type> myvar4;
+<Type> --> <Type>[]
+<Type> --> <Type>[]
+<Type> --> <SimpleType>
+<SimpleType> --> mytype
+
+<Variable Declaration> --> <type> myvar5;
+<Type> --> <Type>[]
+<Type> --> <Type>[]
+<Type> --> <Type>[]
+<Type> --> <SimpleType>
+<SimpleType> --> mytype
+
+<Expression> --> 6
+
+<Expression> --> read
+
+<Expression> --> null
+
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 6
+
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> !
+<Expression> --> null
+
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> +
+<Expression> --> read
+
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> !
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 6
+
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> +
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> !
+<Expression> --> read
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 6
+<RelationOp> --> ==
+<Expression> --> 6
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> null
+<RelationOp> --> !=
+<Expression> --> null
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> read
+<RelationOp> --> <=
+<Expression> --> read
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 5
+<RelationOp> --> >=
+<Expression> --> 5
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 4
+<RelationOp> --> <
+<Expression> --> 5
+
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 5
+<RelationOp> --> >
+<Expression> --> 6
+
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 6
+<RelationOp> --> ==
+<Expression> --> 6
+<RelationOp> --> !=
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 5
+<RelationOp> --> ==
+<Expression> --> 5
+<RelationOp> --> <=
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> 7
+<RelationOp> --> <
+<Expression> --> 7
+<RelationOp> --> <
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> read
+<RelationOp> --> >=
+<Expression> --> null
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 6
+<ProductOp> --> *
+<Expression> --> 6
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 8
+<ProductOp> --> /
+<Expression> --> 8
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> null
+<ProductOp> --> %
+<Expression> --> 8
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> read
+<ProductOp> --> &&
+<Expression> --> 6
+
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> null
+<ProductOp> --> *
+<Expression> --> read
+<ProductOp> --> &&
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 8
+<ProductOp> --> /
+<Expression> --> null
+

@@ -12,11 +12,8 @@ using namespace std;
 #include"Node.h"
 
 
-Node::Node(int nodeType, string value):_nodeType(nodeType), _value(value)
+Node::Node(string value = "", string type = ""):_value(value), _type(type)
 {}
-
-int Node::getType(void) const
-{ return _nodeType;}
 
 Node* Node::getChild(unsigned int index) const
 {
@@ -25,18 +22,66 @@ Node* Node::getChild(unsigned int index) const
   return 0;
 }
 
+string Node::getType(void) const
+{
+  return _type;
+}
+
 string Node::getVal(void) const {return _value;}
 /******************************************************************************/
 
-Name::Name(string value):Node(NAMENODE, value)
+UnaryOp::UnaryOp(string value):Node(value)
+{}
+void UnaryOp::print(ostream* out)
+{
+  *out << "<UnaryOp> --> " << _value << endl;
+}
+Node* UnaryOp::getChild(unsigned int index) const
+{
+  cerr << "tried to get child on a UnaryOp!" << endl;
+  return 0;
+}
+
+
+/******************************************************************************/
+
+RelationOp::RelationOp(string value):Node(value, "RelationOp")
+{}
+void RelationOp::print(ostream* out)
+{
+  *out << "<RelationOp> --> " << _value << endl;
+}
+Node* RelationOp::getChild(unsigned int index) const
+{
+  cerr << "tried to get child on a RelationOp!" << endl;
+  return 0;
+}
+
+/******************************************************************************/
+
+ProductOp::ProductOp(string value):Node(value, "ProductOp")
+{}
+void ProductOp::print(ostream* out)
+{
+  *out << "<ProductOp> --> " << _value << endl;
+}
+Node* ProductOp::getChild(unsigned int index) const
+{
+  cerr << "tried to get child on a ProductOp!" << endl;
+  return 0;
+}
+
+/******************************************************************************/
+
+Name::Name(string value):Node(value)
 {}
 
-Name::Name(Node* name, string value):Node(NAMENODE, value)
+Name::Name(Node* name, string value):Node(value)
 {
   _subNodes.push_back(name);
 }
 
-Name::Name(Node* name, Node* expression):Node(NAMENODE, "")
+Name::Name(Node* name, Node* expression)
 {
   _subNodes.push_back(name);
   _subNodes.push_back(expression);
@@ -48,21 +93,61 @@ void Name::print(ostream* out)
 }
 /******************************************************************************/
 
-Expression::Expression(Node* name):Node(EXPRESSIONNODE, "")
+Expression::Expression(Node* next)
 {
-  _subNodes.push_back(name);
+  _subNodes.push_back(next);
 }
 
-Expression::Expression(string value):Node(EXPRESSIONNODE, value)
+Expression::Expression(string value):Node(value)
 {}
+
+Expression::Expression(Node* unaryop, Node* expression)
+{
+  _subNodes.push_back(unaryop);
+  _subNodes.push_back(expression);
+}
+
+Expression::Expression(Node* expression1, Node* op, Node* expression2)
+{
+    _subNodes.push_back(expression1);
+    _subNodes.push_back(op);
+    _subNodes.push_back(expression2);
+}
 
 void Expression::print(ostream* out)
 {
-  return;
+  *out << "<Expression> --> ";
+  switch(_subNodes.size())
+  {
+      case 1:
+      {
+        *out << "(<Expression>)" << endl;
+        _subNodes[0]->print(out);
+        break;
+      }
+      case 2:
+      {
+        *out << "<UnaryOp> <Expression>" << endl;
+        _subNodes[0]->print(out);
+        _subNodes[1]->print(out);
+        break;
+      }
+      case 3:
+      {
+        *out << "<Expression> <" << _subNodes[1]->getType() << 
+        "> <Expression>" << endl;
+        _subNodes[0]->print(out);
+        _subNodes[1]->print(out);
+        _subNodes[2]->print(out);
+        break;
+      }
+      default:
+        *out << _value << endl;
+  }
 }
 /******************************************************************************/
 
-Identifier::Identifier(string value = ""): Node(IDNODE, value)
+Identifier::Identifier(string value = ""): Node(value)
 {}
 
 void Identifier::print(ostream *out)
@@ -72,19 +157,10 @@ void Identifier::print(ostream *out)
 
 /******************************************************************************/
 
-VarDec::VarDec(Node* type, string id):Node(VARDECNODE, id)
+VarDec::VarDec(Node* type, string id):Node(id)
 {
-//   Type* temp = new Type((Type*)type);
-//   _subNodes.push_back(temp);
   _subNodes.push_back(type);
 }
-
-// VarDec::VarDec(Node* vardec)
-// {
-//   Type* temp = new Type((vardec->getChild(0)));
-//   _subNodes.push_back(temp);
-//   _id = ((VarDec*) vardec)->getVal();
-// }
 
 void VarDec::print(ostream* out)
 {
@@ -95,23 +171,12 @@ void VarDec::print(ostream* out)
 /******************************************************************************/
 
 
-Type::Type(Node* simpletype, bool array):Node(TYPENODE, "")
+Type::Type(Node* simpletype, bool array):Node("")
 {
   if(array) _array = true;
   _subNodes.push_back(simpletype);
-  
-//   SimpleType* temp = new SimpleType(simpletype);
-//   _subNodes.push_back(temp);
 }
 
-// Type::Type(Node* type)
-// {
-//   _array = ((Type*)type)->getArray();
-//   Node* temp;
-//   if(_array) temp = new Type(type->getChild(0));
-//   else temp = new SimpleType(type->getChild(0));
-//   _subNodes.push_back(temp);
-// }
 
 string Type::getVal(void) const
 {
@@ -137,14 +202,8 @@ void Type::print(ostream* out)
 /******************************************************************************/
 
 
-SimpleType::SimpleType(string value):Node(SIMPLETYPENODE, value)
+SimpleType::SimpleType(string value):Node(value)
 {}
-
-
-// SimpleType::SimpleType(Node* simpletype)
-// {
-//   _value = ((SimpleType*)simpletype)->getVal();
-// }
 
 void SimpleType::print(ostream* out)
 {

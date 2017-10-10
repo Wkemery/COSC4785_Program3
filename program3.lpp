@@ -34,10 +34,7 @@
 
 WHITESPACE ([\t \n])
 WORD (([a-zA-Z]|_)([a-zA-Z]|[0-9]|_)*)
-UNARYOPS [\+\-!] 
-RELATIONOPS (==)|(!=)|(<=)|(>=)|(<)|(>) 
-SUMOPS (\+)|(-)|(\|\|)
-PRODUCTOPS (\*)|(\/)|(\%)|(&&)
+SUMOPS (\|\|)
 PUNCTUATION [.,;()\[\]{}]
 
 INVALIDCHARS [^!=<>+\-*\/;.,{}()% \t\n\[\]&]
@@ -52,20 +49,83 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 %x ERROR2
 %%
 
-{UNARYOPS} {
-  //Unary Operator
-  setToken(yytext, yylineno, column);
+"+" {
+  //Plus Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
   column++;
   
-  return UNARYOP; 
+  return PLUS; 
+}
+"-" {
+  //Minus Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return MINUS; 
+}
+"!" {
+  //Not Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return NOT; 
 }
 
-{RELATIONOPS} {
-  //Relation Operator
-  setToken(yytext, yylineno, column);
+"==" {
+  //== Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
   column++;
   
-  return RELATIONOP; 
+  return DOUBEQ; 
+}
+
+"!=" {
+  //!= Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return NOTEQ; 
+}
+
+"<=" {
+  //<= Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return LESSEQ; 
+}
+
+">=" {
+  //>= Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return GREATEQ; 
+}
+
+"<" {
+  //< Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return LESS; 
+}
+
+">" {
+  //> Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return GREAT; 
 }
 
 {SUMOPS} {
@@ -76,12 +136,40 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   return SUMOP; 
 }
 
-{PRODUCTOPS} {
-  //Product Operator
-  setToken(yytext, yylineno, column);
+"*" {
+  // * Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
   column++;
   
-  return PRODUCTOP; 
+  return TIMES; 
+}
+
+"/" {
+  // / Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return DIVIDE; 
+}
+
+"%" {
+  // % Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return MOD; 
+}
+
+"&&" {
+  //&& Operator
+  yylval.token = new Lexeme;
+  setToken(NULL, yylineno, column);
+  column++;
+  
+  return DOUBAND; 
 }
 
 (=) {
@@ -119,6 +207,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "(" {
   //Left Paren
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -126,6 +216,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 
 ")" {
+  yylval.token = new Lexeme;
+  
   //Right Paren
   setToken(NULL, yylineno, column);
   column++;
@@ -264,6 +356,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 [0-9]+ {
   //Number
+  yylval.token = new Lexeme;
   setToken(yytext, yylineno, column);
   column+= token.value.length();
   
@@ -273,7 +366,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 {WORD} {
   //identifier
   yylval.token = new Lexeme;
-/*   cerr << "yytext: "  << yytext << endl; */
   setToken(yytext, yylineno, column);
   column+= token.value.length();
   

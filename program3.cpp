@@ -27,7 +27,7 @@ int main()
   yyparse();
   if(forest.size() > 0) cout << "PRINTING TREE\n" << endl;
 
-  for(int i = 0; i < forest.size(); i++)
+  for(unsigned int i = 0; i < forest.size(); i++)
   {
     forest[i]->print(&cout);
     cout << endl;

@@ -1,1 +1,12 @@
 int myvar1; int[] myvar2; mytype myvar3; mytype[][] myvar4; mytype[][][] myvar5;
+
+6 read() null
+
+-6 !null +read() !-6 -+!read()
+
+6==6 null != null read()<=read() 5>=5 4 < 5 5 > 6
+
+(((6==6)!=(5==5))<=((7<7)<(read()>=null)))
+
+6*6 8/8 null%8 read()&&6 ((null*read())&&(8/null))
+
