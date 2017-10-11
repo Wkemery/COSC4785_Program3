@@ -13,7 +13,15 @@ using namespace std;
 #ifndef NODE_H
 #define NODE_H
 
-
+#define PLAIN 1000
+#define NAMEEX 1001 /*Expression -> Name */
+#define NEWEX 1002 /*Expression -> NewExpression*/
+#define EXPRESSN 1003 /*Expression -> (Expression)*/
+#define UNARYEX 1004 /* Expression -> UnaryOp Expression*/
+#define NAMEARG 1005 /* Expression -> Name(ArgList)*/
+#define RELEX 1006 /* Expression -> Expression RelationOp Expression*/
+#define SUMEX 1007 /* Expression -> Expression SumOp Expression*/
+#define PRODEX 1008 /* Expression -> Expression ProductOp Expression*/
 
 class Node
 {
@@ -72,6 +80,8 @@ public:
 
 class Expression : public Node
 {
+private:
+  int _kind;
 public:
   Expression(Node* next);
   Expression(string value);
@@ -80,6 +90,19 @@ public:
   void print(ostream* out);
 };
 
+class ArgList : public Node
+{
+public:
+  ArgList(Node* expression1, Node* expression2);
+  void print(ostream* out);
+};
+
+class NewExpression : public Node
+{
+public:
+  NewExpression(Node* simpletype, Node* arglist);
+  void print(ostream* out);
+};
 
 class Identifier: public Node
 {

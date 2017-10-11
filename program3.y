@@ -112,13 +112,15 @@ void yyerror(const char *);
 %token<token>NUM
 
 %type<ttype> expression
-//%type<ttype> name
+/* %type<ttype> name */
 %type<ttype> type
 %type<ttype> simpletype
 %type<ttype> unaryop
 %type<ttype> relationop
 %type<ttype> productop
 %type<ttype> sumop
+%type<ttype> arglist
+%type<ttype> newexpression
 
 %type<ttype> exp
 
@@ -153,14 +155,22 @@ expression: NUM { $$ = new Expression($1->value); }
             | expression sumop expression %prec BIN {
                     $$ = new Expression($1, $2, $3); }
             | LPAREN expression RPAREN { $$ = new Expression($2);}
+            | newexpression { $$ = new Expression($1);}
             
 ;
 /*name: THIS  { $$ = new Name("this"); }
-      IDENTIFIER { $$ = new Name($1->value);}
-    | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
-    | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
+      | IDENTIFIER { $$ = new Name($1->value);}
+      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
+      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
 ;*/
- 
+newexpression: NEW simpletype LPAREN arglist RPAREN {
+                    $$ = new NewExpression($2, $4);}
+
+;
+arglist: %empty {$$ = 0;}
+          | expression COMMA arglist { $$ = new ArgList($1, $3);}
+          | expression {$$ = new ArgList($1, 0);}
+;
 unaryop:  PLUS {$$ = new UnaryOp("+");}
           | MINUS {$$ = new UnaryOp("-");}
           | NOT {$$ = new UnaryOp("!");}

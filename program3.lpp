@@ -175,6 +175,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (=) {
   //Assignment Operator
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -183,14 +185,16 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "." {
   //Dot  Operator
+  yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
   
   return DOTOP; 
 }
 
-(,) {
+"," {
   //comma
+  yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
   
@@ -228,6 +232,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "\[" {
   //Left Bracket
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -236,6 +242,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "\]" {
   //Rigth bracket
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -244,6 +252,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "{" {
   // Left Brace
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -252,6 +262,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 "}" {
   //Right Brace
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column++;
   
@@ -260,6 +272,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (class) {
   //class Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+=yyleng;
   
@@ -268,6 +282,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (this) {
   //this Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -275,12 +291,16 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 (if) {
   //if Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   return IF; 
 }
 (else) {
   //else Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -288,6 +308,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 (while) {
   //while Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -295,6 +317,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 (return) {
   //return Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -303,6 +327,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (print) {
   //print Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -311,6 +337,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (read) {
   //read Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -319,6 +347,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (void) {
   //void Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -327,6 +357,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (new) {
   //new Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   
@@ -335,6 +367,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 (null) {
   //null Keyword
+  yylval.token = new Lexeme;
+  
   setToken(NULL, yylineno, column);
   column+= yyleng;
   

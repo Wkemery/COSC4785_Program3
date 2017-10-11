@@ -86,15 +86,15 @@ Node* SumOp::getChild(unsigned int index) const
 }
 
 /******************************************************************************/
-Name::Name(string value):Node(value)
+Name::Name(string value):Node(value, "Name")
 {}
 
-Name::Name(Node* name, string value):Node(value)
+Name::Name(Node* name, string value):Node(value, "Name")
 {
   _subNodes.push_back(name);
 }
 
-Name::Name(Node* name, Node* expression)
+Name::Name(Node* name, Node* expression):Node("", "Name")
 {
   _subNodes.push_back(name);
   _subNodes.push_back(expression);
@@ -106,25 +106,39 @@ void Name::print(ostream* out)
 }
 /******************************************************************************/
 
-Expression::Expression(Node* next)
+Expression::Expression(Node* next):Node("", "Expression")
 {
   _subNodes.push_back(next);
+  /*Could be a name, newexpression, expression*/
+  if(_subNodes[0]->getType() == "Name") _kind = NAMEEX;
+  
+  else if(_subNodes[0]->getType() == "NewExpression") _kind = NEWEX;
+  
+  else _kind = EXPRESSN;
 }
 
-Expression::Expression(string value):Node(value)
+Expression::Expression(string value):Node(value, "Expression"), _kind(PLAIN)
 {}
 
-Expression::Expression(Node* unaryop, Node* expression)
+Expression::Expression(Node* unaryop, Node* expression):Node("", "Expression")
 {
+  /*Could be unaryop exp, name arglist*/
   _subNodes.push_back(unaryop);
-  _subNodes.push_back(expression);
+  if(expression != 0 ) _subNodes.push_back(expression);
+  if(_subNodes[0]->getType() == "UnaryOp") _kind = UNARYEX;
+  else _kind = NAMEARG;
 }
 
 Expression::Expression(Node* expression1, Node* op, Node* expression2)
+:Node("", "Expression")
 {
+  /*Could be a relationop, sumop, productop*/
     _subNodes.push_back(expression1);
     _subNodes.push_back(op);
     _subNodes.push_back(expression2);
+    if(_subNodes[1]->getType() == "RelationOp") _kind = RELEX;
+    else if(_subNodes[1]->getType() == "SumOp") _kind = SUMEX;
+    else _kind = PRODEX;
 }
 
 void Expression::print(ostream* out)
@@ -134,13 +148,17 @@ void Expression::print(ostream* out)
   {
       case 1:
       {
-        *out << "(<Expression>)" << endl;
+        if(_kind == EXPRESSN) *out << "(<Expression>)" << endl;
+        else if (_kind == NEWEX ) *out << "<NewExpression>" << endl;
+        else *out << "<Name> ()" << endl;
         _subNodes[0]->print(out);
+        
         break;
       }
       case 2:
       {
-        *out << "<UnaryOp> <Expression>" << endl;
+        if(_kind == UNARYEX) *out << "<UnaryOp> <Expression>" << endl;
+        else *out << "<Name> (<ArgList>)" << endl;
         _subNodes[0]->print(out);
         _subNodes[1]->print(out);
         break;
@@ -158,6 +176,43 @@ void Expression::print(ostream* out)
         *out << _value << endl;
   }
 }
+/******************************************************************************/
+
+ArgList::ArgList(Node* expression1, Node* expression2)
+{
+  _subNodes.push_back(expression1);
+  if(expression2 != 0) _subNodes.push_back(expression2); 
+}
+void ArgList::print(ostream* out)
+{
+  *out << "<ArgList> --> Expression";
+  if(_subNodes.size() > 1) *out << " Expression";
+  *out << endl;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
+}
+/******************************************************************************/
+
+NewExpression::NewExpression(Node* simpletype, Node* arglist)
+{
+  _subNodes.push_back(simpletype);
+  if (arglist!=0 ) _subNodes.push_back(arglist);
+}
+void NewExpression::print(ostream* out)
+{
+  //TODO: add fucntionality for second way a new expression can be declared
+  *out << "<NewExpression> --> new <SimpleType>";
+  if(_subNodes.size() > 1 ) *out << "(<ArgList>)";
+  else *out << " ()";
+  *out << endl;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
+}
+
 /******************************************************************************/
 
 Identifier::Identifier(string value = ""): Node(value)
