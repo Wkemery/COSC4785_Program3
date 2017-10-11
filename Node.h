@@ -53,6 +53,14 @@ public:
   Node* getChild(unsigned int index) const;
 };
 
+class SumOp : public Node
+{
+public:
+  SumOp(string value);
+  void print(ostream* out);
+  Node* getChild(unsigned int index) const;
+};
+
 class Name : public Node
 {
 public:

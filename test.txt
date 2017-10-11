@@ -10,3 +10,6 @@ int myvar1; int[] myvar2; mytype myvar3; mytype[][] myvar4; mytype[][][] myvar5;
 
 6*6 8/8 null%8 read()&&6 ((null*read())&&(8/null))
 
+
+6 + -5*2/10 ((6+ -5)*2)/10
+

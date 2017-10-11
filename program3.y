@@ -64,8 +64,7 @@ void yyerror(const char *);
  */
 
 
-%token SUMOP 
-%token PRODUCTOP
+
 %token CLASS 
 %token THIS 
 %token IF 
@@ -106,6 +105,8 @@ void yyerror(const char *);
 %token MOD
 %token DOUBAND
 
+%token DOUBBAR
+
 %token<token>IDENTIFIER
 %token SEMICO
 %token<token>NUM
@@ -117,8 +118,16 @@ void yyerror(const char *);
 %type<ttype> unaryop
 %type<ttype> relationop
 %type<ttype> productop
+%type<ttype> sumop
 
 %type<ttype> exp
+
+%left DOUBEQ NOTEQ LESSEQ GREATEQ LESS GREAT RE
+%left PLUS MINUS DOUBBAR BIN
+%left TIMES DIVIDE MOD DOUBAND PRO
+%precedence NEG
+%precedence EXP
+
 %% 
 /* The grammar follows.  */
 input:  %empty
@@ -130,22 +139,28 @@ exp:  type IDENTIFIER SEMICO  {
                                   //delete $1;
                                   delete $2;
                                 }
-      | expression { $$ = $1; }
+      | expression %prec EXP { $$ = $1; }
 ;
        
 expression: NUM { $$ = new Expression($1->value); }
             | NULLKEYWORD { $$ = new Expression("null"); }
             | READ LPAREN RPAREN { $$ = new Expression("read"); }
-            | unaryop expression { $$ = new Expression($1, $2);}
-            | expression relationop expression { 
+            | unaryop expression %prec NEG { $$ = new Expression($1, $2);}
+            | expression relationop expression %prec RE{ 
                     $$ = new Expression($1, $2, $3); }
-            | expression productop expression {
+            | expression productop expression %prec PRO{
                     $$ = new Expression($1, $2, $3); }
-            
+            | expression sumop expression %prec BIN {
+                    $$ = new Expression($1, $2, $3); }
             | LPAREN expression RPAREN { $$ = new Expression($2);}
             
 ;
-
+/*name: THIS  { $$ = new Name("this"); }
+      IDENTIFIER { $$ = new Name($1->value);}
+    | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
+    | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
+;*/
+ 
 unaryop:  PLUS {$$ = new UnaryOp("+");}
           | MINUS {$$ = new UnaryOp("-");}
           | NOT {$$ = new UnaryOp("!");}
@@ -165,6 +180,10 @@ productop:  TIMES {$$ = new ProductOp("*");}
             | MOD {$$ = new ProductOp("%");}
             | DOUBAND {$$ = new ProductOp("&&");}
 ;
+sumop:  MINUS {$$ = new SumOp("-");}
+        | PLUS {$$ = new SumOp("+");}
+        | DOUBBAR {$$ = new SumOp("||");}
+;
 type: simpletype  { $$ = new Type($1, false); }
       | type LBRACK RBRACK  {$$ = new Type($1, true); }
 ;
@@ -176,10 +195,5 @@ simpletype: INT {
                   $$ = new SimpleType($1->value);
                 }
 ;
-/*name: THIS  { $$ = new Name("this"); }
-      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
-      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
 
-
-;*/
 %%

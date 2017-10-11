@@ -34,7 +34,6 @@
 
 WHITESPACE ([\t \n])
 WORD (([a-zA-Z]|_)([a-zA-Z]|[0-9]|_)*)
-SUMOPS (\|\|)
 PUNCTUATION [.,;()\[\]{}]
 
 INVALIDCHARS [^!=<>+\-*\/;.,{}()% \t\n\[\]&]
@@ -128,12 +127,14 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   return GREAT; 
 }
 
-{SUMOPS} {
-  //Sum Operator
+"||" {
+  // || Operator
+  yylval.token = new Lexeme;
+  
   setToken(yytext, yylineno, column);
   column++;
   
-  return SUMOP; 
+  return DOUBBAR; 
 }
 
 "*" {

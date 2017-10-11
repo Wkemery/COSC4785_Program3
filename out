@@ -118,3 +118,66 @@ PRINTING TREE
 <RelationOp> --> >=
 <Expression> --> null
 
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 6
+<ProductOp> --> *
+<Expression> --> 6
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 8
+<ProductOp> --> /
+<Expression> --> 8
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> null
+<ProductOp> --> %
+<Expression> --> 8
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> read
+<ProductOp> --> &&
+<Expression> --> 6
+
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> null
+<ProductOp> --> *
+<Expression> --> read
+<ProductOp> --> &&
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> 8
+<ProductOp> --> /
+<Expression> --> null
+
+<Expression> --> 6
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> +
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 5
+<ProductOp> --> *
+<Expression> --> 2
+<ProductOp> --> /
+<Expression> --> 10
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <SumOp> <Expression>
+<Expression> --> 6
+<SumOp> --> +
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 5
+<ProductOp> --> *
+<Expression> --> 2
+<ProductOp> --> /
+<Expression> --> 10
+

@@ -73,6 +73,19 @@ Node* ProductOp::getChild(unsigned int index) const
 
 /******************************************************************************/
 
+SumOp::SumOp(string value):Node(value, "SumOp")
+{}
+void SumOp::print(ostream* out)
+{
+  *out << "<SumOp> --> " << _value << endl;
+}
+Node* SumOp::getChild(unsigned int index) const
+{
+  cerr << "tried to get child on a SumOp!" << endl;
+  return 0;
+}
+
+/******************************************************************************/
 Name::Name(string value):Node(value)
 {}
 

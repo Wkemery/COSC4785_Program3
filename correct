@@ -152,3 +152,32 @@ PRINTING TREE
 <ProductOp> --> /
 <Expression> --> null
 
+<Expression> --> 6
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> +
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 5
+<ProductOp> --> *
+<Expression> --> 2
+<ProductOp> --> /
+<Expression> --> 10
+
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <ProductOp> <Expression>
+<Expression> --> (<Expression>)
+<Expression> --> <Expression> <SumOp> <Expression>
+<Expression> --> 6
+<SumOp> --> +
+<Expression> --> <UnaryOp> <Expression>
+<UnaryOp> --> -
+<Expression> --> 5
+<ProductOp> --> *
+<Expression> --> 2
+<ProductOp> --> /
+<Expression> --> 10
+
