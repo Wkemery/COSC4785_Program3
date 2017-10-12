@@ -112,7 +112,7 @@ void yyerror(const char *);
 %token<token>NUM
 
 %type<ttype> expression
-/* %type<ttype> name */
+%type<ttype> name
 %type<ttype> type
 %type<ttype> simpletype
 %type<ttype> unaryop
@@ -142,6 +142,7 @@ exp:  type IDENTIFIER SEMICO  {
                                   delete $2;
                                 }
       | expression %prec EXP { $$ = $1; }
+      | CLASS name {}
 ;
        
 expression: NUM { $$ = new Expression($1->value); }
@@ -158,11 +159,11 @@ expression: NUM { $$ = new Expression($1->value); }
             | newexpression { $$ = new Expression($1);}
             
 ;
-/*name: THIS  { $$ = new Name("this"); }
+name: THIS  { $$ = new Name("this"); }
       | IDENTIFIER { $$ = new Name($1->value);}
       | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
       | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
-;*/
+;
 newexpression: NEW simpletype LPAREN arglist RPAREN {
                     $$ = new NewExpression($2, $4);}
 
