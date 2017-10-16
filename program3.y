@@ -120,6 +120,9 @@ void yyerror(const char *);
 %type<ttype> productop
 %type<ttype> sumop
 %type<ttype> arglist
+%type<ttype> optExprBrack
+%type<ttype>optBrack
+
 %type<ttype> newexpression
 
 %type<ttype> exp
@@ -128,7 +131,11 @@ void yyerror(const char *);
 %left PLUS MINUS DOUBBAR BIN
 %left TIMES DIVIDE MOD DOUBAND PRO
 %precedence NEG
+%precedence OPTEXP
+%precedence LBRACK
+%precedence LPAREN
 %precedence EXP
+
 
 %% 
 /* The grammar follows.  */
@@ -142,7 +149,7 @@ exp:  type IDENTIFIER SEMICO  {
                                   delete $2;
                                 }
       | expression %prec EXP { $$ = $1; }
-      | CLASS name {}
+      | name {$$ = $1;}
 ;
        
 expression: NUM { $$ = new Expression($1->value); }
@@ -166,8 +173,17 @@ name: THIS  { $$ = new Name("this"); }
 ;
 newexpression: NEW simpletype LPAREN arglist RPAREN {
                     $$ = new NewExpression($2, $4);}
+              | NEW simpletype optExprBrack optBrack {$$=  new NewExpression($2, $3, $4);}
 
 ;
+optExprBrack: %empty %prec OPTEXP{$$ = 0;}
+              | optExprBrack LBRACK expression RBRACK %prec OPTEXP{$$ = new BrackExpression($3, $1);}
+
+;
+optBrack:%empty %prec OPTEXP {$$ = 0;}
+        | LBRACK RBRACK optBrack {$$ = new BrackExpression($3); cout << "in";}
+;
+
 arglist: %empty {$$ = 0;}
           | expression COMMA arglist { $$ = new ArgList($1, $3);}
           | expression {$$ = new ArgList($1, 0);}

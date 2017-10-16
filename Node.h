@@ -90,6 +90,16 @@ public:
   void print(ostream* out);
 };
 
+class BrackExpression : public Node
+{
+private:
+  bool _array;
+public:
+  BrackExpression(Node* expression1, Node* expression2);
+  BrackExpression(Node* expression);
+  void print(ostream* out);
+};
+
 class ArgList : public Node
 {
 public:
@@ -101,6 +111,7 @@ class NewExpression : public Node
 {
 public:
   NewExpression(Node* simpletype, Node* arglist);
+  NewExpression(Node* simpletype, Node* type2 , Node* brackexp);
   void print(ostream* out);
 };
 

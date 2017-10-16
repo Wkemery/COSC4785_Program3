@@ -13,3 +13,4 @@ int myvar1; int[] myvar2; mytype myvar3; mytype[][] myvar4; mytype[][][] myvar5;
 
 6 + -5*2/10 ((6+ -5)*2)/10
 
+new mytype (2+2,read()>=null)

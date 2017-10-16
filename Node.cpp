@@ -102,7 +102,22 @@ Name::Name(Node* name, Node* expression):Node("", "Name")
 
 void Name::print(ostream* out)
 {
-  return;
+  *out << "<Name> --> ";
+  switch(_subNodes.size())
+  {  
+    case 1:
+      *out << "<Name>." << _value << endl;
+      _subNodes[0]->print(out);
+      break;
+    case 2:
+      *out << "Name[<Expression>]" << endl;
+      _subNodes[0]->print(out);
+      _subNodes[1]->print(out);
+      break;
+    default:
+      *out << _value << endl;
+      
+  }
 }
 /******************************************************************************/
 
@@ -176,6 +191,32 @@ void Expression::print(ostream* out)
         *out << _value << endl;
   }
 }
+
+/******************************************************************************/
+
+BrackExpression::BrackExpression(Node* expression1, Node* expression2):Node("", "BrackExpression")
+{
+  _subNodes.push_back(expression1);
+  if(expression2 != 0) _subNodes.push_back(expression2); 
+  _array = false;
+}
+
+BrackExpression::BrackExpression(Node* expression):Node("", "BrackExpression")
+{
+  _subNodes.push_back(expression);
+  _array = true;
+}
+void BrackExpression::print(ostream* out)
+{
+  if(_array) *out << "<BracketedExpression> --> <BracketedExpression>[]";
+  else *out << "<BracketedExpression> --> [Expression] ";
+  if(_subNodes.size() > 1) *out << "<BracketedExpression>";
+  *out << endl;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
+}
 /******************************************************************************/
 
 ArgList::ArgList(Node* expression1, Node* expression2)
@@ -195,23 +236,37 @@ void ArgList::print(ostream* out)
 }
 /******************************************************************************/
 
-NewExpression::NewExpression(Node* simpletype, Node* arglist)
+NewExpression::NewExpression(Node* simpletype, Node* arglist):Node("", "NewExpression")
 {
   _subNodes.push_back(simpletype);
   if (arglist!=0 ) _subNodes.push_back(arglist);
 }
+NewExpression::NewExpression(Node* simpletype, Node* type2, Node* brackexp):Node("", "NewExpression")
+{
+  _subNodes.push_back(simpletype);
+  if (type2!=0 ) _subNodes.push_back(type2);
+  if(brackexp != 0) _subNodes.push_back(brackexp);
+}
 void NewExpression::print(ostream* out)
 {
-  //TODO: add fucntionality for second way a new expression can be declared
-  *out << "<NewExpression> --> new <SimpleType>";
-  if(_subNodes.size() > 1 ) *out << "(<ArgList>)";
+  *out << "<NewExpression> --> new <SimpleType> ";
+  if(_subNodes.size() > 1 ) 
+  {  
+    if(_subNodes[1]->getType() == "BrackExpression") 
+    {
+      *out << "<BracketedExpression>";
+      if(_subNodes.size() == 3 )*out << "<ArrayBrackets>";
+    }
+  }
   else *out << " ()";
   *out << endl;
   for(unsigned int i = 0; i < _subNodes.size(); i++)
   {
     _subNodes[i]->print(out);
+  
   }
 }
+
 
 /******************************************************************************/
 
