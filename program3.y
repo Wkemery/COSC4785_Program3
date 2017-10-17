@@ -113,7 +113,7 @@ void yyerror(const char *);
 
 %type<ttype> expression
 %type<ttype> name
-%type<ttype> type
+/* %type<ttype> type */
 %type<ttype> multibracks
 %type<ttype> simpletype
 %type<ttype> unaryop
@@ -129,6 +129,7 @@ void yyerror(const char *);
 %type<ttype> exp
 
 %precedence NAME
+/* %precedence ARGL */
 /* %precedence LBRACE */
 %precedence EXP
 %left DOUBEQ NOTEQ LESSEQ GREATEQ LESS GREAT RE
@@ -137,6 +138,7 @@ void yyerror(const char *);
 %precedence NEG
 %precedence OPTEXP
 %precedence LBRACK
+/* %precedence RBRACK */
 %precedence IDENTIFIER
 %precedence LPAREN
 
@@ -145,9 +147,9 @@ void yyerror(const char *);
 %% 
 input:  %empty
         | input exp { forest.push_back($2); }
-        | error {yyerror("Error at end of Input");
+       /* | error {yyerror("Error at end of Input");
                       yyclearin;
-                      yyerrok;}
+                      yyerrok;}*/
 ;
 
 exp:  /*type IDENTIFIER SEMICO  {
@@ -160,11 +162,11 @@ exp:  /*type IDENTIFIER SEMICO  {
       | simpletype multibracks IDENTIFIER SEMICO {$$ = new VarDec("int", $3->value, $2);}
       | expression %prec EXP { $$ = $1; }
 
-      /*| type IDENTIFIER error {
-                                  $$ = new VarDec($1, $2->value);
+      | IDENTIFIER IDENTIFIER error {
+                                  $$ = new VarDec($1->value, $2->value);
                                   delete $2;
-                                  yyerror("Missing Semicolon");
-                                  yyerrok;}*/
+                                  yyerror("Expected Semicolon");
+                                  yyerrok;}
 ;
        
 expression: NUM { $$ = new Expression($1->value);}
@@ -172,7 +174,7 @@ expression: NUM { $$ = new Expression($1->value);}
             | READ LPAREN RPAREN { $$ = new Expression("read"); }
             | READ LPAREN error  {
                       $$ = new Expression("read"); 
-                      yyerror("Missing Right Parenthesis");
+                      yyerror("Expected Right Parenthesis");
                       yyerrok;
                      }
             | unaryop expression %prec NEG { $$ = new Expression($1, $2);}
@@ -188,7 +190,7 @@ expression: NUM { $$ = new Expression($1->value);}
             | name LPAREN arglist RPAREN {$$ = new Expression($1, $3);}
             
 ;
-name: THIS %prec NAME{ $$ = new Name("this"); }
+name: THIS { $$ = new Name("this"); }
       | IDENTIFIER %prec NAME { $$ = new Name($1->value);}
       | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
       | name LBRACK expression RBRACK { $$ = new Name($1, $3); cerr << "here";}

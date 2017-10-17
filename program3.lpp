@@ -25,14 +25,8 @@
 void yyerror(const char *string)
 {
   if(strcmp(string, "syntax error") == 0 ) return;
-  cerr << lines[yylval.token->line - 1] << endl;
-    for(int i = 0; i < (yylval.token->column + - 1); i++)
-  {
-    cerr << " ";
-  }
-  cerr << "^" << endl;
 
-  cerr << string << " Detected at: "<< yylval.token->line << ":" << yylval.token->column <<endl;
+  cerr << string << " At "<< yylval.token->line << ":" << yylval.token->column <<endl;
 
   return;
 }
@@ -62,7 +56,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("+");
   
   return PLUS; 
 }
@@ -71,7 +64,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("-");
 
   
   return MINUS; 
@@ -81,7 +73,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("!");
   
   return NOT; 
 }
@@ -91,7 +82,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append("==");
   return DOUBEQ; 
 }
 
@@ -100,7 +90,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append("!=");
   return NOTEQ; 
 }
 
@@ -109,7 +98,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append("<=");
   return LESSEQ; 
 }
 
@@ -118,7 +106,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append(">=");
   return GREATEQ; 
 }
 
@@ -127,7 +114,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("<");
   return LESS; 
 }
 
@@ -136,7 +122,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append(">");
   return GREAT; 
 }
 
@@ -146,7 +131,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(yytext, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append("||");
   return DOUBBAR; 
 }
 
@@ -155,7 +139,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("*");
   return TIMES; 
 }
 
@@ -164,7 +147,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("/");
   return DIVIDE; 
 }
 
@@ -173,7 +155,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("%");
   return MOD; 
 }
 
@@ -182,7 +163,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+=2;
-  lines[yylineno - 1].append("&&");
   return DOUBAND; 
 }
 
@@ -192,7 +172,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("=");
   return ASSIGNOP; 
 }
 
@@ -201,7 +180,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append(".");
   return DOTOP; 
 }
 
@@ -210,7 +188,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append(",");
   return COMMA; 
 }
 
@@ -219,7 +196,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append(";");
   return SEMICO; 
 }
 
@@ -229,7 +205,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("(");
   return LPAREN; 
 }
 
@@ -239,7 +214,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //Right Paren
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append(")");
   return RPAREN; 
 }
 
@@ -249,7 +223,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("[");
   return LBRACK; 
 }
 
@@ -259,7 +232,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("]");
   return RBRACK; 
 }
 
@@ -269,7 +241,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("{");
   return LBRACE; 
 }
 
@@ -279,7 +250,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  lines[yylineno - 1].append("}");
   return RBRACE; 
 }
 
@@ -289,7 +259,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+=yyleng;
-  lines[yylineno - 1].append("class");
   return CLASS; 
 }
 
@@ -299,7 +268,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("this");
   return THIS; 
 }
 (if) {
@@ -308,7 +276,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("if");
   return IF; 
 }
 (else) {
@@ -317,7 +284,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("else");
   return ELSE; 
 }
 (while) {
@@ -326,7 +292,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("while");
   return WHILE; 
 }
 (return) {
@@ -335,7 +300,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("return");
   return RETURN; 
 }
 
@@ -345,7 +309,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("print");
   return PRINT; 
 }
 
@@ -355,7 +318,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("read");
   return READ; 
 }
 
@@ -365,7 +327,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("void");
   return VOID; 
 }
 
@@ -375,7 +336,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("new");
   return NEW; 
 }
 
@@ -385,7 +345,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("null");
   return NULLKEYWORD; 
 }
 
@@ -394,22 +353,20 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  lines[yylineno - 1].append("int");
   return INT;
 }
 
 \/\/.*\n {
   // single line comment
   setToken(yytext, yylineno, column);
-  column+= strlen(yytext);
+  column+= yyleng;
 }
 
 [0-9]+ {
   //Number
   yylval.token = new Lexeme;
   setToken(yytext, yylineno, column);
-  column+= token.value.length();
-  lines[yylineno - 1].append(yytext);
+  column+= yyleng;
   return NUM;
 }
 
@@ -417,8 +374,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //identifier
   yylval.token = new Lexeme;
   setToken(yytext, yylineno, column);
-  column+= token.value.length();
-  lines[yylineno - 1].append(yytext);
+  column+= yyleng;
   return IDENTIFIER; 
 }
 
@@ -426,7 +382,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
     
 /*     setToken(yytext, yylineno, column); */
     column+= yyleng;
-    lines[yylineno - 1].append(" ");
     
 }
 
@@ -434,19 +389,17 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
     
 /*     setToken(yytext, yylineno, column); */
     column+= yyleng*8;
-    lines[yylineno - 1].append("\t");
 }
 
 \n {
   
 /*   setToken(yytext, yylineno, column);     */
   column = 1;
-  lines.push_back("");
   
 }
 
 (\/\*) {
-  column+= strlen(yytext);
+  column+= yyleng;
   BEGIN(COMMENTS);
 }
 
@@ -474,7 +427,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
   setToken(yytext, yylineno, column);
-  column+= token.value.length();
+  column+= yyleng;
   return ERR;
 
 }
@@ -484,7 +437,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yyless(strlen(yytext) - 2);
   BEGIN(INITIAL);
   setToken(yytext, yylineno, column);
-  column+= token.value.length();
+  column+= yyleng;
   return ERR;
 }
 
@@ -500,13 +453,13 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
   setToken(yytext, yylineno, column);
-  column+= token.value.length();
+  column+= yyleng;
   return ERR;
 }
 
 
 <COMMENTS>([^\*\n])* {
-  column+= strlen(yytext);
+  column+= yyleng;
   BEGIN(ENDCOMMENTS);
 }
 
@@ -520,7 +473,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 
 <COMMENTS>(\/\*) {
-  column+= strlen(yytext);
+  column+= yyleng;
 }
 
 <ENDCOMMENTS>\n {
@@ -529,12 +482,12 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 }
 
 <ENDCOMMENTS>\*\/ {
-  column+= strlen(yytext);
+  column+= yyleng;
   BEGIN(INITIAL);
 }
 
 <ENDCOMMENTS>\* {
-  column+= strlen(yytext);
+  column+= yyleng;
   BEGIN(COMMENTS);
 }
 
