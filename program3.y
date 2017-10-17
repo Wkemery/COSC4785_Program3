@@ -114,6 +114,7 @@ void yyerror(const char *);
 %type<ttype> expression
 %type<ttype> name
 %type<ttype> type
+%type<ttype> multibracks
 %type<ttype> simpletype
 %type<ttype> unaryop
 %type<ttype> relationop
@@ -127,34 +128,53 @@ void yyerror(const char *);
 
 %type<ttype> exp
 
+%precedence NAME
+/* %precedence LBRACE */
+%precedence EXP
 %left DOUBEQ NOTEQ LESSEQ GREATEQ LESS GREAT RE
 %left PLUS MINUS DOUBBAR BIN
 %left TIMES DIVIDE MOD DOUBAND PRO
 %precedence NEG
 %precedence OPTEXP
 %precedence LBRACK
+%precedence IDENTIFIER
 %precedence LPAREN
-%precedence EXP
+
 
 
 %% 
-/* The grammar follows.  */
 input:  %empty
         | input exp { forest.push_back($2); }
+        | error {yyerror("Error at end of Input");
+                      yyclearin;
+                      yyerrok;}
 ;
 
-exp:  type IDENTIFIER SEMICO  {
+exp:  /*type IDENTIFIER SEMICO  {
                                   $$ = new VarDec($1, $2->value);
-                                  //delete $1;
                                   delete $2;
-                                }
+                                }*/
+      IDENTIFIER IDENTIFIER SEMICO {$$ = new VarDec($1->value, $2->value);}
+      | IDENTIFIER multibracks IDENTIFIER SEMICO {$$ = new VarDec($1->value, $3->value, $2);}
+      | simpletype IDENTIFIER SEMICO {$$ = new VarDec("int", $2->value);}
+      | simpletype multibracks IDENTIFIER SEMICO {$$ = new VarDec("int", $3->value, $2);}
       | expression %prec EXP { $$ = $1; }
-      | name {$$ = $1;}
+
+      /*| type IDENTIFIER error {
+                                  $$ = new VarDec($1, $2->value);
+                                  delete $2;
+                                  yyerror("Missing Semicolon");
+                                  yyerrok;}*/
 ;
        
-expression: NUM { $$ = new Expression($1->value); }
+expression: NUM { $$ = new Expression($1->value);}
             | NULLKEYWORD { $$ = new Expression("null"); }
             | READ LPAREN RPAREN { $$ = new Expression("read"); }
+            | READ LPAREN error  {
+                      $$ = new Expression("read"); 
+                      yyerror("Missing Right Parenthesis");
+                      yyerrok;
+                     }
             | unaryop expression %prec NEG { $$ = new Expression($1, $2);}
             | expression relationop expression %prec RE{ 
                     $$ = new Expression($1, $2, $3); }
@@ -164,24 +184,35 @@ expression: NUM { $$ = new Expression($1->value); }
                     $$ = new Expression($1, $2, $3); }
             | LPAREN expression RPAREN { $$ = new Expression($2);}
             | newexpression { $$ = new Expression($1);}
+            | name %prec NAME{$$ = new Expression($1);}
+            | name LPAREN arglist RPAREN {$$ = new Expression($1, $3);}
             
 ;
-name: THIS  { $$ = new Name("this"); }
-      | IDENTIFIER { $$ = new Name($1->value);}
+name: THIS %prec NAME{ $$ = new Name("this"); }
+      | IDENTIFIER %prec NAME { $$ = new Name($1->value);}
       | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
-      | name LBRACK expression RBRACK { $$ = new Name($1, $3); }
+      | name LBRACK expression RBRACK { $$ = new Name($1, $3); cerr << "here";}
 ;
-newexpression: NEW simpletype LPAREN arglist RPAREN {
-                    $$ = new NewExpression($2, $4);}
-              | NEW simpletype optExprBrack optBrack {$$=  new NewExpression($2, $3, $4);}
+newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
+                    $$ = new NewExpression($2->value, $4);}
+              | NEW IDENTIFIER optExprBrack optBrack {
+                    if($3 != 0) ((BrackExpression*)$3)->reverse();
+                    $$=  new NewExpression($2->value, $3, $4);}
+              | NEW simpletype LPAREN arglist RPAREN {
+                    $$ = new NewExpression("int", $4);}
+              | NEW simpletype optExprBrack optBrack {
+                    if($3 != 0) ((BrackExpression*)$3)->reverse();
+                    $$=  new NewExpression("int", $3, $4);}
+                  
 
 ;
 optExprBrack: %empty %prec OPTEXP{$$ = 0;}
-              | optExprBrack LBRACK expression RBRACK %prec OPTEXP{$$ = new BrackExpression($3, $1);}
+              | optExprBrack LBRACK expression RBRACK %prec OPTEXP{
+                    $$ = new BrackExpression($3, $1);}
 
 ;
 optBrack:%empty %prec OPTEXP {$$ = 0;}
-        | LBRACK RBRACK optBrack {$$ = new BrackExpression($3); cout << "in";}
+        | LBRACK RBRACK optBrack {$$ = new OptBracket($3);}
 ;
 
 arglist: %empty {$$ = 0;}
@@ -211,16 +242,19 @@ sumop:  MINUS {$$ = new SumOp("-");}
         | PLUS {$$ = new SumOp("+");}
         | DOUBBAR {$$ = new SumOp("||");}
 ;
-type: simpletype  { $$ = new Type($1, false); }
-      | type LBRACK RBRACK  {$$ = new Type($1, true); }
+multibracks: LBRACK RBRACK {$$ = new Type();}
+              | multibracks LBRACK RBRACK {$$ = new Type($1, true);}
 ;
+/*type: simpletype  { $$ = new Type($1, false); }
+      | type LBRACK RBRACK  {$$ = new Type($1, true); }
+;*/
 
 simpletype: INT {
                   $$ = new SimpleType("int");
                 }
-            | IDENTIFIER {
+/*            | IDENTIFIER {
                   $$ = new SimpleType($1->value);
-                }
+                }*/
 ;
 
 %%

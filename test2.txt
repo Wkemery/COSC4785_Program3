@@ -1,0 +1,4 @@
+int myvar
+mytype myvar2;
+read(
+read()

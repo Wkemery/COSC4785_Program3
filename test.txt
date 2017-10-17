@@ -14,3 +14,19 @@ int myvar1; int[] myvar2; mytype myvar3; mytype[][] myvar4; mytype[][][] myvar5;
 6 + -5*2/10 ((6+ -5)*2)/10
 
 new mytype (2+2,read()>=null)
+
+new int[3][4][5][][]
+
+new mytype
+
+new mytype[][][]
+
+name()
+
+this.name(2+2,2+4)
+
+(2+2)
+
+name[2+2].thing(2+2)
+
+

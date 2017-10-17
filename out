@@ -1,57 +1,42 @@
-PRINTING TREE
 
-<Variable Declaration> --> <type> myvar1;
-<Type> --> <SimpleType>
-<SimpleType> --> int
 
+<Variable Declaration> --> int myvar1;
 <Variable Declaration> --> <type> myvar2;
 <Type> --> <Type>[]
-<Type> --> <SimpleType>
-<SimpleType> --> int
 
-<Variable Declaration> --> <type> myvar3;
-<Type> --> <SimpleType>
-<SimpleType> --> mytype
-
+<Variable Declaration> --> mytype myvar3;
 <Variable Declaration> --> <type> myvar4;
 <Type> --> <Type>[]
 <Type> --> <Type>[]
-<Type> --> <SimpleType>
-<SimpleType> --> mytype
 
 <Variable Declaration> --> <type> myvar5;
 <Type> --> <Type>[]
 <Type> --> <Type>[]
 <Type> --> <Type>[]
-<Type> --> <SimpleType>
-<SimpleType> --> mytype
 
 <Expression> --> 6
 
 <Expression> --> read
 
+<Expression> --> <Expression> <SumOp> <Expression>
 <Expression> --> null
-
-<Expression> --> <UnaryOp> <Expression>
-<UnaryOp> --> -
+<SumOp> --> -
 <Expression> --> 6
 
+<Expression> --> <Expression> <SumOp> <Expression>
 <Expression> --> <UnaryOp> <Expression>
 <UnaryOp> --> !
 <Expression> --> null
-
-<Expression> --> <UnaryOp> <Expression>
-<UnaryOp> --> +
+<SumOp> --> +
 <Expression> --> read
 
+<Expression> --> <Expression> <SumOp> <Expression>
 <Expression> --> <UnaryOp> <Expression>
 <UnaryOp> --> !
 <Expression> --> <UnaryOp> <Expression>
 <UnaryOp> --> -
 <Expression> --> 6
-
-<Expression> --> <UnaryOp> <Expression>
-<UnaryOp> --> -
+<SumOp> --> -
 <Expression> --> <UnaryOp> <Expression>
 <UnaryOp> --> +
 <Expression> --> <UnaryOp> <Expression>
@@ -152,12 +137,11 @@ PRINTING TREE
 <ProductOp> --> /
 <Expression> --> null
 
+<Expression> --> <Expression> <SumOp> <Expression>
 <Expression> --> 6
-
+<SumOp> --> +
 <Expression> --> <Expression> <ProductOp> <Expression>
 <Expression> --> <Expression> <ProductOp> <Expression>
-<Expression> --> <UnaryOp> <Expression>
-<UnaryOp> --> +
 <Expression> --> <UnaryOp> <Expression>
 <UnaryOp> --> -
 <Expression> --> 5
@@ -180,4 +164,17 @@ PRINTING TREE
 <Expression> --> 2
 <ProductOp> --> /
 <Expression> --> 10
+
+<Expression> --> <NewExpression>
+<NewExpression> --> new mytype 
+ArgListthat<ArgList> --> Expression Expression
+<Expression> --> <Expression> <SumOp> <Expression>
+<Expression> --> 2
+<SumOp> --> +
+<Expression> --> 2
+<ArgList> --> Expression
+<Expression> --> <Expression> <RelationOp> <Expression>
+<Expression> --> read
+<RelationOp> --> >=
+<Expression> --> null
 

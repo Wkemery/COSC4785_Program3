@@ -19,13 +19,13 @@ using namespace std;
 
 yyFlexLexer scanner;
 vector<Node*> forest;
-
+vector<string> lines;
 int main()
 {
   
-  
+  lines.push_back("");
   yyparse();
-  if(forest.size() > 0) cout << "PRINTING TREE\n" << endl;
+  if(forest.size() > 0) cout << endl << endl;
 
   for(unsigned int i = 0; i < forest.size(); i++)
   {

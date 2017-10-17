@@ -22,11 +22,20 @@
   Lexeme token;
   int column = 1;
   
-  void yyerror(const char *string)
+void yyerror(const char *string)
+{
+  if(strcmp(string, "syntax error") == 0 ) return;
+  cerr << lines[yylval.token->line - 1] << endl;
+    for(int i = 0; i < (yylval.token->column + - 1); i++)
   {
-    cerr << string << endl;
-    return;
+    cerr << " ";
   }
+  cerr << "^" << endl;
+
+  cerr << string << " Detected at: "<< yylval.token->line << ":" << yylval.token->column <<endl;
+
+  return;
+}
 %}
 %option outfile="program3_lex.cpp"
 %option noyywrap
@@ -53,6 +62,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
+  lines[yylineno - 1].append("+");
   
   return PLUS; 
 }
@@ -61,6 +71,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
+  lines[yylineno - 1].append("-");
+
   
   return MINUS; 
 }
@@ -69,6 +81,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
+  lines[yylineno - 1].append("!");
   
   return NOT; 
 }
@@ -77,8 +90,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //== Operator
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append("==");
   return DOUBEQ; 
 }
 
@@ -86,8 +99,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //!= Operator
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append("!=");
   return NOTEQ; 
 }
 
@@ -95,8 +108,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //<= Operator
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append("<=");
   return LESSEQ; 
 }
 
@@ -104,8 +117,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //>= Operator
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append(">=");
   return GREATEQ; 
 }
 
@@ -114,7 +127,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("<");
   return LESS; 
 }
 
@@ -123,7 +136,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append(">");
   return GREAT; 
 }
 
@@ -132,8 +145,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   
   setToken(yytext, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append("||");
   return DOUBBAR; 
 }
 
@@ -142,7 +155,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("*");
   return TIMES; 
 }
 
@@ -151,7 +164,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("/");
   return DIVIDE; 
 }
 
@@ -160,7 +173,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("%");
   return MOD; 
 }
 
@@ -168,8 +181,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //&& Operator
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
-  column++;
-  
+  column+=2;
+  lines[yylineno - 1].append("&&");
   return DOUBAND; 
 }
 
@@ -179,7 +192,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("=");
   return ASSIGNOP; 
 }
 
@@ -188,7 +201,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append(".");
   return DOTOP; 
 }
 
@@ -197,7 +210,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append(",");
   return COMMA; 
 }
 
@@ -206,7 +219,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append(";");
   return SEMICO; 
 }
 
@@ -216,7 +229,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("(");
   return LPAREN; 
 }
 
@@ -226,7 +239,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //Right Paren
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append(")");
   return RPAREN; 
 }
 
@@ -236,7 +249,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("[");
   return LBRACK; 
 }
 
@@ -246,7 +259,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("]");
   return RBRACK; 
 }
 
@@ -256,7 +269,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("{");
   return LBRACE; 
 }
 
@@ -266,7 +279,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column++;
-  
+  lines[yylineno - 1].append("}");
   return RBRACE; 
 }
 
@@ -276,7 +289,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+=yyleng;
-  
+  lines[yylineno - 1].append("class");
   return CLASS; 
 }
 
@@ -286,7 +299,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("this");
   return THIS; 
 }
 (if) {
@@ -295,6 +308,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
+  lines[yylineno - 1].append("if");
   return IF; 
 }
 (else) {
@@ -303,7 +317,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("else");
   return ELSE; 
 }
 (while) {
@@ -312,7 +326,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("while");
   return WHILE; 
 }
 (return) {
@@ -321,7 +335,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("return");
   return RETURN; 
 }
 
@@ -331,7 +345,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("print");
   return PRINT; 
 }
 
@@ -341,7 +355,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("read");
   return READ; 
 }
 
@@ -351,7 +365,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("void");
   return VOID; 
 }
 
@@ -361,7 +375,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("new");
   return NEW; 
 }
 
@@ -371,7 +385,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   
   setToken(NULL, yylineno, column);
   column+= yyleng;
-  
+  lines[yylineno - 1].append("null");
   return NULLKEYWORD; 
 }
 
@@ -380,6 +394,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(NULL, yylineno, column);
   column+= yyleng;
+  lines[yylineno - 1].append("int");
   return INT;
 }
 
@@ -394,8 +409,8 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(yytext, yylineno, column);
   column+= token.value.length();
-  
-  return NUM; 
+  lines[yylineno - 1].append(yytext);
+  return NUM;
 }
 
 {WORD} {
@@ -403,34 +418,36 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   yylval.token = new Lexeme;
   setToken(yytext, yylineno, column);
   column+= token.value.length();
-  
+  lines[yylineno - 1].append(yytext);
   return IDENTIFIER; 
 }
 
 [ ]+ {
     
 /*     setToken(yytext, yylineno, column); */
-    column+= token.value.length();
+    column+= yyleng;
+    lines[yylineno - 1].append(" ");
     
 }
 
 (\t)+ {
     
 /*     setToken(yytext, yylineno, column); */
-    column+= token.value.length()*8;
+    column+= yyleng*8;
+    lines[yylineno - 1].append("\t");
 }
 
 \n {
   
 /*   setToken(yytext, yylineno, column);     */
   column = 1;
+  lines.push_back("");
   
 }
 
 (\/\*) {
   column+= strlen(yytext);
   BEGIN(COMMENTS);
-  return IGNORE; 
 }
 
 . {
@@ -438,22 +455,18 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //cout << "yytext:" << yytext << "end" <<endl; 
   yyless(0);
   BEGIN(ERROR); 
-  
-  return IGNORE; 
 }
 
 <ERROR>{INVALIDNONWORD}+ {
   //cout << "yytext:" << yytext << endl;
   yymore();
   BEGIN(ERROR2);
-  return IGNORE;
 }
 
 
 <ERROR>&|\| {
   //cout << "in err3 &" << endl;
   yymore();
-  return IGNORE;
 }
 
 <ERROR>.|\n {
@@ -479,7 +492,6 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
   //cout << "in & one" << endl;
   yymore();
   BEGIN(ERROR);
-  return IGNORE;
 }
 
 
@@ -496,41 +508,34 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 <COMMENTS>([^\*\n])* {
   column+= strlen(yytext);
   BEGIN(ENDCOMMENTS);
-  return IGNORE; 
 }
 
 <COMMENTS>\* {
   yyless(0);
   BEGIN(ENDCOMMENTS);
-  return IGNORE;
 }
 
 <COMMENTS>\n {
   column = 1;
-  return IGNORE; 
 }
 
 <COMMENTS>(\/\*) {
   column+= strlen(yytext);
-  return IGNORE; 
 }
 
 <ENDCOMMENTS>\n {
   column = 1;
   BEGIN(COMMENTS);
-  return IGNORE; 
 }
 
 <ENDCOMMENTS>\*\/ {
   column+= strlen(yytext);
   BEGIN(INITIAL);
-  return IGNORE;
 }
 
 <ENDCOMMENTS>\* {
   column+= strlen(yytext);
   BEGIN(COMMENTS);
-  return IGNORE;
 }
 
 %%

@@ -9,7 +9,7 @@
 
 
 #include<string>
-
+#include<vector>
 
 
 #define SPACE 10
@@ -21,6 +21,7 @@
 #ifndef LEXEME_H
 #define LEXEME_H
 
+extern std::vector<std::string> lines;
 typedef struct lexeme Lexeme;
 
 struct lexeme

@@ -9,6 +9,7 @@
 
 #include<vector>
 #include<string>
+#include<stack>
 using namespace std;
 #ifndef NODE_H
 #define NODE_H
@@ -94,38 +95,50 @@ class BrackExpression : public Node
 {
 private:
   bool _array;
+  void recAdd(stack<Node*> & expressions);
+  void recReverse(stack<Node*> & expressions);
 public:
   BrackExpression(Node* expression1, Node* expression2);
-  BrackExpression(Node* expression);
+  void reverse();
+  void print(ostream* out);
+};
+
+class OptBracket : public Node
+{
+private:
+  bool _array;
+public:
+  OptBracket(Node* expression);
   void print(ostream* out);
 };
 
 class ArgList : public Node
 {
+private: 
+  bool _empty;
 public:
   ArgList(Node* expression1, Node* expression2);
+  bool getEmpty() const ;
   void print(ostream* out);
 };
 
 class NewExpression : public Node
 {
 public:
-  NewExpression(Node* simpletype, Node* arglist);
-  NewExpression(Node* simpletype, Node* type2 , Node* brackexp);
+  NewExpression(string simpletype, Node* arglist);
+  NewExpression(string simpletype, Node* type2 , Node* brackexp);
   void print(ostream* out);
 };
 
-class Identifier: public Node
-{
-public:
-  Identifier(string value);
-  void print(ostream* out);
-};
 
 class VarDec: public Node
 {
+private:
+  string _type;
 public:
   VarDec(Node* type, string id);
+  VarDec(string type, string id);
+  VarDec(string type, string id, Node* bracks);
   string getID(void) const;
   void print(ostream* out);
 };
@@ -136,6 +149,7 @@ private:
   bool _array;
 public:
   Type(Node* simpletype, bool array);
+  Type();
   string getVal(void) const;
   bool getArray();
   void print(ostream* out);

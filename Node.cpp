@@ -30,7 +30,7 @@ string Node::getType(void) const
 string Node::getVal(void) const {return _value;}
 /******************************************************************************/
 
-UnaryOp::UnaryOp(string value):Node(value)
+UnaryOp::UnaryOp(string value):Node(value, "UnaryOp")
 {}
 void UnaryOp::print(ostream* out)
 {
@@ -165,7 +165,7 @@ void Expression::print(ostream* out)
       {
         if(_kind == EXPRESSN) *out << "(<Expression>)" << endl;
         else if (_kind == NEWEX ) *out << "<NewExpression>" << endl;
-        else *out << "<Name> ()" << endl;
+        else *out << "<Name>" << endl;
         _subNodes[0]->print(out);
         
         break;
@@ -196,21 +196,38 @@ void Expression::print(ostream* out)
 
 BrackExpression::BrackExpression(Node* expression1, Node* expression2):Node("", "BrackExpression")
 {
-  _subNodes.push_back(expression1);
+  if(expression1 != 0)_subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
-  _array = false;
+}
+void BrackExpression::reverse()
+{
+  stack<Node*> expressions;
+  if(_subNodes.size() > 0) expressions.push(_subNodes[0]);
+  if(_subNodes.size() > 1) ((BrackExpression*)_subNodes[1])->recReverse(expressions);
+  if(_subNodes.size() > 0) 
+  {
+    _subNodes[0] = expressions.top();
+    expressions.pop();
+  }
+  if(_subNodes.size() > 1) ((BrackExpression*)_subNodes[1])->recAdd(expressions);
 }
 
-BrackExpression::BrackExpression(Node* expression):Node("", "BrackExpression")
+void BrackExpression::recReverse(stack<Node*> & expressions)
 {
-  _subNodes.push_back(expression);
-  _array = true;
+  expressions.push(_subNodes[0]);
+  if(_subNodes.size() > 1) ((BrackExpression*)_subNodes[1])->recReverse(expressions);
+}
+void BrackExpression::recAdd(stack<Node*> & expressions)
+{
+  _subNodes[0] = expressions.top();
+  expressions.pop();
+  if(_subNodes.size() > 1) ((BrackExpression*)_subNodes[1])->recAdd(expressions);
 }
 void BrackExpression::print(ostream* out)
 {
-  if(_array) *out << "<BracketedExpression> --> <BracketedExpression>[]";
-  else *out << "<BracketedExpression> --> [Expression] ";
-  if(_subNodes.size() > 1) *out << "<BracketedExpression>";
+  *out << "<BracketedExpression> --> ";
+  if(_subNodes.size() > 1) *out << "<Expression> [<BracketedExpression>]";
+  else *out << "<Expression>";
   *out << endl;
   for(unsigned int i = 0; i < _subNodes.size(); i++)
   {
@@ -219,15 +236,35 @@ void BrackExpression::print(ostream* out)
 }
 /******************************************************************************/
 
-ArgList::ArgList(Node* expression1, Node* expression2)
+OptBracket::OptBracket(Node* expression):Node("", "OptBracket")
+{
+  if(expression != 0 )_subNodes.push_back(expression);
+}
+void OptBracket::print(ostream* out)
+{
+  *out << "<ArrayBrackets> --> ";
+  if(_subNodes.size() > 0) *out << "<ArrayBrackets>[]";
+  else *out << "[]";
+  *out << endl;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
+}
+/******************************************************************************/
+
+
+ArgList::ArgList(Node* expression1, Node* expression2):Node("", "ArgList")
 {
   _subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
+bool ArgList::getEmpty() const {return _empty;}
+
 void ArgList::print(ostream* out)
 {
-  *out << "<ArgList> --> Expression";
-  if(_subNodes.size() > 1) *out << " Expression";
+  *out << "<ArgList> --> <Expression>";
+  if(_subNodes.size() > 1) *out << " <ArgList>";
   *out << endl;
   for(unsigned int i = 0; i < _subNodes.size(); i++)
   {
@@ -236,47 +273,44 @@ void ArgList::print(ostream* out)
 }
 /******************************************************************************/
 
-NewExpression::NewExpression(Node* simpletype, Node* arglist):Node("", "NewExpression")
+NewExpression::NewExpression(string simpletype, Node* arglist):Node(simpletype, "NewExpression")
 {
-  _subNodes.push_back(simpletype);
+  //   _subNodes.push_back(simpletype);
+  
   if (arglist!=0 ) _subNodes.push_back(arglist);
 }
-NewExpression::NewExpression(Node* simpletype, Node* type2, Node* brackexp):Node("", "NewExpression")
+NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp):Node(simpletype, "NewExpression")
 {
-  _subNodes.push_back(simpletype);
+//   _subNodes.push_back(simpletype);
   if (type2!=0 ) _subNodes.push_back(type2);
   if(brackexp != 0) _subNodes.push_back(brackexp);
 }
+
 void NewExpression::print(ostream* out)
 {
-  *out << "<NewExpression> --> new <SimpleType> ";
-  if(_subNodes.size() > 1 ) 
+  *out << "<NewExpression> --> new " << _value << " ";
+  if(_subNodes.size() > 0 ) 
   {  
-    if(_subNodes[1]->getType() == "BrackExpression") 
+    if(_subNodes[0]->getType() == "BrackExpression") 
     {
-      *out << "<BracketedExpression>";
-      if(_subNodes.size() == 3 )*out << "<ArrayBrackets>";
+      *out << "[<BracketedExpression>]";
     }
+    else if(_subNodes[0]->getType() == "ArgList")
+    {
+      *out << "<ArgList>";
+    }
+    if(_subNodes[0]->getType() == "OptBracket") *out << " <ArrayBrackets>";
   }
-  else *out << " ()";
+  if(_subNodes.size() == 2 )*out << " <ArrayBrackets>";
   *out << endl;
+  //   *out << _subNodes[0]->getType() << "that";
   for(unsigned int i = 0; i < _subNodes.size(); i++)
   {
     _subNodes[i]->print(out);
-  
+    
   }
 }
 
-
-/******************************************************************************/
-
-Identifier::Identifier(string value = ""): Node(value)
-{}
-
-void Identifier::print(ostream *out)
-{
-  *out << _value << endl;
-}
 
 /******************************************************************************/
 
@@ -285,10 +319,29 @@ VarDec::VarDec(Node* type, string id):Node(id)
   _subNodes.push_back(type);
 }
 
+VarDec::VarDec(string type, string id, Node* bracks):Node(id)
+{
+  _type = type;
+  _subNodes.push_back(bracks);
+}
+
+VarDec::VarDec(string type, string id): Node(id)
+{
+  _type = type;
+}
+
 void VarDec::print(ostream* out)
 {
-  *out << "<Variable Declaration> --> <type> " << _value << ";" << endl;
-  _subNodes[0]->print(out);
+  *out << "<Variable Declaration> --> ";
+  if(_subNodes.size() > 0) 
+  {
+    *out << "<type> " << _value << ";"<< endl;
+    _subNodes[0]->print(out);
+  }
+  else
+  {
+    *out << _type << " " << _value << ";";
+  }
 }
 
 /******************************************************************************/
@@ -300,6 +353,10 @@ Type::Type(Node* simpletype, bool array):Node("")
   _subNodes.push_back(simpletype);
 }
 
+Type::Type():Node("")
+{
+  _array = true;
+}
 
 string Type::getVal(void) const
 {
@@ -316,9 +373,9 @@ void Type::print(ostream* out)
 {
   *out << "<Type> --> ";
   if(_array) *out << "<Type>[]";
-  else *out << "<SimpleType>";
+//   else *out << "<SimpleType>";
   *out << endl;
-  _subNodes[0]->print(out);
+  if(_subNodes.size() > 0) _subNodes[0]->print(out);
 }
 
 
