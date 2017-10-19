@@ -184,53 +184,53 @@ exp: IDENTIFIER IDENTIFIER SEMICO {
 ;
        
 expression: NUM { 
-                $$ = new Expression($1->value);
+                $$ = new Expression($1->value, EXPNUM);
                 delete $1;
 }
             | NULLKEYWORD { 
-                $$ = new Expression("null"); 
+                $$ = new Expression("null", EXPNULL); 
                 delete $1;
             }
             | READ LPAREN RPAREN { 
-                $$ = new Expression("read"); 
+                $$ = new Expression("read", EXPREAD); 
                 delete $1;
                 delete $2;
                 delete $3;
             }
             | READ LPAREN error  {
-                      $$ = new Expression("read"); 
+/*                       $$ = new Expression("read");  */
                       yyerror("Expected Right Parenthesis");
                       yyerrok;
                       delete $1;
                       delete $2;
                      }
-            | unaryop expression %prec NEG { $$ = new Expression($1, $2);}
+            | unaryop expression %prec NEG { $$ = new Expression($1, $2, EXPUNARY);}
             | expression relationop expression %prec RE{ 
-                    $$ = new Expression($1, $2, $3); }
+                    $$ = new Expression($1, $2, $3, EXPRELATION); }
             | expression productop expression %prec PRO{
-                    $$ = new Expression($1, $2, $3); }
+                    $$ = new Expression($1, $2, $3, EXPPRODUCT); }
             | expression sumop expression %prec BIN {
-                    $$ = new Expression($1, $2, $3); }
+                    $$ = new Expression($1, $2, $3, EXPSUMOP); }
             | LPAREN expression RPAREN { 
-                  $$ = new Expression($2);
+                  $$ = new Expression($2, EXPPAREN);
                   delete $1;
                   delete $3;
             }
             | LPAREN expression error { 
-                    $$ = new Expression($2);
+/*                     $$ = new Expression($2); */
                     yyerror("Expected Right Parenthesis");
                     yyerrok;
                     delete $1;
             }
-            | newexpression { $$ = new Expression($1);}
-            | name %prec NAME{$$ = new Expression($1);}
+            | newexpression { $$ = new Expression($1, EXPNEW);}
+            | name %prec NAME{$$ = new Expression($1, EXPNAME);}
             | name LPAREN arglist RPAREN {
-                  $$ = new Expression($1, $3);
+                  $$ = new Expression($1, $3, EXPNAMEARG);
                   delete $2;
                   delete $4;
             }
             | name LPAREN arglist error {
-                    $$ = new Expression($1, $3);
+/*                     $$ = new Expression($1, $3); */
                     yyerror("Expected Right Parenthesis");
                     yyerrok;
                     delete $2;

@@ -10,9 +10,9 @@
 #include<iostream>
 using namespace std;
 #include"Node.h"
+#include<cstdlib>
 
-
-Node::Node(string value = "", string type = ""):_value(value), _type(type)
+Node::Node(string value = "", string type = "", int kind = 0):_value(value), _type(type), _kind(kind)
 {}
 Node::~Node()
 {
@@ -20,12 +20,6 @@ Node::~Node()
   {
     delete _subNodes[i];
   }
-}
-Node* Node::getChild(unsigned int index) const
-{
-  if((index < (_subNodes.size())) && (index >= 0)) return _subNodes[index];
-  else cerr << "Node:: Invalid index" << endl;
-  return 0;
 }
 
 string Node::getType(void) const
@@ -39,16 +33,9 @@ string Node::getVal(void) const {return _value;}
 
 UnaryOp::UnaryOp(string value):Node(value, "UnaryOp")
 {}
-UnaryOp::~UnaryOp()
-{}
 void UnaryOp::print(ostream* out)
 {
   *out << "<UnaryOp> --> " << _value << endl;
-}
-Node* UnaryOp::getChild(unsigned int index) const
-{
-  cerr << "tried to get child on a UnaryOp!" << endl;
-  return 0;
 }
 
 
@@ -56,54 +43,31 @@ Node* UnaryOp::getChild(unsigned int index) const
 
 RelationOp::RelationOp(string value):Node(value, "RelationOp")
 {}
-RelationOp::~RelationOp()
-{}
 void RelationOp::print(ostream* out)
 {
   *out << "<RelationOp> --> " << _value << endl;
-}
-Node* RelationOp::getChild(unsigned int index) const
-{
-  cerr << "tried to get child on a RelationOp!" << endl;
-  return 0;
 }
 
 /******************************************************************************/
 
 ProductOp::ProductOp(string value):Node(value, "ProductOp")
 {}
-ProductOp::~ProductOp()
-{}
 void ProductOp::print(ostream* out)
 {
   *out << "<ProductOp> --> " << _value << endl;
-}
-Node* ProductOp::getChild(unsigned int index) const
-{
-  cerr << "tried to get child on a ProductOp!" << endl;
-  return 0;
 }
 
 /******************************************************************************/
 
 SumOp::SumOp(string value):Node(value, "SumOp")
 {}
-SumOp::~SumOp()
-{}
 void SumOp::print(ostream* out)
 {
   *out << "<SumOp> --> " << _value << endl;
 }
-Node* SumOp::getChild(unsigned int index) const
-{
-  cerr << "tried to get child on a SumOp!" << endl;
-  return 0;
-}
 
 /******************************************************************************/
 Name::Name(string value):Node(value, "Name")
-{}
-Name::~Name()
 {}
 Name::Name(Node* name, string value):Node(value, "Name")
 {
@@ -137,76 +101,127 @@ void Name::print(ostream* out)
 }
 /******************************************************************************/
 
-Expression::Expression(Node* next):Node("", "Expression")
+Expression::Expression(Node* next, int kind):Node("", "Expression", kind)
 {
   _subNodes.push_back(next);
-  /*Could be a name, newexpression, expression*/
-  if(_subNodes[0]->getType() == "Name") _kind = NAMEEX;
-  
-  else if(_subNodes[0]->getType() == "NewExpression") _kind = NEWEX;
-  
-  else _kind = EXPRESSN;
 }
 
-Expression::Expression(string value):Node(value, "Expression"), _kind(PLAIN)
+Expression::Expression(string value, int kind):Node(value, "Expression", kind)
 {}
 
-Expression::Expression(Node* unaryop, Node* expression):Node("", "Expression")
+Expression::Expression(Node* unaryop, Node* expression, int kind):Node("", "Expression", kind)
 {
-  /*Could be unaryop exp, name arglist*/
   _subNodes.push_back(unaryop);
   if(expression != 0 ) _subNodes.push_back(expression);
-  if(_subNodes[0]->getType() == "UnaryOp") _kind = UNARYEX;
-  else _kind = NAMEARG;
 }
 
-Expression::Expression(Node* expression1, Node* op, Node* expression2)
-:Node("", "Expression")
+Expression::Expression(Node* expression1, Node* op, Node* expression2, int kind)
+:Node("", "Expression", kind)
 {
-  /*Could be a relationop, sumop, productop*/
     _subNodes.push_back(expression1);
     _subNodes.push_back(op);
     _subNodes.push_back(expression2);
-    if(_subNodes[1]->getType() == "RelationOp") _kind = RELEX;
-    else if(_subNodes[1]->getType() == "SumOp") _kind = SUMEX;
-    else _kind = PRODEX;
+
 }
-Expression::~Expression()
-{}
 void Expression::print(ostream* out)
 {
   *out << "<Expression> --> ";
-  switch(_subNodes.size())
+  switch(_kind)
   {
-      case 1:
-      {
-        if(_kind == EXPRESSN) *out << "(<Expression>)" << endl;
-        else if (_kind == NEWEX ) *out << "<NewExpression>" << endl;
-        else *out << "<Name>" << endl;
-        _subNodes[0]->print(out);
-        
-        break;
-      }
-      case 2:
-      {
-        if(_kind == UNARYEX) *out << "<UnaryOp> <Expression>" << endl;
-        else *out << "<Name> (<ArgList>)" << endl;
-        _subNodes[0]->print(out);
-        _subNodes[1]->print(out);
-        break;
-      }
-      case 3:
-      {
-        *out << "<Expression> <" << _subNodes[1]->getType() << 
-        "> <Expression>" << endl;
-        _subNodes[0]->print(out);
-        _subNodes[1]->print(out);
-        _subNodes[2]->print(out);
-        break;
-      }
-      default:
-        *out << _value << endl;
+    case EXPNUM:
+    {
+      *out << _value;
+      break;
+    }
+    case EXPNULL:
+    {
+      *out << _value;
+      break;
+    }
+    case EXPREAD:
+    {
+      *out << _value;
+      break;
+    }
+    case EXPUNARY:
+    {
+      *out << "<UnaryOp> <Expression>";
+      break;
+    }
+    case EXPRELATION:
+    {
+      *out << "<Expression> <RelationOp> <Expression>";
+      break;
+    }
+    case EXPPRODUCT:
+    {
+      *out << "<Expression> <ProductOp> <Expression>";
+      break;
+    }
+    case EXPSUMOP:
+    {
+      *out << "<Expression <SumOp> <Expression>";
+      break;
+    }
+    case EXPPAREN:
+    {
+      *out << "(<Expression>)";
+      break;
+    }
+    case EXPNEW:
+    {
+      *out << "<NewExpression>";
+      break;
+    }
+    case EXPNAME:
+    {
+      *out << "<Name>";
+      break;
+    }
+    case EXPNAMEARG:
+    {
+      *out << "<Name>(<ArgList>)";
+      break;
+    }
+    default:
+      cerr << "FATAL ERROR!!" << endl;
+      exit(1);
   }
+  *out << endl;
+    for(unsigned int i = 0; i < _subNodes.size(); i++)
+    {
+      _subNodes[i]->print(out);
+    }
+    
+//       case 1:
+//       {
+//         if(_kind == EXPRESSN) *out << "(<Expression>)" << endl;
+//         else if (_kind == NEWEX ) *out << "<NewExpression>" << endl;
+//         else *out << "<Name>" << endl;
+//         _subNodes[0]->print(out);
+//         
+//         break;
+//       }
+//       case 2:
+//       {
+//         if(_kind == UNARYEX) *out << "<UnaryOp> <Expression>" << endl;
+//         else *out << "<Name> (<ArgList>)" << endl;
+//         _subNodes[0]->print(out);
+//         _subNodes[1]->print(out);
+//         break;
+//       }
+//       case 3:
+//       {
+//         *out << "<Expression> <" << _subNodes[1]->getType() << 
+//         "> <Expression>" << endl;
+//         _subNodes[0]->print(out);
+//         _subNodes[1]->print(out);
+//         _subNodes[2]->print(out);
+//         break;
+//       }
+//       default:
+//         *out << _value << endl;
+  
 }
 
 /******************************************************************************/
@@ -216,8 +231,6 @@ BrackExpression::BrackExpression(Node* expression1, Node* expression2):Node("", 
   if(expression1 != 0)_subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
-BrackExpression::~BrackExpression()
-{}
 void BrackExpression::reverse()
 {
   stack<Node*> expressions;
@@ -259,8 +272,6 @@ OptBracket::OptBracket(Node* expression):Node("", "OptBracket")
 {
   if(expression != 0 )_subNodes.push_back(expression);
 }
-OptBracket::~OptBracket()
-{}
 void OptBracket::print(ostream* out)
 {
   *out << "<ArrayBrackets> --> ";
@@ -280,8 +291,6 @@ ArgList::ArgList(Node* expression1, Node* expression2):Node("", "ArgList")
   _subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
-ArgList::~ArgList()
-{}
 bool ArgList::getEmpty() const {return _empty;}
 
 void ArgList::print(ostream* out)
@@ -308,8 +317,6 @@ NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp):Nod
   if (type2!=0 ) _subNodes.push_back(type2);
   if(brackexp != 0) _subNodes.push_back(brackexp);
 }
-NewExpression::~NewExpression()
-{}
 void NewExpression::print(ostream* out)
 {
   *out << "<NewExpression> --> new " << _value << " ";
@@ -353,8 +360,6 @@ VarDec::VarDec(string type, string id): Node(id)
 {
   _type = type;
 }
-VarDec::~VarDec()
-{}
 void VarDec::print(ostream* out)
 {
   *out << "<Variable Declaration> --> ";
@@ -382,8 +387,6 @@ Type::Type():Node("")
 {
   _array = true;
 }
-Type::~Type()
-{}
 string Type::getVal(void) const
 {
   cerr << "no _value on Type" << endl;
@@ -404,23 +407,15 @@ void Type::print(ostream* out)
   if(_subNodes.size() > 0) _subNodes[0]->print(out);
 }
 
-
 /******************************************************************************/
 
 
 SimpleType::SimpleType(string value):Node(value)
-{}
-SimpleType::~SimpleType()
 {}
 void SimpleType::print(ostream* out)
 {
   *out << "<SimpleType> --> " << _value << endl;
 }
 
-Node* SimpleType::getChild(unsigned int index) const
-{
-  cerr << "tried to get child on a SimpleType!" << endl;
-  return 0;
-}
 
 /******************************************************************************/
