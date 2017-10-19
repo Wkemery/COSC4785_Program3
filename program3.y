@@ -125,7 +125,7 @@ void yyerror(const char *);
 %type<ttype> sumop
 %type<ttype> arglist
 %type<ttype> optExprBrack
-%type<ttype>optBrack
+/*%type<ttype>optBrack*/
 
 %type<ttype> newexpression
 
@@ -283,11 +283,17 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
                       delete $1;
                       delete $3;
               }
-              | NEW IDENTIFIER optExprBrack optBrack {
-                    if($3 != 0) ((BrackExpression*)$3)->reverse();
-                    $$=  new NewExpression($2->value, $3, $4);
-                    delete $2;
-                    delete $1;
+              | NEW IDENTIFIER optExprBrack {
+                if($3 != 0) ((BrackExpression*)$3)->reverse();
+                $$ = new NewExpression($2->value, $3, 0);
+                delete $2;
+                delete $1;
+              }
+              | NEW IDENTIFIER optExprBrack multibracks {
+                if($3 != 0) ((BrackExpression*)$3)->reverse();
+                $$ = new NewExpression($2->value, $3, $4);
+                delete $2;
+                delete $1;
               }
               | NEW simpletype LPAREN arglist RPAREN {
                     $$ = new NewExpression("int", $4);
@@ -302,12 +308,17 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
                       delete $1;
                       delete $3;
               }
-              | NEW simpletype optExprBrack optBrack {
+              | NEW simpletype optExprBrack {
                     if($3 != 0) ((BrackExpression*)$3)->reverse();
-                    $$=  new NewExpression("int", $3, $4);
+                    $$=  new NewExpression("int", $3, 0);
                     delete $1;
               }
-              | NEW error{yyerror("Expected something after new declaration"); yyerrok;}
+              | NEW simpletype optExprBrack multibracks {
+                if($3 != 0) ((BrackExpression*)$3)->reverse();
+                $$=  new NewExpression("int", $3, $4);
+                delete $1;
+              }
+             | NEW error{yyerror("Expected something after new declaration"); yyerrok;}
                   
 ;
 optExprBrack: %empty %prec OPTEXP{$$ = 0;}
@@ -322,13 +333,13 @@ optExprBrack: %empty %prec OPTEXP{$$ = 0;}
               }*/
 
 ;
-optBrack:%empty %prec OPTEXP {$$ = 0;}
+/*optBrack:%empty %prec OPTEXP {$$ = 0;}
         | LBRACK RBRACK optBrack {
           $$ = new OptBracket($3);
           delete $1;
           delete $2;
         }
-;
+;*/
 
 arglist: %empty {$$ = 0;}
           | expression COMMA arglist { 
