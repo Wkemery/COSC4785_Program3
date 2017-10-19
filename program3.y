@@ -238,31 +238,31 @@ expression: NUM {
             
 ;
 name: THIS { 
-            $$ = new Name("this"); 
+            $$ = new Name("this", NAMETHIS); 
             delete $1;
 }
       | IDENTIFIER %prec NAME { 
-            $$ = new Name($1->value);
+            $$ = new Name($1->value, NAMEID);
             delete $1;
       }
       | name DOTOP IDENTIFIER { 
-            $$ = new Name($1, $3->value); 
+            $$ = new Name($1, $3->value, NAMEDOTID); 
             delete $3;
             delete $2;
       }
       | name LBRACK expression RBRACK { 
-            $$ = new Name($1, $3); cerr << "here";
+            $$ = new Name($1, $3, NAMEEXP);
             delete $2;
             delete $4;
       }
       | IDENTIFIER LBRACK expression RBRACK{
-        $$ = new Name($3, $1->value); cerr << "here";
+        $$ = new Name($3, $1->value, NAMEIDEXP);
         delete $2;
         delete $4;
       }
       | name LBRACK expression error { 
-            $$ = new Name($1, $3); cerr << "here";
-            yyerror("Expected Right Bracket");
+/*             $$ = new Name($1, $3); cerr << "here"; */
+/*             yyerror("Expected Right Bracket"); */
             yyerrok;
             delete $1;
       }
@@ -371,8 +371,8 @@ sumop:  MINUS {$$ = new SumOp("-"); delete $1;}
 | DOUBBAR {$$ = new SumOp("||"); delete $1;}
 ;
 
-multibracks: LBRACK RBRACK {$$ = new Type(); delete $1;}
-| multibracks LBRACK RBRACK {$$ = new Type($1, true); delete $2;}
+multibracks: LBRACK RBRACK {$$ = new Multibracks(); delete $1;}
+| multibracks LBRACK RBRACK {$$ = new Multibracks($1); delete $2;}
 ;
 /*type: simpletype  { $$ = new Type($1, false); }
       | type LBRACK RBRACK  {$$ = new Type($1, true); }

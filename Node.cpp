@@ -27,7 +27,6 @@ string Node::getType(void) const
   return _type;
 }
 
-string Node::getVal(void) const {return _value;}
 
 /******************************************************************************/
 
@@ -67,14 +66,14 @@ void SumOp::print(ostream* out)
 }
 
 /******************************************************************************/
-Name::Name(string value):Node(value, "Name")
+Name::Name(string value, int kind):Node(value, "Name", kind)
 {}
-Name::Name(Node* name, string value):Node(value, "Name")
+Name::Name(Node* name, string value, int kind):Node(value, "Name", kind)
 {
   _subNodes.push_back(name);
 }
 
-Name::Name(Node* name, Node* expression):Node("", "Name")
+Name::Name(Node* name, Node* expression, int kind):Node("", "Name", kind)
 {
   _subNodes.push_back(name);
   _subNodes.push_back(expression);
@@ -83,21 +82,45 @@ Name::Name(Node* name, Node* expression):Node("", "Name")
 void Name::print(ostream* out)
 {
   *out << "<Name> --> ";
-  switch(_subNodes.size())
+  switch(_kind)
   {  
-    case 1:
-      *out << "<Name>." << _value << endl;
-      _subNodes[0]->print(out);
+    case NAMETHIS:
+    {
+      *out << _value;
       break;
-    case 2:
-      *out << "Name[<Expression>]" << endl;
-      _subNodes[0]->print(out);
-      _subNodes[1]->print(out);
+    }
+    case NAMEID:
+    {
+      *out << _value;
       break;
+    }
+    case NAMEDOTID:
+    {
+      *out << "<Name>." << _value;
+      break;
+    }
+    case NAMEEXP:
+    {
+      *out << "<Name> [<Expression>]";
+      break;
+    }
+    case NAMEIDEXP:
+    {
+      *out << _value << " [<Expression>]";
+      break;
+    }
     default:
-      *out << _value << endl;
-      
+    {
+      cerr << "FATAL ERROR!! NAME" << endl;
+      exit(1);
+    }
   }
+  *out << endl;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
+  
 }
 /******************************************************************************/
 
@@ -365,7 +388,7 @@ void VarDec::print(ostream* out)
   *out << "<Variable Declaration> --> ";
   if(_subNodes.size() > 0) 
   {
-    *out << "<type> " << _value << ";"<< endl;
+    *out << "<Multibracks> " << _value << ";"<< endl;
     _subNodes[0]->print(out);
   }
   else
@@ -377,32 +400,19 @@ void VarDec::print(ostream* out)
 /******************************************************************************/
 
 
-Type::Type(Node* simpletype, bool array):Node("")
+Multibracks::Multibracks(Node* simpletype):Node("")
 {
-  if(array) _array = true;
   _subNodes.push_back(simpletype);
 }
 
-Type::Type():Node("")
-{
-  _array = true;
-}
-string Type::getVal(void) const
-{
-  cerr << "no _value on Type" << endl;
-  return ""; 
-}
+Multibracks::Multibracks():Node("")
+{}
 
-bool Type::getArray()
+void Multibracks::print(ostream* out)
 {
-  return _array;
-}
-
-void Type::print(ostream* out)
-{
-  *out << "<Type> --> ";
-  if(_array) *out << "<Type>[]";
-//   else *out << "<SimpleType>";
+  *out << "<Multibracks> --> ";
+  if(_subNodes.size() > 0) *out << "<Multibracks>[]";
+  else *out << "[]";
   *out << endl;
   if(_subNodes.size() > 0) _subNodes[0]->print(out);
 }

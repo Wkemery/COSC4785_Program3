@@ -27,6 +27,12 @@ using namespace std;
 #define EXPNAME 1010 /* Expression -> */
 #define EXPNAMEARG 1011 /* Expression -> */
 
+#define NAMETHIS 2001 /* Name -> */
+#define NAMEID 2002 /* Name -> */
+#define NAMEDOTID 2003 /* Name -> */
+#define NAMEEXP 2004 /* Name -> */
+#define NAMEIDEXP 2005 /* Name -> */
+
 class Node
 {
 protected:
@@ -38,7 +44,6 @@ protected:
 public:
   virtual ~Node();
   virtual void print(ostream *out) = 0;
-  virtual string getVal(void) const;
   string getType(void) const;
 };
 
@@ -73,9 +78,9 @@ public:
 class Name : public Node
 {
 public:
-  Name(string value);
-  Name(Node* name, string value);
-  Name(Node* name, Node* expression);
+  Name(string value, int kind);
+  Name(Node* name, string value, int kind);
+  Name(Node* name, Node* expression, int kind);
   void print(ostream* out);
 };
 
@@ -141,15 +146,11 @@ public:
   void print(ostream* out);
 };
 
-class Type: public Node
+class Multibracks: public Node
 {
-private:
-  bool _array;
 public:
-  Type(Node* simpletype, bool array);
-  Type();
-  string getVal(void) const;
-  bool getArray();
+  Multibracks(Node* simpletype);
+  Multibracks();
   void print(ostream* out);
 };
 
