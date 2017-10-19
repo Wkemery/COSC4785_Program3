@@ -108,7 +108,6 @@ void yyerror(const char *);
 %token<token>DOUBAND
 
 %token<token>DOUBBAR
-%token<token>EMPTYBRACKS
 
 %token<token>IDENTIFIER
 %token<token>SEMICO
@@ -116,7 +115,6 @@ void yyerror(const char *);
 
 %type<ttype> expression
 %type<ttype> name
-/* %type<ttype> type */
 %type<ttype> multibracks
 %type<ttype> simpletype
 %type<ttype> unaryop
@@ -131,16 +129,13 @@ void yyerror(const char *);
 %type<ttype> exp
 
 %precedence NAME
-/* %precedence ARGL */
-/* %precedence LBRACE */
 %precedence EXP
 %left DOUBEQ NOTEQ LESSEQ GREATEQ LESS GREAT RE
 %left PLUS MINUS DOUBBAR BIN
 %left TIMES DIVIDE MOD DOUBAND PRO
 %precedence NEG
 %precedence OPTEXP
-/* %precedence LBRACK */
-/* %precedence RBRACK */
+%precedence LBRACK
 %precedence IDENTIFIER
 %precedence LPAREN
 
@@ -260,6 +255,11 @@ name: THIS {
             delete $2;
             delete $4;
       }
+      | IDENTIFIER LBRACK expression RBRACK{
+        $$ = new Name($3, $1->value); cerr << "here";
+        delete $2;
+        delete $4;
+      }
       | name LBRACK expression error { 
             $$ = new Name($1, $3); cerr << "here";
             yyerror("Expected Right Bracket");
@@ -370,8 +370,9 @@ sumop:  MINUS {$$ = new SumOp("-"); delete $1;}
 | PLUS {$$ = new SumOp("+"); delete $1;}
 | DOUBBAR {$$ = new SumOp("||"); delete $1;}
 ;
-multibracks: EMPTYBRACKS {$$ = new Type(); delete $1;}
-| multibracks EMPTYBRACKS {$$ = new Type($1, true); delete $2;}
+
+multibracks: LBRACK RBRACK {$$ = new Type(); delete $1;}
+| multibracks LBRACK RBRACK {$$ = new Type($1, true); delete $2;}
 ;
 /*type: simpletype  { $$ = new Type($1, false); }
       | type LBRACK RBRACK  {$$ = new Type($1, true); }
