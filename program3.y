@@ -171,16 +171,18 @@ exp: IDENTIFIER IDENTIFIER SEMICO {
       | expression %prec EXP { $$ = $1; }
 
       | IDENTIFIER IDENTIFIER error {
-                                  $$ = new VarDec($1->value, $2->value);
+/*                                   $$ = new VarDec($1->value, $2->value) */
+                                  yyerror("Expected Semicolon");
+                                  yyerrok;
                                   delete $1;
                                   delete $2;
-                                  yyerror("Expected Semicolon");
-                                  yyerrok;}
+}
       | simpletype IDENTIFIER error {
-                                $$ = new VarDec("int", $2->value);
-                                delete $2;
+/*                                 $$ = new VarDec("int", $2->value); */
                                 yyerror("Expected Semicolon");
-                                yyerrok; }
+                                yyerrok;
+                                delete $2;
+ }
 ;
        
 expression: NUM { 
