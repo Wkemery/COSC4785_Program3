@@ -46,10 +46,12 @@ protected:
   const string _value;
   const string _type;
   const int _kind;
+  bool _err;
   Node(string value, string type, int kind);
 public:
   virtual ~Node();
   virtual void print(ostream *out) = 0;
+  void setErr();
   string getType(void) const;
 };
 

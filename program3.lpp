@@ -24,10 +24,7 @@
   
 void yyerror(const char *string)
 {
-  if(strcmp(string, "syntax error") == 0 ) return;
-
-  cerr << string << " At "<< yylval.token->line << ":" << yylval.token->column <<endl;
-
+  cerr << string << " " << yylval.token->value << endl;
   return;
 }
 %}
@@ -374,7 +371,7 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 {WORD} {
   //identifier
   yylval.token = new Lexeme;
-  setToken(yytext, 0, 0);
+  setToken(yytext, yylineno, column);
   column+= yyleng;
   return IDENTIFIER; 
 }

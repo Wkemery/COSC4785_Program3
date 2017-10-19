@@ -21,7 +21,7 @@ Node::~Node()
     delete _subNodes[i];
   }
 }
-
+void Node::setErr() {_err = true;}
 string Node::getType(void) const
 {
   return _type;
