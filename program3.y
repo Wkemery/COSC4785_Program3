@@ -125,7 +125,6 @@ void yyerror(const char *);
 %type<ttype> sumop
 %type<ttype> arglist
 %type<ttype> optExprBrack
-/*%type<ttype>optBrack*/
 
 %type<ttype> newexpression
 
