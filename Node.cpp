@@ -215,36 +215,6 @@ void Expression::print(ostream* out)
     {
       _subNodes[i]->print(out);
     }
-    
-//       case 1:
-//       {
-//         if(_kind == EXPRESSN) *out << "(<Expression>)" << endl;
-//         else if (_kind == NEWEX ) *out << "<NewExpression>" << endl;
-//         else *out << "<Name>" << endl;
-//         _subNodes[0]->print(out);
-//         
-//         break;
-//       }
-//       case 2:
-//       {
-//         if(_kind == UNARYEX) *out << "<UnaryOp> <Expression>" << endl;
-//         else *out << "<Name> (<ArgList>)" << endl;
-//         _subNodes[0]->print(out);
-//         _subNodes[1]->print(out);
-//         break;
-//       }
-//       case 3:
-//       {
-//         *out << "<Expression> <" << _subNodes[1]->getType() << 
-//         "> <Expression>" << endl;
-//         _subNodes[0]->print(out);
-//         _subNodes[1]->print(out);
-//         _subNodes[2]->print(out);
-//         break;
-//       }
-//       default:
-//         *out << _value << endl;
-  
 }
 
 /******************************************************************************/
@@ -328,36 +298,53 @@ void ArgList::print(ostream* out)
 }
 /******************************************************************************/
 
-NewExpression::NewExpression(string simpletype, Node* arglist):Node(simpletype, "NewExpression")
+NewExpression::NewExpression(string simpletype, Node* arglist, int kind):Node(simpletype, "NewExpression", kind)
 {
-  //   _subNodes.push_back(simpletype);
-  
   if (arglist!=0 ) _subNodes.push_back(arglist);
 }
-NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp):Node(simpletype, "NewExpression")
+NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp, int kind)
+:Node(simpletype, "NewExpression", kind)
 {
-//   _subNodes.push_back(simpletype);
   if (type2!=0 ) _subNodes.push_back(type2);
   if(brackexp != 0) _subNodes.push_back(brackexp);
 }
 void NewExpression::print(ostream* out)
 {
   *out << "<NewExpression> --> new " << _value << " ";
-  if(_subNodes.size() > 0 ) 
-  {  
-    if(_subNodes[0]->getType() == "BrackExpression") 
+  
+  switch(_kind)
+  {
+    case NEWEXPARG:
     {
-      *out << "[<BracketedExpression>]";
+      *out << "(<ArgList>)";
+      break;
     }
-    else if(_subNodes[0]->getType() == "ArgList")
+    case NEWEXPBRACK:
     {
-      *out << "<ArgList>";
+      *out << "<[Expression]>";
+      break;
     }
-    if(_subNodes[0]->getType() == "OptBracket") *out << " <ArrayBrackets>";
+    case NEWEXPBRACKMULTI:
+    {
+      *out << "[<BracketedExpression>] <Multibracks>";
+      break;
+    }
+    case NEWEXPMULTI:
+    {
+      *out << "<Multibracks>";
+      break;
+    }
+    case NEWEXP:
+    {
+      break;
+    }
+    default:
+    {
+      cerr << "FATAL ERROR!!! NewExpression" << endl;
+      exit(1);
+    }
   }
-  if(_subNodes.size() == 2 )*out << " <ArrayBrackets>";
   *out << endl;
-  //   *out << _subNodes[0]->getType() << "that";
   for(unsigned int i = 0; i < _subNodes.size(); i++)
   {
     _subNodes[i]->print(out);
@@ -412,7 +399,7 @@ void Multibracks::print(ostream* out)
 {
   *out << "<Multibracks> --> ";
   if(_subNodes.size() > 0) *out << "<Multibracks>[]";
-  else *out << "[]";
+  else *out << " []";
   *out << endl;
   if(_subNodes.size() > 0) _subNodes[0]->print(out);
 }

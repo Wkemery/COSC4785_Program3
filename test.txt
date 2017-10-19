@@ -29,10 +29,5 @@ this.name(2+2,2+4)
 
 name[2+2].thing(2+2)
 
-"\[\]" {
-  //Empty Brackets
-  yylval.token = new Lexeme;
-  setToken(NULL, yylineno, column);
-  column+=2;
-  return EMPTYBRACKS; 
-}
+this.val[g].something.more
+

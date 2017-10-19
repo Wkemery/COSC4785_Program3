@@ -268,7 +268,7 @@ name: THIS {
       }
 ;
 newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
-                    $$ = new NewExpression($2->value, $4);
+                    $$ = new NewExpression($2->value, $4, NEWEXPARG);
                     delete $2;
                     delete $1;
                     delete $3;
@@ -277,31 +277,33 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
               | NEW IDENTIFIER LPAREN arglist error {
                       yyerror("Expected Right Parenthesis");
                       yyerrok;
-                      $$ = new NewExpression($2->value, $4);
+/*                       $$ = new NewExpression($2->value, $4); */
                       delete $2;
                       delete $1;
                       delete $3;
               }
               | NEW IDENTIFIER optExprBrack {
                 if($3 != 0) ((BrackExpression*)$3)->reverse();
-                $$ = new NewExpression($2->value, $3, 0);
+                if($3 == 0) $$ = new NewExpression($2->value, $3, 0, NEWEXP);
+                else $$ = new NewExpression($2->value, $3, 0, NEWEXPBRACK);
                 delete $2;
                 delete $1;
               }
               | NEW IDENTIFIER optExprBrack multibracks {
                 if($3 != 0) ((BrackExpression*)$3)->reverse();
-                $$ = new NewExpression($2->value, $3, $4);
+                if($3 == 0) $$ = new NewExpression($2->value, $3, $4, NEWEXPMULTI);
+                else $$ = new NewExpression($2->value, $3, $4, NEWEXPBRACKMULTI);
                 delete $2;
                 delete $1;
               }
               | NEW simpletype LPAREN arglist RPAREN {
-                    $$ = new NewExpression("int", $4);
+                    $$ = new NewExpression("int", $4, NEWEXPARG);
                     delete $1;
                     delete $3;
                     delete $5;
               }
               | NEW simpletype LPAREN arglist error {
-                      $$ = new NewExpression("int", $4);
+/*                       $$ = new NewExpression("int", $4); */
                       yyerror("Expected Right Parenthesis");
                       yyerrok;
                       delete $1;
@@ -309,12 +311,14 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
               }
               | NEW simpletype optExprBrack {
                     if($3 != 0) ((BrackExpression*)$3)->reverse();
-                    $$=  new NewExpression("int", $3, 0);
+                    if($3 == 0) $$ =  new NewExpression("int", $3, 0,NEWEXP);
+                    else $$=  new NewExpression("int", $3, 0,NEWEXPBRACK);
                     delete $1;
               }
               | NEW simpletype optExprBrack multibracks {
                 if($3 != 0) ((BrackExpression*)$3)->reverse();
-                $$=  new NewExpression("int", $3, $4);
+                if($3 == 0) $$=  new NewExpression("int", $3, $4, NEWEXPMULTI);
+                else $$ =  new NewExpression("int", $3, $4, NEWEXPBRACKMULTI);
                 delete $1;
               }
              | NEW error{yyerror("Expected something after new declaration"); yyerrok;}

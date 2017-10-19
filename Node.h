@@ -33,6 +33,12 @@ using namespace std;
 #define NAMEEXP 2004 /* Name -> */
 #define NAMEIDEXP 2005 /* Name -> */
 
+#define NEWEXPARG 3001 /* NewExpression -> */
+#define NEWEXPBRACK 3002 /* NewExpression -> */
+#define NEWEXPBRACKMULTI 3003 /* NewExpression -> */
+#define NEWEXPMULTI 3004 /* NewExpression -> */
+#define NEWEXP 3005 /* NewExpression -> */
+
 class Node
 {
 protected:
@@ -128,8 +134,8 @@ public:
 class NewExpression : public Node
 {
 public:
-  NewExpression(string simpletype, Node* arglist);
-  NewExpression(string simpletype, Node* type2 , Node* brackexp);
+  NewExpression(string simpletype, Node* arglist, int kind);
+  NewExpression(string simpletype, Node* type2 , Node* brackexp, int kind);
   void print(ostream* out);
 };
 
