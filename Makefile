@@ -19,7 +19,7 @@ YACCFLAGS=--report=state -W -d -v
 .PHONY: clean tar
 
 program3: program3.cpp program3_lex.cpp program3_bison.c Lexeme.cpp Node.cpp\
-	Lexeme.h
+	Lexeme.h Node.h
 	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.c \
 	Node.cpp -o program3
 

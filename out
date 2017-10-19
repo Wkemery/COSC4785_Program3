@@ -166,15 +166,24 @@
 <Expression> --> 10
 
 <Expression> --> <NewExpression>
-<NewExpression> --> new mytype 
-ArgListthat<ArgList> --> Expression Expression
+<NewExpression> --> new mytype <ArgList>
+<ArgList> --> <Expression> <ArgList>
 <Expression> --> <Expression> <SumOp> <Expression>
 <Expression> --> 2
 <SumOp> --> +
 <Expression> --> 2
-<ArgList> --> Expression
+<ArgList> --> <Expression>
 <Expression> --> <Expression> <RelationOp> <Expression>
 <Expression> --> read
 <RelationOp> --> >=
 <Expression> --> null
+
+<Expression> --> <NewExpression>
+<NewExpression> --> new int [<BracketedExpression>]
+<BracketedExpression> --> <Expression> [<BracketedExpression>]
+<Expression> --> 3
+<BracketedExpression> --> <Expression> [<BracketedExpression>]
+<Expression> --> 4
+<BracketedExpression> --> <Expression>
+<Expression> --> 5
 

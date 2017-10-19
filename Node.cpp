@@ -14,7 +14,13 @@ using namespace std;
 
 Node::Node(string value = "", string type = ""):_value(value), _type(type)
 {}
-
+Node::~Node()
+{
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    delete _subNodes[i];
+  }
+}
 Node* Node::getChild(unsigned int index) const
 {
   if((index < (_subNodes.size())) && (index >= 0)) return _subNodes[index];
@@ -28,9 +34,12 @@ string Node::getType(void) const
 }
 
 string Node::getVal(void) const {return _value;}
+
 /******************************************************************************/
 
 UnaryOp::UnaryOp(string value):Node(value, "UnaryOp")
+{}
+UnaryOp::~UnaryOp()
 {}
 void UnaryOp::print(ostream* out)
 {
@@ -47,6 +56,8 @@ Node* UnaryOp::getChild(unsigned int index) const
 
 RelationOp::RelationOp(string value):Node(value, "RelationOp")
 {}
+RelationOp::~RelationOp()
+{}
 void RelationOp::print(ostream* out)
 {
   *out << "<RelationOp> --> " << _value << endl;
@@ -60,6 +71,8 @@ Node* RelationOp::getChild(unsigned int index) const
 /******************************************************************************/
 
 ProductOp::ProductOp(string value):Node(value, "ProductOp")
+{}
+ProductOp::~ProductOp()
 {}
 void ProductOp::print(ostream* out)
 {
@@ -75,6 +88,8 @@ Node* ProductOp::getChild(unsigned int index) const
 
 SumOp::SumOp(string value):Node(value, "SumOp")
 {}
+SumOp::~SumOp()
+{}
 void SumOp::print(ostream* out)
 {
   *out << "<SumOp> --> " << _value << endl;
@@ -88,7 +103,8 @@ Node* SumOp::getChild(unsigned int index) const
 /******************************************************************************/
 Name::Name(string value):Node(value, "Name")
 {}
-
+Name::~Name()
+{}
 Name::Name(Node* name, string value):Node(value, "Name")
 {
   _subNodes.push_back(name);
@@ -155,7 +171,8 @@ Expression::Expression(Node* expression1, Node* op, Node* expression2)
     else if(_subNodes[1]->getType() == "SumOp") _kind = SUMEX;
     else _kind = PRODEX;
 }
-
+Expression::~Expression()
+{}
 void Expression::print(ostream* out)
 {
   *out << "<Expression> --> ";
@@ -199,6 +216,8 @@ BrackExpression::BrackExpression(Node* expression1, Node* expression2):Node("", 
   if(expression1 != 0)_subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
+BrackExpression::~BrackExpression()
+{}
 void BrackExpression::reverse()
 {
   stack<Node*> expressions;
@@ -240,6 +259,8 @@ OptBracket::OptBracket(Node* expression):Node("", "OptBracket")
 {
   if(expression != 0 )_subNodes.push_back(expression);
 }
+OptBracket::~OptBracket()
+{}
 void OptBracket::print(ostream* out)
 {
   *out << "<ArrayBrackets> --> ";
@@ -259,6 +280,8 @@ ArgList::ArgList(Node* expression1, Node* expression2):Node("", "ArgList")
   _subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
+ArgList::~ArgList()
+{}
 bool ArgList::getEmpty() const {return _empty;}
 
 void ArgList::print(ostream* out)
@@ -285,7 +308,8 @@ NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp):Nod
   if (type2!=0 ) _subNodes.push_back(type2);
   if(brackexp != 0) _subNodes.push_back(brackexp);
 }
-
+NewExpression::~NewExpression()
+{}
 void NewExpression::print(ostream* out)
 {
   *out << "<NewExpression> --> new " << _value << " ";
@@ -329,7 +353,8 @@ VarDec::VarDec(string type, string id): Node(id)
 {
   _type = type;
 }
-
+VarDec::~VarDec()
+{}
 void VarDec::print(ostream* out)
 {
   *out << "<Variable Declaration> --> ";
@@ -357,7 +382,8 @@ Type::Type():Node("")
 {
   _array = true;
 }
-
+Type::~Type()
+{}
 string Type::getVal(void) const
 {
   cerr << "no _value on Type" << endl;
@@ -384,7 +410,8 @@ void Type::print(ostream* out)
 
 SimpleType::SimpleType(string value):Node(value)
 {}
-
+SimpleType::~SimpleType()
+{}
 void SimpleType::print(ostream* out)
 {
   *out << "<SimpleType> --> " << _value << endl;

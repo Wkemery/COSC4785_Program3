@@ -31,6 +31,7 @@ int main()
   {
     forest[i]->print(&cout);
     cout << endl;
+    delete forest[i];
   }
   
   

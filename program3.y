@@ -66,49 +66,52 @@ void yyerror(const char *);
 
 
 %token CLASS 
-%token THIS 
+%token<token>THIS 
 %token IF 
 %token ELSE 
 %token WHILE 
 %token RETURN
-%token PRINT
-%token READ
+%token<token>PRINT
+%token<token>READ
 %token VOID
-%token NEW
-%token NULLKEYWORD
-%token INT 
+%token<token>NEW
+%token<token>NULLKEYWORD
+
+%token<token>INT 
 
 %token ASSIGNOP 
-%token DOTOP 
-%token COMMA 
+%token<token>DOTOP 
 
-%token LPAREN
-%token RPAREN
-%token LBRACK
-%token RBRACK
-%token LBRACE
-%token RBRACE
+%token<token>COMMA 
 
-%token PLUS
-%token MINUS
-%token NOT
+%token<token>LPAREN
+%token<token>RPAREN
+%token<token>LBRACK
+%token<token>RBRACK
+%token<token>LBRACE
+%token<token>RBRACE
 
-%token DOUBEQ
-%token NOTEQ
-%token LESSEQ
-%token GREATEQ
-%token LESS
-%token GREAT
+%token<token>PLUS
+%token<token>MINUS
+%token<token>NOT
 
-%token TIMES
-%token DIVIDE
-%token MOD
-%token DOUBAND
+%token<token>DOUBEQ
+%token<token>NOTEQ
+%token<token>LESSEQ
+%token<token>GREATEQ
+%token<token>LESS
+%token<token>GREAT
 
-%token DOUBBAR
+%token<token>TIMES
+%token<token>DIVIDE
+%token<token>MOD
+%token<token>DOUBAND
+
+%token<token>DOUBBAR
+%token<token>EMPTYBRACKS
 
 %token<token>IDENTIFIER
-%token SEMICO
+%token<token>SEMICO
 %token<token>NUM
 
 %type<ttype> expression
@@ -137,7 +140,7 @@ void yyerror(const char *);
 %left TIMES DIVIDE MOD DOUBAND PRO
 %precedence NEG
 %precedence OPTEXP
-%precedence LBRACK
+/* %precedence LBRACK */
 /* %precedence RBRACK */
 %precedence IDENTIFIER
 %precedence LPAREN
@@ -147,35 +150,65 @@ void yyerror(const char *);
 %% 
 input:  %empty
         | input exp { forest.push_back($2); }
-       /* | error {yyerror("Error at end of Input");
-                      yyclearin;
-                      yyerrok;}*/
+        /*error{yyerror("Language Error"); yyerrok;}*/
 ;
 
-exp:  /*type IDENTIFIER SEMICO  {
-                                  $$ = new VarDec($1, $2->value);
-                                  delete $2;
-                                }*/
-      IDENTIFIER IDENTIFIER SEMICO {$$ = new VarDec($1->value, $2->value);}
-      | IDENTIFIER multibracks IDENTIFIER SEMICO {$$ = new VarDec($1->value, $3->value, $2);}
-      | simpletype IDENTIFIER SEMICO {$$ = new VarDec("int", $2->value);}
-      | simpletype multibracks IDENTIFIER SEMICO {$$ = new VarDec("int", $3->value, $2);}
+exp: IDENTIFIER IDENTIFIER SEMICO {
+            $$ = new VarDec($1->value, $2->value);
+            delete $1;
+            delete $2;
+            delete $3;
+}
+      | IDENTIFIER multibracks IDENTIFIER SEMICO {$$ = new VarDec($1->value, $3->value, $2);
+            delete $1;
+            delete $3;
+            delete $4;
+      }
+      | simpletype IDENTIFIER SEMICO {
+            $$ = new VarDec("int", $2->value);
+            delete $2;
+            delete $3;
+      }
+      | simpletype multibracks IDENTIFIER SEMICO {
+            $$ = new VarDec("int", $3->value, $2);
+            delete $3;
+            delete $4;
+      }
       | expression %prec EXP { $$ = $1; }
 
       | IDENTIFIER IDENTIFIER error {
                                   $$ = new VarDec($1->value, $2->value);
+                                  delete $1;
                                   delete $2;
                                   yyerror("Expected Semicolon");
                                   yyerrok;}
+      | simpletype IDENTIFIER error {
+                                $$ = new VarDec("int", $2->value);
+                                delete $2;
+                                yyerror("Expected Semicolon");
+                                yyerrok; }
 ;
        
-expression: NUM { $$ = new Expression($1->value);}
-            | NULLKEYWORD { $$ = new Expression("null"); }
-            | READ LPAREN RPAREN { $$ = new Expression("read"); }
+expression: NUM { 
+                $$ = new Expression($1->value);
+                delete $1;
+}
+            | NULLKEYWORD { 
+                $$ = new Expression("null"); 
+                delete $1;
+            }
+            | READ LPAREN RPAREN { 
+                $$ = new Expression("read"); 
+                delete $1;
+                delete $2;
+                delete $3;
+            }
             | READ LPAREN error  {
                       $$ = new Expression("read"); 
                       yyerror("Expected Right Parenthesis");
                       yyerrok;
+                      delete $1;
+                      delete $2;
                      }
             | unaryop expression %prec NEG { $$ = new Expression($1, $2);}
             | expression relationop expression %prec RE{ 
@@ -184,68 +217,151 @@ expression: NUM { $$ = new Expression($1->value);}
                     $$ = new Expression($1, $2, $3); }
             | expression sumop expression %prec BIN {
                     $$ = new Expression($1, $2, $3); }
-            | LPAREN expression RPAREN { $$ = new Expression($2);}
+            | LPAREN expression RPAREN { 
+                  $$ = new Expression($2);
+                  delete $1;
+                  delete $3;
+            }
+            | LPAREN expression error { 
+                    $$ = new Expression($2);
+                    yyerror("Expected Right Parenthesis");
+                    yyerrok;
+                    delete $1;
+            }
             | newexpression { $$ = new Expression($1);}
             | name %prec NAME{$$ = new Expression($1);}
-            | name LPAREN arglist RPAREN {$$ = new Expression($1, $3);}
+            | name LPAREN arglist RPAREN {
+                  $$ = new Expression($1, $3);
+                  delete $2;
+                  delete $4;
+            }
+            | name LPAREN arglist error {
+                    $$ = new Expression($1, $3);
+                    yyerror("Expected Right Parenthesis");
+                    yyerrok;
+                    delete $2;
+            }
             
 ;
-name: THIS { $$ = new Name("this"); }
-      | IDENTIFIER %prec NAME { $$ = new Name($1->value);}
-      | name DOTOP IDENTIFIER { $$ = new Name($1, $3->value); }
-      | name LBRACK expression RBRACK { $$ = new Name($1, $3); cerr << "here";}
+name: THIS { 
+            $$ = new Name("this"); 
+            delete $1;
+}
+      | IDENTIFIER %prec NAME { 
+            $$ = new Name($1->value);
+            delete $1;
+      }
+      | name DOTOP IDENTIFIER { 
+            $$ = new Name($1, $3->value); 
+            delete $3;
+            delete $2;
+      }
+      | name LBRACK expression RBRACK { 
+            $$ = new Name($1, $3); cerr << "here";
+            delete $2;
+            delete $4;
+      }
+      | name LBRACK expression error { 
+            $$ = new Name($1, $3); cerr << "here";
+            yyerror("Expected Right Bracket");
+            yyerrok;
+            delete $1;
+      }
 ;
 newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
-                    $$ = new NewExpression($2->value, $4);}
+                    $$ = new NewExpression($2->value, $4);
+                    delete $2;
+                    delete $1;
+                    delete $3;
+                    delete $5;
+}
+              | NEW IDENTIFIER LPAREN arglist error {
+                      yyerror("Expected Right Parenthesis");
+                      yyerrok;
+                      $$ = new NewExpression($2->value, $4);
+                      delete $2;
+                      delete $1;
+                      delete $3;
+              }
               | NEW IDENTIFIER optExprBrack optBrack {
                     if($3 != 0) ((BrackExpression*)$3)->reverse();
-                    $$=  new NewExpression($2->value, $3, $4);}
+                    $$=  new NewExpression($2->value, $3, $4);
+                    delete $2;
+                    delete $1;
+              }
               | NEW simpletype LPAREN arglist RPAREN {
-                    $$ = new NewExpression("int", $4);}
+                    $$ = new NewExpression("int", $4);
+                    delete $1;
+                    delete $3;
+                    delete $5;
+              }
+              | NEW simpletype LPAREN arglist error {
+                      $$ = new NewExpression("int", $4);
+                      yyerror("Expected Right Parenthesis");
+                      yyerrok;
+                      delete $1;
+                      delete $3;
+              }
               | NEW simpletype optExprBrack optBrack {
                     if($3 != 0) ((BrackExpression*)$3)->reverse();
-                    $$=  new NewExpression("int", $3, $4);}
+                    $$=  new NewExpression("int", $3, $4);
+                    delete $1;
+              }
+              | NEW error{yyerror("Expected something after new declaration"); yyerrok;}
                   
-
 ;
 optExprBrack: %empty %prec OPTEXP{$$ = 0;}
               | optExprBrack LBRACK expression RBRACK %prec OPTEXP{
-                    $$ = new BrackExpression($3, $1);}
+                    $$ = new BrackExpression($3, $1);
+                    delete $2;
+                    delete $4;
+              }
+/*              | optExprBrack LBRACK expression error %prec OPTEXP{
+                      $$ = new BrackExpression($3, $1);
+                      delete $2;
+              }*/
 
 ;
 optBrack:%empty %prec OPTEXP {$$ = 0;}
-        | LBRACK RBRACK optBrack {$$ = new OptBracket($3);}
+        | LBRACK RBRACK optBrack {
+          $$ = new OptBracket($3);
+          delete $1;
+          delete $2;
+        }
 ;
 
 arglist: %empty {$$ = 0;}
-          | expression COMMA arglist { $$ = new ArgList($1, $3);}
+          | expression COMMA arglist { 
+            $$ = new ArgList($1, $3);
+            delete $2;
+          }
           | expression {$$ = new ArgList($1, 0);}
 ;
-unaryop:  PLUS {$$ = new UnaryOp("+");}
-          | MINUS {$$ = new UnaryOp("-");}
-          | NOT {$$ = new UnaryOp("!");}
+unaryop:  PLUS {$$ = new UnaryOp("+"); delete $1;}
+| MINUS {$$ = new UnaryOp("-"); delete $1;}
+| NOT {$$ = new UnaryOp("!"); delete $1;}
 
 ;
 
-relationop: DOUBEQ {$$ = new RelationOp("==");}
-            | NOTEQ {$$ = new RelationOp("!=");}
-            | LESSEQ {$$ = new RelationOp("<=");}
-            | GREATEQ {$$ = new RelationOp(">=");}
-            | LESS {$$ = new RelationOp("<");}
-            | GREAT {$$ = new RelationOp(">");}
+relationop: DOUBEQ {$$ = new RelationOp("=="); delete $1;}
+| NOTEQ {$$ = new RelationOp("!="); delete $1;}
+| LESSEQ {$$ = new RelationOp("<="); delete $1;}
+| GREATEQ {$$ = new RelationOp(">="); delete $1;}
+| LESS {$$ = new RelationOp("<"); delete $1;}
+| GREAT {$$ = new RelationOp(">"); delete $1;}
 ;
 
-productop:  TIMES {$$ = new ProductOp("*");}
-            | DIVIDE {$$ = new ProductOp("/");}
-            | MOD {$$ = new ProductOp("%");}
-            | DOUBAND {$$ = new ProductOp("&&");}
+productop:  TIMES {$$ = new ProductOp("*"); delete $1;}
+| DIVIDE {$$ = new ProductOp("/"); delete $1;}
+| MOD {$$ = new ProductOp("%"); delete $1;}
+| DOUBAND {$$ = new ProductOp("&&"); delete $1;}
 ;
-sumop:  MINUS {$$ = new SumOp("-");}
-        | PLUS {$$ = new SumOp("+");}
-        | DOUBBAR {$$ = new SumOp("||");}
+sumop:  MINUS {$$ = new SumOp("-"); delete $1;}
+| PLUS {$$ = new SumOp("+"); delete $1;}
+| DOUBBAR {$$ = new SumOp("||"); delete $1;}
 ;
-multibracks: LBRACK RBRACK {$$ = new Type();}
-              | multibracks LBRACK RBRACK {$$ = new Type($1, true);}
+multibracks: EMPTYBRACKS {$$ = new Type(); delete $1;}
+| multibracks EMPTYBRACKS {$$ = new Type($1, true); delete $2;}
 ;
 /*type: simpletype  { $$ = new Type($1, false); }
       | type LBRACK RBRACK  {$$ = new Type($1, true); }
@@ -253,6 +369,7 @@ multibracks: LBRACK RBRACK {$$ = new Type();}
 
 simpletype: INT {
                   $$ = new SimpleType("int");
+                  delete $1;
                 }
 /*            | IDENTIFIER {
                   $$ = new SimpleType($1->value);
