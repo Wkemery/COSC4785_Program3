@@ -542,17 +542,14 @@ static yyconst flex_int32_t yy_rule_can_match_eol[59] =
   
 void yyerror(const char *string)
 {
-  if(strcmp(string, "syntax error") == 0 ) return;
-
-  cerr << string << " At "<< yylval.token->line << ":" << yylval.token->column <<endl;
-
+  cerr << string << " " ;//<< yylval.token->value << endl;
   return;
 }
 
 
 
 
-#line 556 "program3_lex.cpp"
+#line 553 "program3_lex.cpp"
 
 #define INITIAL 0
 #define ERROR 1
@@ -656,10 +653,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 52 "program3.lpp"
+#line 49 "program3.lpp"
 
 
-#line 663 "program3_lex.cpp"
+#line 660 "program3_lex.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -760,7 +757,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 54 "program3.lpp"
+#line 51 "program3.lpp"
 {
   //Plus Operator
   yylval.token = new Lexeme;
@@ -772,7 +769,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 62 "program3.lpp"
+#line 59 "program3.lpp"
 {
   //Minus Operator
   yylval.token = new Lexeme;
@@ -785,7 +782,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 71 "program3.lpp"
+#line 68 "program3.lpp"
 {
   //Not Operator
   yylval.token = new Lexeme;
@@ -797,7 +794,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 80 "program3.lpp"
+#line 77 "program3.lpp"
 {
   //== Operator
   yylval.token = new Lexeme;
@@ -808,7 +805,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "program3.lpp"
+#line 85 "program3.lpp"
 {
   //!= Operator
   yylval.token = new Lexeme;
@@ -819,7 +816,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 96 "program3.lpp"
+#line 93 "program3.lpp"
 {
   //<= Operator
   yylval.token = new Lexeme;
@@ -830,7 +827,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 104 "program3.lpp"
+#line 101 "program3.lpp"
 {
   //>= Operator
   yylval.token = new Lexeme;
@@ -841,7 +838,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 112 "program3.lpp"
+#line 109 "program3.lpp"
 {
   //< Operator
   yylval.token = new Lexeme;
@@ -852,7 +849,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 120 "program3.lpp"
+#line 117 "program3.lpp"
 {
   //> Operator
   yylval.token = new Lexeme;
@@ -863,7 +860,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 128 "program3.lpp"
+#line 125 "program3.lpp"
 {
   // || Operator
   yylval.token = new Lexeme;
@@ -875,7 +872,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 137 "program3.lpp"
+#line 134 "program3.lpp"
 {
   // * Operator
   yylval.token = new Lexeme;
@@ -886,7 +883,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 145 "program3.lpp"
+#line 142 "program3.lpp"
 {
   // / Operator
   yylval.token = new Lexeme;
@@ -897,7 +894,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 153 "program3.lpp"
+#line 150 "program3.lpp"
 {
   // % Operator
   yylval.token = new Lexeme;
@@ -908,7 +905,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 161 "program3.lpp"
+#line 158 "program3.lpp"
 {
   //&& Operator
   yylval.token = new Lexeme;
@@ -919,7 +916,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 169 "program3.lpp"
+#line 166 "program3.lpp"
 {
   //Assignment Operator
   yylval.token = new Lexeme;
@@ -931,7 +928,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 178 "program3.lpp"
+#line 175 "program3.lpp"
 {
   //Dot  Operator
   yylval.token = new Lexeme;
@@ -942,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 186 "program3.lpp"
+#line 183 "program3.lpp"
 {
   //comma
   yylval.token = new Lexeme;
@@ -953,7 +950,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 194 "program3.lpp"
+#line 191 "program3.lpp"
 {
   //Semi colon
   yylval.token = new Lexeme;
@@ -964,7 +961,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 202 "program3.lpp"
+#line 199 "program3.lpp"
 {
   //Left Paren
   yylval.token = new Lexeme;
@@ -976,7 +973,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 211 "program3.lpp"
+#line 208 "program3.lpp"
 {
   yylval.token = new Lexeme;
   
@@ -988,7 +985,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 221 "program3.lpp"
+#line 218 "program3.lpp"
 {
   //Left Bracket
   yylval.token = new Lexeme;
@@ -1000,7 +997,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 230 "program3.lpp"
+#line 227 "program3.lpp"
 {
   //Rigth bracket
   yylval.token = new Lexeme;
@@ -1012,7 +1009,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 239 "program3.lpp"
+#line 236 "program3.lpp"
 {
   // Left Brace
   yylval.token = new Lexeme;
@@ -1024,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 248 "program3.lpp"
+#line 245 "program3.lpp"
 {
   //Right Brace
   yylval.token = new Lexeme;
@@ -1036,7 +1033,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 257 "program3.lpp"
+#line 254 "program3.lpp"
 {
   //class Keyword
   yylval.token = new Lexeme;
@@ -1048,7 +1045,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 266 "program3.lpp"
+#line 263 "program3.lpp"
 {
   //this Keyword
   yylval.token = new Lexeme;
@@ -1060,7 +1057,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 274 "program3.lpp"
+#line 271 "program3.lpp"
 {
   //if Keyword
   yylval.token = new Lexeme;
@@ -1072,7 +1069,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 282 "program3.lpp"
+#line 279 "program3.lpp"
 {
   //else Keyword
   yylval.token = new Lexeme;
@@ -1084,7 +1081,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 290 "program3.lpp"
+#line 287 "program3.lpp"
 {
   //while Keyword
   yylval.token = new Lexeme;
@@ -1096,7 +1093,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 298 "program3.lpp"
+#line 295 "program3.lpp"
 {
   //return Keyword
   yylval.token = new Lexeme;
@@ -1108,7 +1105,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 307 "program3.lpp"
+#line 304 "program3.lpp"
 {
   //print Keyword
   yylval.token = new Lexeme;
@@ -1120,7 +1117,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 316 "program3.lpp"
+#line 313 "program3.lpp"
 {
   //read Keyword
   yylval.token = new Lexeme;
@@ -1132,7 +1129,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 325 "program3.lpp"
+#line 322 "program3.lpp"
 {
   //void Keyword
   yylval.token = new Lexeme;
@@ -1144,7 +1141,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 334 "program3.lpp"
+#line 331 "program3.lpp"
 {
   //new Keyword
   yylval.token = new Lexeme;
@@ -1156,7 +1153,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 343 "program3.lpp"
+#line 340 "program3.lpp"
 {
   //null Keyword
   yylval.token = new Lexeme;
@@ -1168,7 +1165,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 352 "program3.lpp"
+#line 349 "program3.lpp"
 {
   //int keyword
   yylval.token = new Lexeme;
@@ -1180,7 +1177,7 @@ YY_RULE_SETUP
 case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
-#line 360 "program3.lpp"
+#line 357 "program3.lpp"
 {
   // single line comment
   setToken(yytext, yylineno, column);
@@ -1189,7 +1186,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 366 "program3.lpp"
+#line 363 "program3.lpp"
 {
   //Number
   yylval.token = new Lexeme;
@@ -1200,18 +1197,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 374 "program3.lpp"
+#line 371 "program3.lpp"
 {
   //identifier
   yylval.token = new Lexeme;
-  setToken(yytext, 0, 0);
+  setToken(yytext, yylineno, column);
   column+= yyleng;
   return IDENTIFIER; 
 }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 382 "program3.lpp"
+#line 379 "program3.lpp"
 {
     
 /*     setToken(yytext, yylineno, column); */
@@ -1221,7 +1218,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 389 "program3.lpp"
+#line 386 "program3.lpp"
 {
     
 /*     setToken(yytext, yylineno, column); */
@@ -1231,7 +1228,7 @@ YY_RULE_SETUP
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 395 "program3.lpp"
+#line 392 "program3.lpp"
 {
   
 /*   setToken(yytext, yylineno, column);     */
@@ -1241,7 +1238,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 402 "program3.lpp"
+#line 399 "program3.lpp"
 {
   column+= yyleng;
   BEGIN(COMMENTS);
@@ -1249,7 +1246,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 407 "program3.lpp"
+#line 404 "program3.lpp"
 {
   //found an error char, enter error state, ignore captured input
   //cout << "yytext:" << yytext << "end" <<endl; 
@@ -1259,7 +1256,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 414 "program3.lpp"
+#line 411 "program3.lpp"
 {
   //cout << "yytext:" << yytext << endl;
   yymore();
@@ -1268,43 +1265,39 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 421 "program3.lpp"
+#line 418 "program3.lpp"
 {
-  //cout << "in err3 &" << endl;
   yymore();
 }
 	YY_BREAK
 case 47:
 /* rule 47 can match eol */
 YY_RULE_SETUP
-#line 426 "program3.lpp"
+#line 422 "program3.lpp"
 {
-  //cout << "HERE" << endl;
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl;  
   column+= yyleng;
-  return ERR;
 
 }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 436 "program3.lpp"
+#line 431 "program3.lpp"
 {
-  //cout << "yytext4:" << yytext << endl;
   yyless(strlen(yytext) - 2);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl; 
   column+= yyleng;
-  return ERR;
 }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 445 "program3.lpp"
+#line 439 "program3.lpp"
 {
-  //cout << "in & one" << endl;
   yymore();
   BEGIN(ERROR);
 }
@@ -1312,19 +1305,18 @@ YY_RULE_SETUP
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
-#line 452 "program3.lpp"
+#line 445 "program3.lpp"
 {
-  //cout << "yytextother:" << yytext << endl;
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl; 
   column+= yyleng;
-  return ERR;
 }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 462 "program3.lpp"
+#line 454 "program3.lpp"
 {
   column+= yyleng;
   BEGIN(ENDCOMMENTS);
@@ -1332,7 +1324,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 467 "program3.lpp"
+#line 459 "program3.lpp"
 {
   yyless(0);
   BEGIN(ENDCOMMENTS);
@@ -1341,14 +1333,14 @@ YY_RULE_SETUP
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 472 "program3.lpp"
+#line 464 "program3.lpp"
 {
   column = 1;
 }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 476 "program3.lpp"
+#line 468 "program3.lpp"
 {
   column+= yyleng;
 }
@@ -1356,7 +1348,7 @@ YY_RULE_SETUP
 case 55:
 /* rule 55 can match eol */
 YY_RULE_SETUP
-#line 480 "program3.lpp"
+#line 472 "program3.lpp"
 {
   column = 1;
   BEGIN(COMMENTS);
@@ -1364,7 +1356,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 485 "program3.lpp"
+#line 477 "program3.lpp"
 {
   column+= yyleng;
   BEGIN(INITIAL);
@@ -1372,7 +1364,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 490 "program3.lpp"
+#line 482 "program3.lpp"
 {
   column+= yyleng;
   BEGIN(COMMENTS);
@@ -1380,10 +1372,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 495 "program3.lpp"
+#line 487 "program3.lpp"
 ECHO;
 	YY_BREAK
-#line 1387 "program3_lex.cpp"
+#line 1379 "program3_lex.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ERROR):
 case YY_STATE_EOF(COMMENTS):
@@ -2294,7 +2286,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 495 "program3.lpp"
+#line 487 "program3.lpp"
 
 
 

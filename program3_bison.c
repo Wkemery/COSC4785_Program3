@@ -71,23 +71,10 @@
 #include "Node.h"
 #include "Lexeme.h"
 
-//using namespace std;
-using std::cerr;
-using std::cout;
-using std::endl;
-
-/*
- * These are declared in "main" so that we can pass values between
- * the two portions of the program.
- */
+using namespace std;
 
 extern vector<Node*> forest;
 extern yyFlexLexer scanner;
-
-/* 
- * Need to do this define, an "acceptable" hack to interface
- * the C++ scanner with the C parser. 
- */
 
 #define yylex() scanner.yylex()
 
@@ -96,9 +83,7 @@ extern yyFlexLexer scanner;
 void yyerror(const char *);
 
 
-
-
-#line 102 "program3_bison.c" /* yacc.c:339  */
+#line 87 "program3_bison.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -186,13 +171,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 46 "program3.y" /* yacc.c:355  */
+#line 31 "program3.y" /* yacc.c:355  */
 
   Node* ttype;
   Lexeme* token;
 
 
-#line 196 "program3_bison.c" /* yacc.c:355  */
+#line 181 "program3_bison.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -209,7 +194,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 213 "program3_bison.c" /* yacc.c:358  */
+#line 198 "program3_bison.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -449,18 +434,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   206
+#define YYLAST   289
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  48
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  63
+#define YYNRULES  67
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  98
+#define YYNSTATES  104
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -511,13 +496,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   145,   145,   146,   150,   156,   161,   166,   171,   173,
-     180,   188,   192,   196,   202,   209,   210,   212,   214,   216,
-     221,   227,   228,   229,   234,   242,   246,   250,   255,   260,
-     265,   272,   279,   287,   294,   301,   307,   314,   320,   326,
-     329,   330,   349,   350,   354,   356,   357,   358,   362,   363,
-     364,   365,   366,   367,   370,   371,   372,   373,   375,   376,
-     377,   380,   381,   387
+       0,    87,    87,    88,    95,   103,   109,   117,   123,   129,
+     136,   142,   144,   154,   166,   170,   174,   180,   189,   193,
+     198,   204,   210,   216,   225,   230,   231,   241,   252,   256,
+     260,   266,   273,   280,   288,   298,   305,   315,   322,   329,
+     336,   345,   352,   359,   364,   365,   372,   373,   377,   379,
+     380,   381,   385,   386,   387,   388,   389,   390,   393,   394,
+     395,   396,   398,   399,   400,   403,   404,   410
 };
 #endif
 
@@ -551,12 +536,12 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -41
+#define YYPACT_NINF -21
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-41)))
+  (!!((Yystate) == (-21)))
 
-#define YYTABLE_NINF -1
+#define YYTABLE_NINF -30
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -565,16 +550,17 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -41,     9,   -41,   -41,   -15,    10,   -41,   -41,    89,   -41,
-     -41,   -41,   -12,   -41,   -41,   155,    74,   -41,    89,   -10,
-      11,   -41,   -14,   -13,    -5,    31,    85,     1,    -2,   -41,
-     -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,
-     -41,   -41,    89,    89,    89,    -9,    89,    89,   -41,    33,
-       5,     0,   -41,   -41,    89,    54,    89,    54,    89,   -41,
-     -41,   -41,   124,   -41,   -41,    49,    -8,   169,   -41,    83,
-     -41,   107,    50,    51,   -41,   -41,    57,    52,    85,    80,
-      72,    80,   -41,   -41,   -41,    89,   -41,   -41,   -41,   -41,
-     -41,   -41,   -41,   141,   -41,   -41,   -41,   -41
+      78,   -21,    95,   -21,   -21,    -7,     7,   -21,   -21,   189,
+     -21,   -21,   -21,    36,   -21,   -21,   238,    -4,   -21,   189,
+      37,     1,   -21,     0,    11,   -17,   113,   -20,   185,    12,
+     -16,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,
+     -21,   -21,   -21,   -21,   189,   189,   189,   -13,   189,   189,
+     -21,    -5,    34,    14,   -15,   -21,   -21,   189,    15,   189,
+      15,   189,   -21,   -21,   -21,   -21,   130,   -21,   -21,    56,
+      19,   252,   -21,    -3,   -21,   207,     5,   151,   -21,   -21,
+     -21,    41,     8,   185,    64,     9,    64,   -21,   -21,   -21,
+     -21,   189,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   224,
+     -21,   -21,   -21,   -21
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -582,123 +568,141 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,    25,     0,     0,    12,    63,     0,    45,
-      46,    47,    26,    11,     3,     8,    22,    21,     0,     0,
-       0,    39,    40,    40,    26,     0,     0,     0,     0,    59,
-      58,    48,    49,    50,    51,    52,    53,    54,    55,    56,
-      57,    60,     0,     0,     0,     0,    42,     0,    15,     0,
-       0,     0,    14,    13,    42,    33,    42,    37,     0,    20,
-      19,    61,     0,     9,     4,     0,     0,    16,    17,    18,
-      27,    44,     0,     0,    10,     6,     0,     0,     0,    34,
-       0,    38,    29,    62,     5,    42,    24,    23,    30,    28,
-       7,    32,    31,     0,    36,    35,    43,    41
+       0,     4,     0,     1,    28,     0,     0,    15,    67,     0,
+      49,    50,    51,     0,    14,     3,    11,    25,    24,     0,
+       0,     0,    43,    44,    44,    29,     0,     0,     0,     0,
+       0,    63,    62,    52,    53,    54,    55,    56,    57,    58,
+      59,    60,    61,    64,     0,     0,     0,     0,    46,     0,
+      18,     0,     0,     0,     0,    17,    16,    46,    37,    46,
+      41,     0,    23,    22,     6,    65,     0,    12,     5,     0,
+       0,    19,    20,    21,    30,    48,     0,     0,     9,    13,
+       8,     0,     0,     0,    38,     0,    42,    33,    32,    66,
+       7,    46,    27,    26,    34,    31,    10,    36,    35,     0,
+      40,    39,    47,    45
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -41,   -41,   -41,    -1,   -41,   -41,    81,   -40,   -41,   -41,
-     -41,   -41,   -18,   100
+     -21,   -21,   -21,    -2,   -21,   -21,    62,    26,   -21,   -21,
+     -21,   -21,   -19,    81
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,    14,    71,    16,    17,    55,    72,    18,    42,
-      43,    44,    28,    19
+      -1,     2,    15,    75,    17,    18,    58,    76,    19,    44,
+      45,    46,    30,    20
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_uint8 yytable[] =
+static const yytype_int8 yytable[] =
 {
-      15,    51,    63,    20,    54,    56,    74,    25,    26,     2,
-      49,    21,    52,     3,    77,    58,    80,    48,    65,     4,
-      65,     5,     6,     7,     7,    62,    27,     8,    50,    70,
-      53,    84,    59,     9,    10,    11,    66,    79,    76,    81,
-      64,    67,    68,    69,    75,    96,    73,    12,    22,    13,
-      60,    86,    88,    91,    61,    29,    30,    62,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,    87,
-      83,    92,    89,    94,    78,    29,    30,    93,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,     3,
-      45,    95,    46,     3,    47,     4,    90,     5,     6,     4,
-      65,     5,     6,     8,    57,    23,    61,     8,     0,     9,
-      10,    11,     0,     9,    10,    11,    37,    38,    39,    40,
-       0,     0,     0,    24,    85,    13,     0,    24,     0,    13,
-       0,    29,    30,     0,    31,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    82,     0,     0,    29,    30,
-       0,    31,    32,    33,    34,    35,    36,    37,    38,    39,
-      40,    41,    97,     0,     0,    29,    30,     0,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,    29,
-      30,     0,    31,    32,    33,    34,    35,    36,    37,    38,
-      39,    40,    41,    29,    30,     0,     0,     0,     0,     0,
-       0,     0,    37,    38,    39,    40,    41
+      16,    54,    55,    61,    69,    69,    92,    26,    22,    97,
+     100,    21,    47,    67,    48,    79,    49,    50,    57,    64,
+      56,     8,    70,    81,    93,    74,    66,    98,   101,    59,
+      39,    40,    41,    42,    78,    83,   -29,    27,    51,    84,
+     -29,    86,    71,    72,    73,    23,   -29,    77,   -29,   -29,
+     -29,    68,   -29,    80,   -29,    65,    28,    52,    90,    66,
+     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,
+     -29,   -29,   -29,   -29,    29,    53,   -29,    89,    -2,     1,
+      96,    99,    -2,    82,    69,    85,    60,    24,    -2,     0,
+      -2,    -2,    -2,     0,     0,     3,    -2,     0,     0,     4,
+       0,     0,    -2,    -2,    -2,     5,     0,     6,     7,     8,
+       0,     0,     0,     9,    62,     0,    -2,   102,    -2,    10,
+      11,    12,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    87,    63,    13,     0,    14,     0,    31,    32,     0,
+      33,    34,    35,    36,    37,    38,    39,    40,    41,    42,
+      43,    88,    94,     0,    31,    32,     0,    33,    34,    35,
+      36,    37,    38,    39,    40,    41,    42,    43,     0,     0,
+       0,     0,    95,     0,     0,    31,    32,     0,    33,    34,
+      35,    36,    37,    38,    39,    40,    41,    42,    43,     4,
+       0,     0,     0,     4,     0,     5,     0,     6,     7,     5,
+       0,     6,     7,     9,     0,     0,    65,     9,     0,    10,
+      11,    12,     0,    10,    11,    12,     0,     0,     0,     0,
+       0,     0,     0,    25,    91,    14,     0,    25,     0,    14,
+       0,    31,    32,     0,    33,    34,    35,    36,    37,    38,
+      39,    40,    41,    42,    43,   103,     0,     0,    31,    32,
+       0,    33,    34,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    31,    32,     0,    33,    34,    35,    36,    37,
+      38,    39,    40,    41,    42,    43,    31,    32,     0,     0,
+       0,     0,     0,     0,     0,    39,    40,    41,    42,    43
 };
 
 static const yytype_int8 yycheck[] =
 {
-       1,    19,     1,    18,    18,    18,     1,     8,    20,     0,
-      20,     1,     1,     4,    54,    20,    56,    18,    20,    10,
-      20,    12,    13,    14,    14,    26,    38,    18,    38,    38,
-      19,    39,     1,    24,    25,    26,    38,    55,    38,    57,
-      39,    42,    43,    44,    39,    85,    47,    38,    38,    40,
-      19,     1,     1,     1,    21,    24,    25,    58,    27,    28,
-      29,    30,    31,    32,    33,    34,    35,    36,    37,    19,
-      21,    19,    21,     1,    20,    24,    25,    78,    27,    28,
+       2,    20,     1,    20,    20,    20,     1,     9,     1,     1,
+       1,    18,    16,     1,    18,     1,    20,    19,    18,    39,
+      19,    14,    38,    38,    19,    38,    28,    19,    19,    18,
+      33,    34,    35,    36,    39,    20,     0,     1,     1,    58,
+       4,    60,    44,    45,    46,    38,    10,    49,    12,    13,
+      14,    39,    16,    39,    18,    21,    20,    20,    39,    61,
+      24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
+      34,    35,    36,    37,    38,    38,    40,    21,     0,     1,
+      39,    83,     4,    57,    20,    59,    24,     6,    10,    -1,
+      12,    13,    14,    -1,    -1,     0,    18,    -1,    -1,     4,
+      -1,    -1,    24,    25,    26,    10,    -1,    12,    13,    14,
+      -1,    -1,    -1,    18,     1,    -1,    38,    91,    40,    24,
+      25,    26,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,     1,    19,    38,    -1,    40,    -1,    24,    25,    -1,
+      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    21,     1,    -1,    24,    25,    -1,    27,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    -1,    -1,
+      -1,    -1,    21,    -1,    -1,    24,    25,    -1,    27,    28,
       29,    30,    31,    32,    33,    34,    35,    36,    37,     4,
-      16,    19,    18,     4,    20,    10,    39,    12,    13,    10,
-      20,    12,    13,    18,    23,     5,    21,    18,    -1,    24,
-      25,    26,    -1,    24,    25,    26,    33,    34,    35,    36,
+      -1,    -1,    -1,     4,    -1,    10,    -1,    12,    13,    10,
+      -1,    12,    13,    18,    -1,    -1,    21,    18,    -1,    24,
+      25,    26,    -1,    24,    25,    26,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    38,    17,    40,    -1,    38,    -1,    40,
       -1,    24,    25,    -1,    27,    28,    29,    30,    31,    32,
       33,    34,    35,    36,    37,    21,    -1,    -1,    24,    25,
       -1,    27,    28,    29,    30,    31,    32,    33,    34,    35,
-      36,    37,    21,    -1,    -1,    24,    25,    -1,    27,    28,
-      29,    30,    31,    32,    33,    34,    35,    36,    37,    24,
-      25,    -1,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    24,    25,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    33,    34,    35,    36,    37
+      36,    37,    24,    25,    -1,    27,    28,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    24,    25,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    33,    34,    35,    36,    37
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    49,     0,     4,    10,    12,    13,    14,    18,    24,
-      25,    26,    38,    40,    50,    51,    52,    53,    56,    61,
-      18,     1,    38,    61,    38,    51,    20,    38,    60,    24,
-      25,    27,    28,    29,    30,    31,    32,    33,    34,    35,
-      36,    37,    57,    58,    59,    16,    18,    20,    51,    20,
-      38,    60,     1,    19,    18,    54,    18,    54,    20,     1,
-      19,    21,    51,     1,    39,    20,    38,    51,    51,    51,
-      38,    51,    55,    51,     1,    39,    38,    55,    20,    60,
-      55,    60,    21,    21,    39,    17,     1,    19,     1,    21,
-      39,     1,    19,    51,     1,    19,    55,    21
+       0,     1,    49,     0,     4,    10,    12,    13,    14,    18,
+      24,    25,    26,    38,    40,    50,    51,    52,    53,    56,
+      61,    18,     1,    38,    61,    38,    51,     1,    20,    38,
+      60,    24,    25,    27,    28,    29,    30,    31,    32,    33,
+      34,    35,    36,    37,    57,    58,    59,    16,    18,    20,
+      51,     1,    20,    38,    60,     1,    19,    18,    54,    18,
+      54,    20,     1,    19,    39,    21,    51,     1,    39,    20,
+      38,    51,    51,    51,    38,    51,    55,    51,    39,     1,
+      39,    38,    55,    20,    60,    55,    60,     1,    21,    21,
+      39,    17,     1,    19,     1,    21,    39,     1,    19,    51,
+       1,    19,    55,    21
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    48,    49,    49,    50,    50,    50,    50,    50,    50,
-      50,    51,    51,    51,    51,    51,    51,    51,    51,    51,
-      51,    51,    51,    51,    51,    52,    52,    52,    52,    52,
-      52,    53,    53,    53,    53,    53,    53,    53,    53,    53,
-      54,    54,    55,    55,    55,    56,    56,    56,    57,    57,
-      57,    57,    57,    57,    58,    58,    58,    58,    59,    59,
-      59,    60,    60,    61
+       0,    48,    49,    49,    49,    50,    50,    50,    50,    50,
+      50,    50,    50,    50,    51,    51,    51,    51,    51,    51,
+      51,    51,    51,    51,    51,    51,    51,    51,    52,    52,
+      52,    52,    52,    52,    52,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    54,    54,    55,    55,    55,    56,
+      56,    56,    57,    57,    57,    57,    57,    57,    58,    58,
+      58,    58,    59,    59,    59,    60,    60,    61
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     3,     4,     3,     4,     1,     3,
-       3,     1,     1,     3,     3,     2,     3,     3,     3,     3,
-       3,     1,     1,     4,     4,     1,     1,     3,     4,     4,
-       4,     5,     5,     3,     4,     5,     5,     3,     4,     2,
-       0,     4,     0,     3,     1,     1,     1,     1,     1,     1,
+       0,     2,     0,     2,     1,     3,     3,     4,     3,     3,
+       4,     1,     3,     3,     1,     1,     3,     3,     2,     3,
+       3,     3,     3,     3,     1,     1,     4,     4,     1,     1,
+       3,     4,     4,     4,     4,     5,     5,     3,     4,     5,
+       5,     3,     4,     2,     0,     4,     0,     3,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     2,     3,     1
+       1,     1,     1,     1,     1,     2,     3,     1
 };
 
 
@@ -1119,7 +1123,312 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
+  switch (yytype)
+    {
+          case 3: /* CLASS  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1132 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 4: /* THIS  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1138 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 5: /* IF  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1144 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 6: /* ELSE  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1150 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 7: /* WHILE  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1156 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 8: /* RETURN  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1162 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 9: /* PRINT  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1168 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 10: /* READ  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1174 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 11: /* VOID  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1180 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 12: /* NEW  */
+#line 61 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1186 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 13: /* NULLKEYWORD  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1192 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 14: /* INT  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1198 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 15: /* ASSIGNOP  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1204 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 16: /* DOTOP  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1210 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 17: /* COMMA  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1216 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 18: /* LPAREN  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1222 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 19: /* RPAREN  */
+#line 62 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1228 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 20: /* LBRACK  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1234 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 21: /* RBRACK  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1240 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 22: /* LBRACE  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1246 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 23: /* RBRACE  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1252 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 24: /* PLUS  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1258 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 25: /* MINUS  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1264 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 26: /* NOT  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1270 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 27: /* DOUBEQ  */
+#line 63 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1276 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 28: /* NOTEQ  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1282 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 29: /* LESSEQ  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1288 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 30: /* GREATEQ  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1294 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 31: /* LESS  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1300 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 32: /* GREAT  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1306 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 33: /* TIMES  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1312 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 34: /* DIVIDE  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1318 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 35: /* MOD  */
+#line 64 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1324 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 36: /* DOUBAND  */
+#line 65 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1330 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 37: /* DOUBBAR  */
+#line 65 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1336 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 38: /* IDENTIFIER  */
+#line 65 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1342 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 39: /* SEMICO  */
+#line 65 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1348 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 40: /* NUM  */
+#line 65 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).token));}
+#line 1354 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 50: /* exp  */
+#line 69 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1360 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 51: /* expression  */
+#line 67 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1366 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 52: /* name  */
+#line 67 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1372 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 53: /* newexpression  */
+#line 69 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1378 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 54: /* optExprBrack  */
+#line 68 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1384 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 55: /* arglist  */
+#line 68 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1390 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 56: /* unaryop  */
+#line 67 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1396 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 57: /* relationop  */
+#line 68 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1402 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 58: /* productop  */
+#line 68 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1408 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 59: /* sumop  */
+#line 68 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1414 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 60: /* multibracks  */
+#line 67 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1420 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+    case 61: /* simpletype  */
+#line 67 "program3.y" /* yacc.c:1257  */
+      {delete(((*yyvaluep).ttype));}
+#line 1426 "program3_bison.c" /* yacc.c:1257  */
+        break;
+
+
+      default:
+        break;
+    }
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
@@ -1375,264 +1684,368 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 146 "program3.y" /* yacc.c:1646  */
-    { forest.push_back((yyvsp[0].ttype)); }
-#line 1381 "program3_bison.c" /* yacc.c:1646  */
+#line 88 "program3.y" /* yacc.c:1646  */
+    { 
+          if((yyvsp[0].ttype)!=0) 
+          {
+            if(!(yyvsp[0].ttype)->getErr()) forest.push_back((yyvsp[0].ttype));
+            else delete (yyvsp[0].ttype);
+          }
+        }
+#line 1696 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 150 "program3.y" /* yacc.c:1646  */
+#line 95 "program3.y" /* yacc.c:1646  */
+    {
+          cerr << "Got no idea" << endl << endl; 
+          yyclearin;
+          yyerrok;
+          
+        }
+#line 1707 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 5:
+#line 103 "program3.y" /* yacc.c:1646  */
     {
             (yyval.ttype) = new VarDec((yyvsp[-2].token)->value, (yyvsp[-1].token)->value);
             delete (yyvsp[-2].token);
             delete (yyvsp[-1].token);
             delete (yyvsp[0].token);
 }
-#line 1392 "program3_bison.c" /* yacc.c:1646  */
+#line 1718 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 5:
-#line 156 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new VarDec((yyvsp[-3].token)->value, (yyvsp[-1].token)->value, (yyvsp[-2].ttype));
+  case 6:
+#line 109 "program3.y" /* yacc.c:1646  */
+    {
+            (yyval.ttype) = 0;
+            cerr << "-> before ; at " << (yyvsp[0].token)->line << ":" << (yyvsp[0].token)->column << endl 
+            << endl;
+            yyerrok;
+            delete (yyvsp[-2].token);
+            delete (yyvsp[0].token);
+          }
+#line 1731 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 7:
+#line 117 "program3.y" /* yacc.c:1646  */
+    {
+            (yyval.ttype) = new VarDec((yyvsp[-3].token)->value, (yyvsp[-1].token)->value, (yyvsp[-2].ttype));
             delete (yyvsp[-3].token);
             delete (yyvsp[-1].token);
             delete (yyvsp[0].token);
       }
-#line 1402 "program3_bison.c" /* yacc.c:1646  */
+#line 1742 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 6:
-#line 161 "program3.y" /* yacc.c:1646  */
+  case 8:
+#line 123 "program3.y" /* yacc.c:1646  */
     {
             (yyval.ttype) = new VarDec("int", (yyvsp[-1].token)->value);
             delete (yyvsp[-1].token);
             delete (yyvsp[0].token);
+            delete (yyvsp[-2].ttype);
       }
-#line 1412 "program3_bison.c" /* yacc.c:1646  */
+#line 1753 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 7:
-#line 166 "program3.y" /* yacc.c:1646  */
+  case 9:
+#line 129 "program3.y" /* yacc.c:1646  */
+    {
+        (yyval.ttype) = 0;
+        cerr << " -> before ; at " << (yyvsp[0].token)->line << ":" << (yyvsp[0].token)->column << endl << endl;
+        yyerrok;
+        delete (yyvsp[0].token);
+        delete (yyvsp[-2].ttype);
+      }
+#line 1765 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 10:
+#line 136 "program3.y" /* yacc.c:1646  */
     {
             (yyval.ttype) = new VarDec("int", (yyvsp[-1].token)->value, (yyvsp[-2].ttype));
             delete (yyvsp[-1].token);
             delete (yyvsp[0].token);
+            delete (yyvsp[-3].ttype);
       }
-#line 1422 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 8:
-#line 171 "program3.y" /* yacc.c:1646  */
-    { (yyval.ttype) = (yyvsp[0].ttype); }
-#line 1428 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 9:
-#line 173 "program3.y" /* yacc.c:1646  */
-    {
-/*                                   $$ = new VarDec($1->value, $2->value) */
-                                  yyerror("Expected Semicolon");
-                                  yyerrok;
-                                  delete (yyvsp[-2].token);
-                                  delete (yyvsp[-1].token);
-}
-#line 1440 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 180 "program3.y" /* yacc.c:1646  */
-    {
-/*                                 $$ = new VarDec("int", $2->value); */
-                                yyerror("Expected Semicolon");
-                                yyerrok;
-                                delete (yyvsp[-1].token);
- }
-#line 1451 "program3_bison.c" /* yacc.c:1646  */
+#line 1776 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 188 "program3.y" /* yacc.c:1646  */
+#line 142 "program3.y" /* yacc.c:1646  */
+    { (yyval.ttype) = (yyvsp[0].ttype); }
+#line 1782 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 12:
+#line 144 "program3.y" /* yacc.c:1646  */
+    {
+                                  (yyval.ttype) = new VarDec((yyvsp[-2].token)->value, (yyvsp[-1].token)->value);
+                                  (yyval.ttype)->setErr();
+                                  cerr << "Expected Semicolon At "<< (yyvsp[-1].token)->line 
+                                  << ":" << (yyvsp[-1].token)->column+(yyvsp[-1].token)->value.length() 
+                                  << endl << endl;
+                                  yyerrok;
+                                  delete (yyvsp[-2].token);
+                                  delete (yyvsp[-1].token); 
+}
+#line 1797 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 13:
+#line 154 "program3.y" /* yacc.c:1646  */
+    {
+                            (yyval.ttype) = new VarDec("int", (yyvsp[-1].token)->value);
+                            (yyval.ttype)->setErr();
+                              cerr << "Expected Semicolon At "<< (yyvsp[-1].token)->line << ":" 
+                              << (yyvsp[-1].token)->column+(yyvsp[-1].token)->value.length() <<endl << endl;
+                              yyerrok;
+                            delete (yyvsp[-1].token);
+                            delete (yyvsp[-2].ttype);
+                                }
+#line 1811 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 14:
+#line 166 "program3.y" /* yacc.c:1646  */
     { 
                 (yyval.ttype) = new Expression((yyvsp[0].token)->value, EXPNUM);
                 delete (yyvsp[0].token);
 }
-#line 1460 "program3_bison.c" /* yacc.c:1646  */
+#line 1820 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 12:
-#line 192 "program3.y" /* yacc.c:1646  */
+  case 15:
+#line 170 "program3.y" /* yacc.c:1646  */
     { 
                 (yyval.ttype) = new Expression("null", EXPNULL); 
                 delete (yyvsp[0].token);
             }
-#line 1469 "program3_bison.c" /* yacc.c:1646  */
+#line 1829 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 13:
-#line 196 "program3.y" /* yacc.c:1646  */
+  case 16:
+#line 174 "program3.y" /* yacc.c:1646  */
     { 
                 (yyval.ttype) = new Expression("read", EXPREAD); 
                 delete (yyvsp[-2].token);
                 delete (yyvsp[-1].token);
                 delete (yyvsp[0].token);
             }
-#line 1480 "program3_bison.c" /* yacc.c:1646  */
+#line 1840 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 14:
-#line 202 "program3.y" /* yacc.c:1646  */
+  case 17:
+#line 180 "program3.y" /* yacc.c:1646  */
     {
-/*                       $$ = new Expression("read");  */
-                      yyerror("Expected Right Parenthesis");
+                      (yyval.ttype) = new Expression("read", EXPREAD); 
+                      (yyval.ttype)->setErr();
+                      cerr << "Expected Right Parenthesis At "<< (yyvsp[-1].token)->line << ":" 
+                      << (yyvsp[-1].token)->column <<endl << endl;
                       yyerrok;
                       delete (yyvsp[-2].token);
                       delete (yyvsp[-1].token);
                      }
-#line 1492 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 15:
-#line 209 "program3.y" /* yacc.c:1646  */
-    { (yyval.ttype) = new Expression((yyvsp[-1].ttype), (yyvsp[0].ttype), EXPUNARY);}
-#line 1498 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 16:
-#line 210 "program3.y" /* yacc.c:1646  */
-    { 
-                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPRELATION); }
-#line 1505 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 212 "program3.y" /* yacc.c:1646  */
-    {
-                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPPRODUCT); }
-#line 1512 "program3_bison.c" /* yacc.c:1646  */
+#line 1854 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 214 "program3.y" /* yacc.c:1646  */
-    {
-                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPSUMOP); }
-#line 1519 "program3_bison.c" /* yacc.c:1646  */
+#line 189 "program3.y" /* yacc.c:1646  */
+    { 
+                    (yyval.ttype) = new Expression((yyvsp[-1].ttype), (yyvsp[0].ttype), EXPUNARY); 
+                    if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();}
+#line 1863 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 216 "program3.y" /* yacc.c:1646  */
+#line 193 "program3.y" /* yacc.c:1646  */
     { 
-                  (yyval.ttype) = new Expression((yyvsp[-1].ttype), EXPPAREN);
-                  delete (yyvsp[-2].token);
-                  delete (yyvsp[0].token);
-            }
-#line 1529 "program3_bison.c" /* yacc.c:1646  */
+                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPRELATION);  
+                    if((yyvsp[-2].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();}
+#line 1873 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 221 "program3.y" /* yacc.c:1646  */
-    { 
-/*                     $$ = new Expression($2); */
-                    yyerror("Expected Right Parenthesis");
-                    yyerrok;
-                    delete (yyvsp[-2].token);
+#line 198 "program3.y" /* yacc.c:1646  */
+    {
+                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPPRODUCT); 
+                    if((yyvsp[-2].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();
             }
-#line 1540 "program3_bison.c" /* yacc.c:1646  */
+#line 1884 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 227 "program3.y" /* yacc.c:1646  */
-    { (yyval.ttype) = new Expression((yyvsp[0].ttype), EXPNEW);}
-#line 1546 "program3_bison.c" /* yacc.c:1646  */
+#line 204 "program3.y" /* yacc.c:1646  */
+    {
+                    (yyval.ttype) = new Expression((yyvsp[-2].ttype), (yyvsp[-1].ttype), (yyvsp[0].ttype), EXPSUMOP); 
+                    if((yyvsp[-2].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+                    if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();
+            }
+#line 1895 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 228 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new Expression((yyvsp[0].ttype), EXPNAME);}
-#line 1552 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 229 "program3.y" /* yacc.c:1646  */
-    {
-                  (yyval.ttype) = new Expression((yyvsp[-3].ttype), (yyvsp[-1].ttype), EXPNAMEARG);
+#line 210 "program3.y" /* yacc.c:1646  */
+    { 
+                  (yyval.ttype) = new Expression((yyvsp[-1].ttype), EXPPAREN);
+                  if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
                   delete (yyvsp[-2].token);
                   delete (yyvsp[0].token);
             }
-#line 1562 "program3_bison.c" /* yacc.c:1646  */
+#line 1906 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 24:
-#line 234 "program3.y" /* yacc.c:1646  */
-    {
-/*                     $$ = new Expression($1, $3); */
-                    yyerror("Expected Right Parenthesis");
+  case 23:
+#line 216 "program3.y" /* yacc.c:1646  */
+    { 
+                    (yyval.ttype) = new Expression((yyvsp[-1].ttype), EXPPAREN);
+                    (yyval.ttype)->setErr();
+                    cerr << "Expected Right Parenthesis At "
+                    << yylval.token->line << ":" << yylval.token->column 
+                    <<endl << endl;
                     yyerrok;
                     delete (yyvsp[-2].token);
             }
-#line 1573 "program3_bison.c" /* yacc.c:1646  */
+#line 1920 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 225 "program3.y" /* yacc.c:1646  */
+    { 
+                            if((yyvsp[0].ttype)!= 0) (yyval.ttype) = new Expression((yyvsp[0].ttype), EXPNEW); 
+                            else (yyval.ttype) = 0;
+                            if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();
+                            }
+#line 1930 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 242 "program3.y" /* yacc.c:1646  */
+#line 230 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new Expression((yyvsp[0].ttype), EXPNAME); if((yyvsp[0].ttype)->getErr()) (yyval.ttype)->setErr();}
+#line 1936 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 26:
+#line 231 "program3.y" /* yacc.c:1646  */
+    {
+                  (yyval.ttype) = new Expression((yyvsp[-3].ttype), (yyvsp[-1].ttype), EXPNAMEARG);
+                  if((yyvsp[-3].ttype)->getErr()) (yyval.ttype)->setErr();
+                  if((yyvsp[-1].ttype)!= 0)
+                  {
+                    if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+                  }
+                  delete (yyvsp[-2].token);
+                  delete (yyvsp[0].token);
+            }
+#line 1951 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 27:
+#line 241 "program3.y" /* yacc.c:1646  */
+    {
+                    (yyval.ttype) = new Expression((yyvsp[-3].ttype), (yyvsp[-1].ttype), EXPNAMEARG);
+                    (yyval.ttype)->setErr();
+                    cerr << "Expected Right Parenthesis At "
+                    << yylval.token->line << ":" << yylval.token->column 
+                    <<endl << endl;
+                    yyerrok;
+                    delete (yyvsp[-2].token);
+            }
+#line 1965 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 252 "program3.y" /* yacc.c:1646  */
     { 
             (yyval.ttype) = new Name("this", NAMETHIS); 
             delete (yyvsp[0].token);
 }
-#line 1582 "program3_bison.c" /* yacc.c:1646  */
+#line 1974 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 26:
-#line 246 "program3.y" /* yacc.c:1646  */
+  case 29:
+#line 256 "program3.y" /* yacc.c:1646  */
     { 
             (yyval.ttype) = new Name((yyvsp[0].token)->value, NAMEID);
             delete (yyvsp[0].token);
       }
-#line 1591 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 27:
-#line 250 "program3.y" /* yacc.c:1646  */
-    { 
-            (yyval.ttype) = new Name((yyvsp[-2].ttype), (yyvsp[0].token)->value, NAMEDOTID); 
-            delete (yyvsp[0].token);
-            delete (yyvsp[-1].token);
-      }
-#line 1601 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 28:
-#line 255 "program3.y" /* yacc.c:1646  */
-    { 
-            (yyval.ttype) = new Name((yyvsp[-3].ttype), (yyvsp[-1].ttype), NAMEEXP);
-            delete (yyvsp[-2].token);
-            delete (yyvsp[0].token);
-      }
-#line 1611 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 29:
-#line 260 "program3.y" /* yacc.c:1646  */
-    {
-        (yyval.ttype) = new Name((yyvsp[-1].ttype), (yyvsp[-3].token)->value, NAMEIDEXP);
-        delete (yyvsp[-2].token);
-        delete (yyvsp[0].token);
-      }
-#line 1621 "program3_bison.c" /* yacc.c:1646  */
+#line 1983 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 265 "program3.y" /* yacc.c:1646  */
+#line 260 "program3.y" /* yacc.c:1646  */
     { 
-/*             $$ = new Name($1, $3); cerr << "here"; */
-/*             yyerror("Expected Right Bracket"); */
-            yyerrok;
-            delete (yyvsp[-3].ttype);
+            (yyval.ttype) = new Name((yyvsp[-2].ttype), (yyvsp[0].token)->value, NAMEDOTID);
+            if((yyvsp[-2].ttype)->getErr()) (yyval.ttype)->setErr();
+            delete (yyvsp[0].token);
+            delete (yyvsp[-1].token);
       }
-#line 1632 "program3_bison.c" /* yacc.c:1646  */
+#line 1994 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 272 "program3.y" /* yacc.c:1646  */
+#line 266 "program3.y" /* yacc.c:1646  */
+    { 
+            (yyval.ttype) = new Name((yyvsp[-3].ttype), (yyvsp[-1].ttype), NAMEEXP);
+            if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+            if((yyvsp[-3].ttype)->getErr()) (yyval.ttype)->setErr();
+            delete (yyvsp[-2].token);
+            delete (yyvsp[0].token);
+      }
+#line 2006 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 273 "program3.y" /* yacc.c:1646  */
+    {
+        (yyval.ttype) = new Name((yyvsp[-1].ttype), (yyvsp[-3].token)->value, NAMEIDEXP);
+        if((yyvsp[-1].ttype)->getErr()) (yyval.ttype)->setErr();
+        delete (yyvsp[-3].token);
+        delete (yyvsp[-2].token);
+        delete (yyvsp[0].token);
+      }
+#line 2018 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 280 "program3.y" /* yacc.c:1646  */
+    {
+        (yyval.ttype) = new Name((yyvsp[-1].ttype), (yyvsp[-3].token)->value, NAMEIDEXP);
+        (yyval.ttype)->setErr();
+        cerr << "Expected Right Bracket At " << yylval.token->line << ":" 
+        << yylval.token->column << endl << endl;
+        delete (yyvsp[-2].token);
+        delete (yyvsp[-3].token);
+      }
+#line 2031 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 288 "program3.y" /* yacc.c:1646  */
+    { 
+            (yyval.ttype) = new Name((yyvsp[-3].ttype), (yyvsp[-1].ttype), NAMEIDEXP);
+            (yyval.ttype)->setErr();
+            cerr<< "Expected Right Bracket At " << yylval.token->line << ":"
+            << yylval.token->column << endl << endl;
+            yyerrok;
+            delete (yyvsp[-3].ttype);
+            delete (yyvsp[-2].token);
+      }
+#line 2045 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 298 "program3.y" /* yacc.c:1646  */
     {
                     (yyval.ttype) = new NewExpression((yyvsp[-3].token)->value, (yyvsp[-1].ttype), NEWEXPARG);
                     delete (yyvsp[-3].token);
@@ -1640,24 +2053,26 @@ yyreduce:
                     delete (yyvsp[-2].token);
                     delete (yyvsp[0].token);
 }
-#line 1644 "program3_bison.c" /* yacc.c:1646  */
+#line 2057 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 32:
-#line 279 "program3.y" /* yacc.c:1646  */
+  case 36:
+#line 305 "program3.y" /* yacc.c:1646  */
     {
-                      yyerror("Expected Right Parenthesis");
+                (yyval.ttype) = new NewExpression((yyvsp[-3].token)->value, (yyvsp[-1].ttype), NEWEXPARG);
+                (yyval.ttype)->setErr();
+                cerr << "Expected Right Parenthesis At " << yylval.token->line 
+                << ":" << yylval.token->column << endl << endl;
                       yyerrok;
-/*                       $$ = new NewExpression($2->value, $4); */
                       delete (yyvsp[-3].token);
                       delete (yyvsp[-4].token);
                       delete (yyvsp[-2].token);
               }
-#line 1657 "program3_bison.c" /* yacc.c:1646  */
+#line 2072 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 33:
-#line 287 "program3.y" /* yacc.c:1646  */
+  case 37:
+#line 315 "program3.y" /* yacc.c:1646  */
     {
                 if((yyvsp[0].ttype) != 0) ((BrackExpression*)(yyvsp[0].ttype))->reverse();
                 if((yyvsp[0].ttype) == 0) (yyval.ttype) = new NewExpression((yyvsp[-1].token)->value, (yyvsp[0].ttype), 0, NEWEXP);
@@ -1665,11 +2080,11 @@ yyreduce:
                 delete (yyvsp[-1].token);
                 delete (yyvsp[-2].token);
               }
-#line 1669 "program3_bison.c" /* yacc.c:1646  */
+#line 2084 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 34:
-#line 294 "program3.y" /* yacc.c:1646  */
+  case 38:
+#line 322 "program3.y" /* yacc.c:1646  */
     {
                 if((yyvsp[-1].ttype) != 0) ((BrackExpression*)(yyvsp[-1].ttype))->reverse();
                 if((yyvsp[-1].ttype) == 0) (yyval.ttype) = new NewExpression((yyvsp[-2].token)->value, (yyvsp[-1].ttype), (yyvsp[0].ttype), NEWEXPMULTI);
@@ -1677,216 +2092,223 @@ yyreduce:
                 delete (yyvsp[-2].token);
                 delete (yyvsp[-3].token);
               }
-#line 1681 "program3_bison.c" /* yacc.c:1646  */
+#line 2096 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 35:
-#line 301 "program3.y" /* yacc.c:1646  */
+  case 39:
+#line 329 "program3.y" /* yacc.c:1646  */
     {
                     (yyval.ttype) = new NewExpression("int", (yyvsp[-1].ttype), NEWEXPARG);
                     delete (yyvsp[-4].token);
+                    delete (yyvsp[-3].ttype);
                     delete (yyvsp[-2].token);
                     delete (yyvsp[0].token);
               }
-#line 1692 "program3_bison.c" /* yacc.c:1646  */
+#line 2108 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 36:
-#line 307 "program3.y" /* yacc.c:1646  */
+  case 40:
+#line 336 "program3.y" /* yacc.c:1646  */
     {
-/*                       $$ = new NewExpression("int", $4); */
-                      yyerror("Expected Right Parenthesis");
+                (yyval.ttype) = new NewExpression("int", (yyvsp[-1].ttype), NEWEXPARG);
+                (yyval.ttype)->setErr();
+                cerr << "Expected Right Parenthesis At " << yylval.token->line << ":" << yylval.token->column <<endl << endl;
                       yyerrok;
                       delete (yyvsp[-4].token);
+                      delete (yyvsp[-3].ttype);
                       delete (yyvsp[-2].token);
               }
-#line 1704 "program3_bison.c" /* yacc.c:1646  */
+#line 2122 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 37:
-#line 314 "program3.y" /* yacc.c:1646  */
+  case 41:
+#line 345 "program3.y" /* yacc.c:1646  */
     {
                     if((yyvsp[0].ttype) != 0) ((BrackExpression*)(yyvsp[0].ttype))->reverse();
                     if((yyvsp[0].ttype) == 0) (yyval.ttype) =  new NewExpression("int", (yyvsp[0].ttype), 0,NEWEXP);
                     else (yyval.ttype)=  new NewExpression("int", (yyvsp[0].ttype), 0,NEWEXPBRACK);
                     delete (yyvsp[-2].token);
+                    delete (yyvsp[-1].ttype);
               }
-#line 1715 "program3_bison.c" /* yacc.c:1646  */
+#line 2134 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 38:
-#line 320 "program3.y" /* yacc.c:1646  */
+  case 42:
+#line 352 "program3.y" /* yacc.c:1646  */
     {
                 if((yyvsp[-1].ttype) != 0) ((BrackExpression*)(yyvsp[-1].ttype))->reverse();
                 if((yyvsp[-1].ttype) == 0) (yyval.ttype)=  new NewExpression("int", (yyvsp[-1].ttype), (yyvsp[0].ttype), NEWEXPMULTI);
                 else (yyval.ttype) =  new NewExpression("int", (yyvsp[-1].ttype), (yyvsp[0].ttype), NEWEXPBRACKMULTI);
                 delete (yyvsp[-3].token);
+                delete (yyvsp[-2].ttype);
               }
-#line 1726 "program3_bison.c" /* yacc.c:1646  */
+#line 2146 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 39:
-#line 326 "program3.y" /* yacc.c:1646  */
-    {yyerror("Expected something after new declaration"); yyerrok;}
-#line 1732 "program3_bison.c" /* yacc.c:1646  */
+  case 43:
+#line 359 "program3.y" /* yacc.c:1646  */
+    { (yyval.ttype) = 0;
+                  cerr << " -> after new at " << (yyvsp[-1].token)->line << ":" << (yyvsp[-1].token)->column << endl << endl; 
+                  yyerrok;}
+#line 2154 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 40:
-#line 329 "program3.y" /* yacc.c:1646  */
+  case 44:
+#line 364 "program3.y" /* yacc.c:1646  */
     {(yyval.ttype) = 0;}
-#line 1738 "program3_bison.c" /* yacc.c:1646  */
+#line 2160 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 41:
-#line 330 "program3.y" /* yacc.c:1646  */
+  case 45:
+#line 365 "program3.y" /* yacc.c:1646  */
     {
                     (yyval.ttype) = new BrackExpression((yyvsp[-1].ttype), (yyvsp[-3].ttype));
                     delete (yyvsp[-2].token);
                     delete (yyvsp[0].token);
               }
-#line 1748 "program3_bison.c" /* yacc.c:1646  */
+#line 2170 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 42:
-#line 349 "program3.y" /* yacc.c:1646  */
+  case 46:
+#line 372 "program3.y" /* yacc.c:1646  */
     {(yyval.ttype) = 0;}
-#line 1754 "program3_bison.c" /* yacc.c:1646  */
+#line 2176 "program3_bison.c" /* yacc.c:1646  */
     break;
 
-  case 43:
-#line 350 "program3.y" /* yacc.c:1646  */
+  case 47:
+#line 373 "program3.y" /* yacc.c:1646  */
     { 
             (yyval.ttype) = new ArgList((yyvsp[-2].ttype), (yyvsp[0].ttype));
             delete (yyvsp[-1].token);
           }
-#line 1763 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 44:
-#line 354 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new ArgList((yyvsp[0].ttype), 0);}
-#line 1769 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 45:
-#line 356 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new UnaryOp("+"); delete (yyvsp[0].token);}
-#line 1775 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 46:
-#line 357 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new UnaryOp("-"); delete (yyvsp[0].token);}
-#line 1781 "program3_bison.c" /* yacc.c:1646  */
-    break;
-
-  case 47:
-#line 358 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new UnaryOp("!"); delete (yyvsp[0].token);}
-#line 1787 "program3_bison.c" /* yacc.c:1646  */
+#line 2185 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 362 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp("=="); delete (yyvsp[0].token);}
-#line 1793 "program3_bison.c" /* yacc.c:1646  */
+#line 377 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new ArgList((yyvsp[0].ttype), 0);}
+#line 2191 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 363 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp("!="); delete (yyvsp[0].token);}
-#line 1799 "program3_bison.c" /* yacc.c:1646  */
+#line 379 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new UnaryOp("+"); delete (yyvsp[0].token);}
+#line 2197 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 364 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp("<="); delete (yyvsp[0].token);}
-#line 1805 "program3_bison.c" /* yacc.c:1646  */
+#line 380 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new UnaryOp("-"); delete (yyvsp[0].token);}
+#line 2203 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 365 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp(">="); delete (yyvsp[0].token);}
-#line 1811 "program3_bison.c" /* yacc.c:1646  */
+#line 381 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new UnaryOp("!"); delete (yyvsp[0].token);}
+#line 2209 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 366 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp("<"); delete (yyvsp[0].token);}
-#line 1817 "program3_bison.c" /* yacc.c:1646  */
+#line 385 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp("=="); delete (yyvsp[0].token);}
+#line 2215 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 367 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new RelationOp(">"); delete (yyvsp[0].token);}
-#line 1823 "program3_bison.c" /* yacc.c:1646  */
+#line 386 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp("!="); delete (yyvsp[0].token);}
+#line 2221 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 370 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new ProductOp("*"); delete (yyvsp[0].token);}
-#line 1829 "program3_bison.c" /* yacc.c:1646  */
+#line 387 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp("<="); delete (yyvsp[0].token);}
+#line 2227 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 371 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new ProductOp("/"); delete (yyvsp[0].token);}
-#line 1835 "program3_bison.c" /* yacc.c:1646  */
+#line 388 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp(">="); delete (yyvsp[0].token);}
+#line 2233 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 372 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new ProductOp("%"); delete (yyvsp[0].token);}
-#line 1841 "program3_bison.c" /* yacc.c:1646  */
+#line 389 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp("<"); delete (yyvsp[0].token);}
+#line 2239 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 373 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new ProductOp("&&"); delete (yyvsp[0].token);}
-#line 1847 "program3_bison.c" /* yacc.c:1646  */
+#line 390 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new RelationOp(">"); delete (yyvsp[0].token);}
+#line 2245 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 375 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new SumOp("-"); delete (yyvsp[0].token);}
-#line 1853 "program3_bison.c" /* yacc.c:1646  */
+#line 393 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new ProductOp("*"); delete (yyvsp[0].token);}
+#line 2251 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 376 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new SumOp("+"); delete (yyvsp[0].token);}
-#line 1859 "program3_bison.c" /* yacc.c:1646  */
+#line 394 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new ProductOp("/"); delete (yyvsp[0].token);}
+#line 2257 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 377 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new SumOp("||"); delete (yyvsp[0].token);}
-#line 1865 "program3_bison.c" /* yacc.c:1646  */
+#line 395 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new ProductOp("%"); delete (yyvsp[0].token);}
+#line 2263 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 380 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new Multibracks(); delete (yyvsp[-1].token);}
-#line 1871 "program3_bison.c" /* yacc.c:1646  */
+#line 396 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new ProductOp("&&"); delete (yyvsp[0].token);}
+#line 2269 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 381 "program3.y" /* yacc.c:1646  */
-    {(yyval.ttype) = new Multibracks((yyvsp[-2].ttype)); delete (yyvsp[-1].token);}
-#line 1877 "program3_bison.c" /* yacc.c:1646  */
+#line 398 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new SumOp("-"); delete (yyvsp[0].token);}
+#line 2275 "program3_bison.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 387 "program3.y" /* yacc.c:1646  */
+#line 399 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new SumOp("+"); delete (yyvsp[0].token);}
+#line 2281 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 64:
+#line 400 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new SumOp("||"); delete (yyvsp[0].token);}
+#line 2287 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 65:
+#line 403 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new Multibracks(); delete (yyvsp[-1].token); delete (yyvsp[0].token);}
+#line 2293 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 66:
+#line 404 "program3.y" /* yacc.c:1646  */
+    {(yyval.ttype) = new Multibracks((yyvsp[-2].ttype)); delete (yyvsp[0].token);delete (yyvsp[-1].token);}
+#line 2299 "program3_bison.c" /* yacc.c:1646  */
+    break;
+
+  case 67:
+#line 410 "program3.y" /* yacc.c:1646  */
     {
                   (yyval.ttype) = new SimpleType("int");
                   delete (yyvsp[0].token);
                 }
-#line 1886 "program3_bison.c" /* yacc.c:1646  */
+#line 2308 "program3_bison.c" /* yacc.c:1646  */
     break;
 
 
-#line 1890 "program3_bison.c" /* yacc.c:1646  */
+#line 2312 "program3_bison.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2114,5 +2536,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 396 "program3.y" /* yacc.c:1906  */
+#line 419 "program3.y" /* yacc.c:1906  */
 

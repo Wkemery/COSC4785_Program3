@@ -52,6 +52,7 @@ public:
   virtual ~Node();
   virtual void print(ostream *out) = 0;
   void setErr();
+  bool getErr();
   string getType(void) const;
 };
 
@@ -147,9 +148,9 @@ class VarDec: public Node
 private:
   string _type;
 public:
-  VarDec(Node* type, string id);
   VarDec(string type, string id);
   VarDec(string type, string id, Node* bracks);
+  VarDec(Node* type, string id, Node* bracks);
   string getID(void) const;
   void print(ostream* out);
 };

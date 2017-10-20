@@ -1,2 +1,10 @@
-int myvar mytype myvar2;
+int myvar 
+int else else;
+word else else;
+(2+2
+this(
+new id(
+new int (
+new else
+mytype myvar2;
 read( read()

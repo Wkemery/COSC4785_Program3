@@ -24,7 +24,7 @@
   
 void yyerror(const char *string)
 {
-  cerr << string << " " << yylval.token->value << endl;
+  cerr << string << " " ;//<< yylval.token->value << endl;
   return;
 }
 %}
@@ -416,43 +416,38 @@ INVALIDNONWORD [^!=<>+\-*\/;.,{}()% \t\n\[\]&\|]
 
 
 <ERROR>&|\| {
-  //cout << "in err3 &" << endl;
   yymore();
 }
 
 <ERROR>.|\n {
-  //cout << "HERE" << endl;
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl;  
   column+= yyleng;
-  return ERR;
 
 }
  
 <ERROR2>(&&)|(\|\|) {
-  //cout << "yytext4:" << yytext << endl;
   yyless(strlen(yytext) - 2);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl; 
   column+= yyleng;
-  return ERR;
 }
 
 <ERROR2>&|\| {
-  //cout << "in & one" << endl;
   yymore();
   BEGIN(ERROR);
 }
 
 
 <ERROR2>.|\n {
-  //cout << "yytextother:" << yytext << endl;
   yyless(strlen(yytext) - 1);
   BEGIN(INITIAL);
-  setToken(yytext, yylineno, column);
+  cerr << "Lexical Error: " << yytext << " at " << yylineno << ":" << column 
+  << endl; 
   column+= yyleng;
-  return ERR;
 }
 
 

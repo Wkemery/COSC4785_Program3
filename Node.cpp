@@ -12,7 +12,8 @@ using namespace std;
 #include"Node.h"
 #include<cstdlib>
 
-Node::Node(string value = "", string type = "", int kind = 0):_value(value), _type(type), _kind(kind)
+Node::Node(string value = "", string type = "", int kind = 0)
+:_value(value), _type(type), _kind(kind)
 {}
 Node::~Node()
 {
@@ -21,7 +22,14 @@ Node::~Node()
     delete _subNodes[i];
   }
 }
-void Node::setErr() {_err = true;}
+void Node::setErr() {
+  _err = true;
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->setErr();
+  }
+}
+bool Node::getErr() {return _err;}
 string Node::getType(void) const
 {
   return _type;
@@ -34,6 +42,7 @@ UnaryOp::UnaryOp(string value):Node(value, "UnaryOp")
 {}
 void UnaryOp::print(ostream* out)
 {
+  if(_err) return;
   *out << "<UnaryOp> --> " << _value << endl;
 }
 
@@ -44,6 +53,7 @@ RelationOp::RelationOp(string value):Node(value, "RelationOp")
 {}
 void RelationOp::print(ostream* out)
 {
+  if(_err) return;
   *out << "<RelationOp> --> " << _value << endl;
 }
 
@@ -53,6 +63,7 @@ ProductOp::ProductOp(string value):Node(value, "ProductOp")
 {}
 void ProductOp::print(ostream* out)
 {
+  if(_err) return;
   *out << "<ProductOp> --> " << _value << endl;
 }
 
@@ -62,6 +73,7 @@ SumOp::SumOp(string value):Node(value, "SumOp")
 {}
 void SumOp::print(ostream* out)
 {
+  if(_err) return;
   *out << "<SumOp> --> " << _value << endl;
 }
 
@@ -81,6 +93,7 @@ Name::Name(Node* name, Node* expression, int kind):Node("", "Name", kind)
 
 void Name::print(ostream* out)
 {
+  if(_err) return;
   *out << "<Name> --> ";
   switch(_kind)
   {  
@@ -132,7 +145,8 @@ Expression::Expression(Node* next, int kind):Node("", "Expression", kind)
 Expression::Expression(string value, int kind):Node(value, "Expression", kind)
 {}
 
-Expression::Expression(Node* unaryop, Node* expression, int kind):Node("", "Expression", kind)
+Expression::Expression(Node* unaryop, Node* expression, int kind)
+:Node("", "Expression", kind)
 {
   _subNodes.push_back(unaryop);
   if(expression != 0 ) _subNodes.push_back(expression);
@@ -141,13 +155,14 @@ Expression::Expression(Node* unaryop, Node* expression, int kind):Node("", "Expr
 Expression::Expression(Node* expression1, Node* op, Node* expression2, int kind)
 :Node("", "Expression", kind)
 {
-    _subNodes.push_back(expression1);
-    _subNodes.push_back(op);
-    _subNodes.push_back(expression2);
-
+  _subNodes.push_back(expression1);
+  _subNodes.push_back(op);
+  _subNodes.push_back(expression2);
+  
 }
 void Expression::print(ostream* out)
 {
+  if(_err) return;
   *out << "<Expression> --> ";
   switch(_kind)
   {
@@ -211,15 +226,16 @@ void Expression::print(ostream* out)
       exit(1);
   }
   *out << endl;
-    for(unsigned int i = 0; i < _subNodes.size(); i++)
-    {
-      _subNodes[i]->print(out);
-    }
+  for(unsigned int i = 0; i < _subNodes.size(); i++)
+  {
+    _subNodes[i]->print(out);
+  }
 }
 
 /******************************************************************************/
 
-BrackExpression::BrackExpression(Node* expression1, Node* expression2):Node("", "BrackExpression")
+BrackExpression::BrackExpression(Node* expression1, Node* expression2)
+:Node("", "BrackExpression")
 {
   if(expression1 != 0)_subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
@@ -250,6 +266,7 @@ void BrackExpression::recAdd(stack<Node*> & expressions)
 }
 void BrackExpression::print(ostream* out)
 {
+  if(_err) return;
   *out << "<BracketedExpression> --> ";
   if(_subNodes.size() > 1) *out << "<Expression> [<BracketedExpression>]";
   else *out << "<Expression>";
@@ -267,6 +284,7 @@ OptBracket::OptBracket(Node* expression):Node("", "OptBracket")
 }
 void OptBracket::print(ostream* out)
 {
+  if(_err) return;
   *out << "<ArrayBrackets> --> ";
   if(_subNodes.size() > 0) *out << "<ArrayBrackets>[]";
   else *out << "[]";
@@ -284,10 +302,12 @@ ArgList::ArgList(Node* expression1, Node* expression2):Node("", "ArgList")
   _subNodes.push_back(expression1);
   if(expression2 != 0) _subNodes.push_back(expression2); 
 }
+
 bool ArgList::getEmpty() const {return _empty;}
 
 void ArgList::print(ostream* out)
 {
+  if(_err) return;
   *out << "<ArgList> --> <Expression>";
   if(_subNodes.size() > 1) *out << " <ArgList>";
   *out << endl;
@@ -298,7 +318,8 @@ void ArgList::print(ostream* out)
 }
 /******************************************************************************/
 
-NewExpression::NewExpression(string simpletype, Node* arglist, int kind):Node(simpletype, "NewExpression", kind)
+NewExpression::NewExpression(string simpletype, Node* arglist, int kind)
+:Node(simpletype, "NewExpression", kind)
 {
   if (arglist!=0 ) _subNodes.push_back(arglist);
 }
@@ -310,6 +331,7 @@ NewExpression::NewExpression(string simpletype, Node* type2, Node* brackexp, int
 }
 void NewExpression::print(ostream* out)
 {
+  if(_err) return;
   *out << "<NewExpression> --> new " << _value << " ";
   
   switch(_kind)
@@ -355,11 +377,6 @@ void NewExpression::print(ostream* out)
 
 /******************************************************************************/
 
-VarDec::VarDec(Node* type, string id):Node(id)
-{
-  _subNodes.push_back(type);
-}
-
 VarDec::VarDec(string type, string id, Node* bracks):Node(id)
 {
   _type = type;
@@ -370,8 +387,15 @@ VarDec::VarDec(string type, string id): Node(id)
 {
   _type = type;
 }
+VarDec::VarDec(Node* type, string id, Node* bracks):Node(id)
+{
+  _subNodes.push_back(type);
+  _subNodes.push_back(bracks);
+  
+}
 void VarDec::print(ostream* out)
 {
+  if(_err) return;
   *out << "<Variable Declaration> --> ";
   if(_subNodes.size() > 0) 
   {
@@ -397,6 +421,7 @@ Multibracks::Multibracks():Node("")
 
 void Multibracks::print(ostream* out)
 {
+  if(_err) return;
   *out << "<Multibracks> --> ";
   if(_subNodes.size() > 0) *out << "<Multibracks>[]";
   else *out << " []";
@@ -411,6 +436,7 @@ SimpleType::SimpleType(string value):Node(value)
 {}
 void SimpleType::print(ostream* out)
 {
+  if(_err) return;
   *out << "<SimpleType> --> " << _value << endl;
 }
 
