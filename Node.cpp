@@ -155,9 +155,9 @@ Expression::Expression(Node* unaryop, Node* expression, int kind)
 Expression::Expression(Node* expression1, Node* op, Node* expression2, int kind)
 :Node("", "Expression", kind)
 {
-  _subNodes.push_back(expression1);
+  if (expression1 != 0) _subNodes.push_back(expression1);
   _subNodes.push_back(op);
-  _subNodes.push_back(expression2);
+  if (expression2 != 0) _subNodes.push_back(expression2);
   
 }
 void Expression::print(ostream* out)

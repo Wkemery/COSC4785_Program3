@@ -189,22 +189,50 @@ expression: NUM {
                     $$ = new Expression($1, $2, EXPUNARY); 
                     if($1->getErr()) $$->setErr();
                     if($2->getErr()) $$->setErr();}
+            | unaryop error %prec NEG { 
+                      $$ = new Expression($1, 0, EXPUNARY); 
+                      $$->setErr();
+                      cerr << "Expected expression after " << yylval.token->line 
+                      << ":" << yylval.token->column << endl << endl;
+                      yyerrok;
+            }
             | expression relationop expression %prec RE{ 
                     $$ = new Expression($1, $2, $3, EXPRELATION);  
                     if($1->getErr()) $$->setErr();
                     if($2->getErr()) $$->setErr();
                     if($3->getErr()) $$->setErr();}
+            | expression relationop error %prec RE{ 
+                      $$ = new Expression($1, $2, 0, EXPRELATION);
+                      $$->setErr();
+                      cerr << "Expected expression after " << yylval.token->line 
+                      << ":" << yylval.token->column << endl << endl;
+                      yyerrok;
+            }
             | expression productop expression %prec PRO{
                     $$ = new Expression($1, $2, $3, EXPPRODUCT); 
                     if($1->getErr()) $$->setErr();
                     if($2->getErr()) $$->setErr();
                     if($3->getErr()) $$->setErr();
             }
+            | expression productop error %prec RE{ 
+              $$ = new Expression($1, $2, 0, EXPPRODUCT);
+              $$->setErr();
+              cerr << "Expected expression after " << yylval.token->line 
+              << ":" << yylval.token->column << endl << endl;
+              yyerrok;
+            }
             | expression sumop expression %prec BIN {
                     $$ = new Expression($1, $2, $3, EXPSUMOP); 
                     if($1->getErr()) $$->setErr();
                     if($2->getErr()) $$->setErr();
                     if($3->getErr()) $$->setErr();
+            }
+            | expression sumop error %prec RE{ 
+              $$ = new Expression($1, $2, 0, EXPSUMOP);
+              $$->setErr();
+              cerr << "Expected expression after " << yylval.token->line 
+              << ":" << yylval.token->column << endl << endl;
+              yyerrok;
             }
             | LPAREN expression RPAREN { 
                   $$ = new Expression($2, EXPPAREN);
