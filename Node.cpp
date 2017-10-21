@@ -404,7 +404,7 @@ void VarDec::print(ostream* out)
   }
   else
   {
-    *out << _type << " " << _value << ";";
+    *out << _type << " " << _value << ";" << endl;
   }
 }
 

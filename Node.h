@@ -14,6 +14,7 @@ using namespace std;
 #ifndef NODE_H
 #define NODE_H
 
+/* These are all for finding out the kind of node. It helps with printing*/
 #define PLAIN 1000
 #define EXPNUM 1001 /*Expression ->  */
 #define EXPNULL 1002 /*Expression ->  */
