@@ -31,3 +31,12 @@ name[2+2].thing(2+2)
 
 this.val[g].something.more
 
+name(2+2)
+
+name()
+
+word
+
+new mytype
+
+new int

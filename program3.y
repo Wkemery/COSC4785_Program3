@@ -2,9 +2,7 @@
  * program3.y
  * Author: Wyatt Emery
  * Date: OCT 6, 2017
- * 
  * COSC 4785, Homework3
- *
  */
 
 %{
@@ -93,7 +91,8 @@ input:  %empty
           }
         }
         | error{
-          cerr << "Got no idea" << endl << endl; 
+          cerr << "Got no idea Around " << yylval.token->line << ":" 
+          << yylval.token->column <<endl << endl; 
           yyclearin;
           yyerrok;
           
@@ -227,7 +226,8 @@ expression: NUM {
                             else $$ = 0;
                             if($1->getErr()) $$->setErr();
                             }
-            | name %prec NAME{$$ = new Expression($1, EXPNAME); if($1->getErr()) $$->setErr();}
+            | name %prec NAME{$$ = new Expression($1, EXPNAME);
+                  if($1->getErr()) $$->setErr();}
             | name LPAREN arglist RPAREN {
                   $$ = new Expression($1, $3, EXPNAMEARG);
                   if($1->getErr()) $$->setErr();
@@ -336,7 +336,8 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
               | NEW simpletype LPAREN arglist error {
                 $$ = new NewExpression("int", $4, NEWEXPARG);
                 $$->setErr();
-                cerr << "Expected Right Parenthesis At " << yylval.token->line << ":" << yylval.token->column <<endl << endl;
+                cerr << "Expected Right Parenthesis At " << yylval.token->line 
+                << ":" << yylval.token->column <<endl << endl;
                       yyerrok;
                       delete $1;
                       delete $2;
@@ -357,7 +358,8 @@ newexpression: NEW IDENTIFIER LPAREN arglist RPAREN {
                 delete $2;
               }
              | NEW error{ $$ = 0;
-                  cerr << " -> after new at " << $1->line << ":" << $1->column << endl << endl; 
+                  cerr << " -> after new at " << $1->line << ":" << $1->column 
+                  << endl << endl; 
                   yyerrok;}
                   
 ;

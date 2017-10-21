@@ -18,8 +18,8 @@ YACCFLAGS=--report=state -W -d -v
 
 .PHONY: clean tar
 
-program3: program3.cpp program3_lex.cpp program3_bison.c Lexeme.cpp Node.cpp\
-	Lexeme.h Node.h
+program3: program3.cpp program3_lex.cpp program3_bison.c program3_bison.h \
+	Lexeme.cpp Node.cpp Lexeme.h Node.h
 	${CXX} ${CXXFLAGS} program3.cpp program3_lex.cpp Lexeme.cpp program3_bison.c \
 	Node.cpp -o program3
 
@@ -32,7 +32,7 @@ program3_bison.c: program3.y
 
 tar: program3.cpp program3.lpp Lexeme.cpp Lexeme.h Makefile
 	tar -cf wemery_HW3.tar program3.cpp program3.lpp Lexeme.cpp Lexeme.h \
-	Makefile
+	program3.y Node.h Node.cpp program3_readme.txt program3.pdf Makefile
 
 clean: 
 	/bin/rm -f *.o core.* *.output program3 program3_lex.cpp wemery_HW3.tar \
